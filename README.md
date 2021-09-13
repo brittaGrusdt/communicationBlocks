@@ -2,10 +2,10 @@
 
 1. Experiment code
 
-- communicationBlocks.html
+- index.html
   run this file to start the experiment, make sure that MODE (in stimuli/01_config.js) is set to 'experiment'.
 
-Magpie-code for the experiment is in js-files, named according to the order how they are loaded in the communicationBlocks.html-file:
+Magpie-code for the experiment is in js-files, named according to the order how they are loaded in the index.html-file:
 
 - 02_custom_functions.js: mostly experiment-related functions, constants related to stimuli
 - 03_custom_views_templates.js: generate view-templates, called in 05_views.js
