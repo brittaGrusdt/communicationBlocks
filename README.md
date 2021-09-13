@@ -24,7 +24,7 @@ This is the file where all configurations of the generated scenes are set, e.g.t
 - index-stimuli.html
 run this file to show generated animations (make sure that MODE in stimuli/01_config.js is set to 'test' or 'train' depending on animations you want to see)
 
-- Currently, we generate 3 kinds of test-stimuli:
+- Currently, we generate the following kinds of test-stimuli:
   1. **if1_xy**
   x (y) correspond to prior probability of antecedent (consequent)-block to fall on its own. In these trials, the width of the base ramp is always the same, as specified in stimuli/01_config.js in variable *IF1_BASE_RAMP* (default: high).
 
