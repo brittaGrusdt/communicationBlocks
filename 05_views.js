@@ -1,0 +1,135 @@
+// In this file you can instantiate your views
+// We here first instantiate wrapping views, then the trial views
+
+/** Wrapping views below
+
+* Obligatory properties
+
+    * trials: int - the number of trials this view will appear
+    * name: string
+
+*Optional properties
+    * buttonText: string - the text on the button (default: 'next')
+    * text: string - the text to be displayed in this view
+    * title: string - the title of this view
+
+    * More about the properties and functions of the wrapping views - https://magpie-ea.github.io/magpie-docs/01_designing_experiments/01_template_views/#wrapping-views
+
+*/
+
+// Every experiment should start with an intro view. Here you can welcome your participants and tell them what the experiment is about
+const intro = magpieViews.view_generator("intro", {
+  trials: 1,
+  name: "intro",
+  // If you use JavaScripts Template String `I am a Template String`, you can use HTML <></> and javascript ${} inside
+  text: `Thank you for your participation in our study!
+         Your anonymous data makes an important contribution to our understanding of human language use.
+          <br />
+          <br />
+          Legal information:
+          By answering the following questions, you are participating in a study
+          being performed by scientists from the University of Osnabrueck.
+          <br />
+          <br />
+          You must be at least 18 years old to participate.
+          <br />
+          <br />
+          Your participation in this research is voluntary.
+          You may decline further participation, at any time, without adverse consequences.
+          <br />
+          <br />
+          Your anonymity is assured; the researchers who have requested your
+          participation will not receive any personal information about you.
+          `,
+  buttonText: "begin the experiment"
+});
+
+const instructions_general = magpieViews.view_generator("instructions", {
+  trials: 1,
+  name: "instructions_general",
+  title: "General Instructions",
+  text: `This experiment consists of two phases, a <b>training</b> and a <b>testing</b> phase,
+          with 7 respectively 18 trials.
+         In total, you will need about <b>15 minutes</b> to finish.
+         <br/>
+         <br/>
+         We will start with the training phase in which you will see arrangements of blocks.<br/>
+         Your task will be to select all blocks that you think will fall (multiple selections possible!).
+        <br/>
+         After you have made your choice, click on RUN to see which blocks actually fall.
+         <br/>
+         By clicking on CONTINUE you'll proceed with the next training trial.
+         <br/>
+         <br/>
+         <b>Please note</b>:
+         <br/>
+         We recommend to use <b>Full Screen Mode</b> throughout the experiment
+         (usually switched on/off with F11).`,
+  buttonText: "Start Training"
+});
+
+const instructions_test = magpieViews.view_generator("instructions", {
+  trials: 1,
+  name: "instructions_test",
+  title: "Instructions Test Phase",
+  text: `Great -  we'll now proceed with the test phase of the experiment.
+    You will be shown two pictures of the same scenes of block arrangements as in the training phase.
+    <br/>
+    <br/>
+    This time, you will read a dialogue between Ann and Bob talking about any such scene. Note that this scene is not necessarily one of the two pictures that you see.
+    <br/>
+    First, click on the upper button to see Ann's question, then click on the button below to see Bob's answer.
+    <br />
+    <br />
+    After you read the dialogue, you will be able to select a picture by clicking on it.
+    We ask you to select the picture that you think Bob is more likely to see given his answer to Ann's question.
+    <br/>
+    <br/>
+    By clicking on CONTINUE you'll proceed with the next trial.
+    <br />
+    <br />
+    There will be one example trial next before the actual test phase starts.
+    `,
+  buttonText: "go to example"
+});
+
+const post_test = magpieViews.view_generator("post_test", {
+  trials: 1,
+  name: "post_test",
+  title: "Additional information",
+  text: "Answering the following questions is optional, but your answers will help us analyze our results.",
+  comments_question: 'Further comments'
+});
+
+
+// The 'thanks' view is crucial; never delete it; it submits the results!
+const thanks = magpieViews.view_generator("thanks", {
+  trials: 1,
+  name: "thanks",
+  title: "Thank you very much for taking part in this experiment!",
+  prolificConfirmText: "Press the button"
+});
+
+const test_image_selection = magpieViews.view_generator(
+  "image_selection", {
+    data: TEST_TRIALS,
+    name: 'image_selection',
+    trials: TEST_IDS.length
+  }, {
+    stimulus_container_generator: forced_choice_generator.stimulus_container_gen,
+    answer_container_generator: forced_choice_generator.answer_container_gen,
+    handle_response_function: forced_choice_generator.handle_response_function
+  }
+);
+
+const example_image_selection = magpieViews.view_generator(
+  "image_selection", {
+    data: [EXAMPLE_TEST_TRIALS],
+    name: 'image_selection',
+    trials: 1
+  }, {
+    stimulus_container_generator: forced_choice_generator.stimulus_container_gen,
+    answer_container_generator: forced_choice_generator.answer_container_gen,
+    handle_response_function: forced_choice_generator.handle_response_function
+  }
+);
