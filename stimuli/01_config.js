@@ -170,9 +170,10 @@ TEST_DATA = [
   {id: "trial7", id1: "if1_nn", id2: "if2_nnh", question: QUESTS.neutral, answer: ANSWERS.not_both, type: 'control-physics'},
   {id: "trial8", id1: "if1_nn", id2: "if1_hn", question: QUESTS.cons, answer: ANSWERS.both, type: 'control-physics'},
   {id: "trial9", id1: "if2_nnn", id2: "if2_nnh", question: QUESTS.if_ant_yellow, answer: ANSWERS.not_yellow_cons, type: 'control-physics'},
-  {id: "trial10", id1: "independent_edge_nh", id2: "independent_edge_nn", question: QUESTS.if_cons, answer: ANSWERS.not_cons, type: 'control'},
-  {id: "trial11", id1: "independent_edge_nh", id2: "independent_edge_nn", question: QUESTS.neutral, answer: ANSWERS.cons, type: 'control-physics'},
-  {id: "trial12", id1: "if1_hn", id2: "if1_nn", question: QUESTS.cons, answer: ANSWERS.not_both, type: 'control'},
+
+  {id: "trial10", id1: "independent_edge_nh", id2: "independent_edge_nn", question: QUESTS.if_cons, answer: ANSWERS.not_cons, type: 'control-random'},
+  {id: "trial11", id1: "independent_edge_nh", id2: "independent_edge_nn", question: QUESTS.neutral, answer: ANSWERS.cons, type: 'control-random'},
+  {id: "trial12", id1: "if1_hn", id2: "if1_nn", question: QUESTS.cons, answer: ANSWERS.not_both, type: 'control-random'},
 
   {id: "trial13", id1: "if2_unn", id2: "if2_unu", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
   {id: "trial14", id1: "if2_unn", id2: "if2_unu", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},

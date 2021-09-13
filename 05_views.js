@@ -133,3 +133,18 @@ const example_image_selection = magpieViews.view_generator(
     handle_response_function: forced_choice_generator.handle_response_function
   }
 );
+
+// captcha
+// speaker and listeneers names to be sampled from for the botcaptcha
+var speaker = _.sample(["James", "John", "Robert", "Michael", "William", "David", "Richard", "Joseph", "Thomas", "Charles"]);
+var listener = _.sample(["Mary", "Patricia", "Jennifer", "Linda", "Elizabeth", "Barbara", "Susan", "Jessica", "Sarah", "Margaret"]);
+
+
+const botcaptcha = custom_botcaptcha({
+  name: 'botcaptcha',
+  trials: 1,
+  story: speaker + ' says to ' + listener + ': "It\'s a beautiful day, isn\'t it?"',
+  question: "Who is " + speaker + " talking to?",
+  speaker: speaker,
+  listener: listener
+});
