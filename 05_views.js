@@ -114,7 +114,7 @@ const animation_view = animation_generator(
   {name: "animation_view",
    title: "title",
    CT: 0,
-   trials: NB_TRAIN_TRIALS,
+   trials: 1,//NB_TRAIN_TRIALS,
    data: ""}
  )
 
@@ -122,7 +122,7 @@ const test_image_selection = magpieViews.view_generator(
   "image_selection", {
     data: TEST_TRIALS,
     name: 'image_selection',
-    trials: TEST_IDS.length
+    trials: 1//TEST_IDS.length
   }, {
     stimulus_container_generator: forced_choice_generator.stimulus_container_gen,
     answer_container_generator: forced_choice_generator.answer_container_gen,

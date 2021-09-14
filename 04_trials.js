@@ -45,8 +45,8 @@ EXAMPLE_TEST_TRIALS = {
   expected: "id1",
   group: 'example',
   type: 'test-example',
-  causes_id1: '',
-  causes_id2: ''
+  causes_id1: "",
+  causes_id2: ""
 }
 
 // ----- TRAINING TRIALS (Buttons) for exp1 + exp2 ---- //
