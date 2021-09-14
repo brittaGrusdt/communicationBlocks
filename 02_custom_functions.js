@@ -116,7 +116,7 @@ getButtonResponse = function() {
     }
   });
   return Object.assign(trial_data, {
-    'response': responses
+    'response': responses.sort()
   });
 }
 
@@ -245,7 +245,7 @@ functionalityBttnNextAnimation = function(response_fn, magpie, anim){
         trial_number: CT + 1,
         RT: RT,
         id: current_id,
-        expected: expected
+        expected: expected.sort()
       });
       // copied.expected = TrainExpectations[trial_data.id];
       trial_data = magpieUtils.view.save_config_trial_data(
