@@ -117,17 +117,15 @@ const forced_choice_generator = {
         $("#picture2").removeClass('unclickable')
        });
 
+       let trial_data = {
+         trial_name: config.name,
+         trial_number: CT + 1,
+         type: config.data[CT].type,
+       };
        $("#picture1").on("click", function() {
            const RT = Date.now() - startingTime;
-           let trial_data = {
-               trial_name: config.name,
-               trial_number: CT + 1,
-               response: "s1",
-               type: config.data[CT].type,
-               RT: RT
-           };
-           trial_data = magpieUtils.view.save_config_trial_data(config.data[CT], trial_data);
-           magpie.trial_data.push(trial_data);
+           trial_data.RT = RT
+           trial_data.response = "s1"
 
            toggleNextIfDone($("#smallMarginNextButton"), true)
            $("#picture1").addClass('selected_img')
@@ -135,15 +133,8 @@ const forced_choice_generator = {
       });
       $("#picture2").on("click", function() {
             const RT = Date.now() - startingTime;
-            let trial_data = {
-                trial_name: config.name,
-                trial_number: CT + 1,
-                response: "s2",
-                type: config.data[CT].type,
-                RT: RT
-            };
-            trial_data = magpieUtils.view.save_config_trial_data(config.data[CT], trial_data);
-            magpie.trial_data.push(trial_data);
+            trial_data.RT = RT
+            trial_data.response = "s2"
 
             toggleNextIfDone($("#smallMarginNextButton"), true)
             $("#picture2").addClass('selected_img')
@@ -151,6 +142,8 @@ const forced_choice_generator = {
       });
 
       $('#smallMarginNextButton').on("click", function(){
+        trial_data = magpieUtils.view.save_config_trial_data(config.data[CT], trial_data);
+        magpie.trial_data.push(trial_data);
         magpie.findNextView();
       })
    }
