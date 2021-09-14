@@ -159,50 +159,50 @@ ANSWERS = {
 }
 
 TEST_DATA = [
-  {id: "trial1", id1: "if1_un", id2: "if2_unu", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial1", id1: "if1_un", id2: "if2_unu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
   {id: "trial2", id1: "if1_un", id2: "if2_unu", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
   {id: "trial3", id1: "if1_un", id2: "if2_unu", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'},
 
-  {id: "trial4", id1: "if1_un", id2: "if1_uh", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial5", id1: "if1_un", id2: "if1_uh", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial6", id1: "if1_un", id2: "if1_uh", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial4", id1: "if1_un", id2: "if1_uh", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial5", id1: "if1_un", id2: "if1_uh", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial6", id1: "if1_un", id2: "if1_uh", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'},
 
-  {id: "trial7", id1: "if1_nn", id2: "if2_nnh", question: QUESTS.neutral, answer: ANSWERS.not_both, type: 'control-physics'},
-  {id: "trial8", id1: "if1_nn", id2: "if1_hn", question: QUESTS.cons, answer: ANSWERS.both, type: 'control-physics'},
-  {id: "trial9", id1: "if2_nnn", id2: "if2_nnh", question: QUESTS.if_ant_yellow, answer: ANSWERS.not_yellow_cons, type: 'control-physics'},
+  {id: "trial7", id1: "if1_nn", id2: "if2_nnh", causes_id1: "", causes_id2: "", question: QUESTS.neutral, answer: ANSWERS.not_both, type: 'control-physics'},
+  {id: "trial8", id1: "if1_nn", id2: "if1_hn", causes_id1: "", causes_id2: "", question: QUESTS.cons, answer: ANSWERS.both, type: 'control-physics'},
+  {id: "trial9", id1: "if2_nnn", id2: "if2_nnh", causes_id1: "", causes_id2: "", question: QUESTS.if_ant_yellow, answer: ANSWERS.not_yellow_cons, type: 'control-physics'},
 
-  {id: "trial10", id1: "independent_edge_nh", id2: "independent_edge_nn", question: QUESTS.if_cons, answer: ANSWERS.not_cons, type: 'control-random'},
-  {id: "trial11", id1: "independent_edge_nh", id2: "independent_edge_nn", question: QUESTS.neutral, answer: ANSWERS.cons, type: 'control-random'},
-  {id: "trial12", id1: "if1_hn", id2: "if1_nn", question: QUESTS.cons, answer: ANSWERS.not_both, type: 'control-random'},
+  {id: "trial10", id1: "independent_edge_nh", id2: "independent_edge_nn", causes_id1: "", causes_id2: "", question: QUESTS.if_cons, answer: ANSWERS.not_cons, type: 'control-random'},
+  {id: "trial11", id1: "independent_edge_nh", id2: "independent_edge_nn", causes_id1: "", causes_id2: "", question: QUESTS.neutral, answer: ANSWERS.cons, type: 'control-random'},
+  {id: "trial12", id1: "if1_hn", id2: "if1_nn", causes_id1: "", causes_id2: "", question: QUESTS.cons, answer: ANSWERS.not_both, type: 'control-random'},
 
-  {id: "trial13", id1: "if2_unn", id2: "if2_unu", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial14", id1: "if2_unn", id2: "if2_unu", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial15", id1: "if2_unn", id2: "if2_unu", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial13", id1: "if2_unn", id2: "if2_unu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial14", id1: "if2_unn", id2: "if2_unu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial15", id1: "if2_unn", id2: "if2_unu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'},
 
-  {id: "trial16", id1: "if1_un", id2: "if1_uu", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial17", id1: "if1_un", id2: "if1_uu", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial18", id1: "if1_un", id2: "if1_uu", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'}
+  {id: "trial16", id1: "if1_un", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial17", id1: "if1_un", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial18", id1: "if1_un", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'}
 ];
 TEST_IDS = _.map(TEST_DATA, 'id')
 
 TEST_EXPECT = {
   'trial1': 'none',
-  'trial2': 's1',
+  'trial2': 'id1',
   'trial3': 'none',
   'trial4': 'none',
-  'trial5': 's1',
+  'trial5': 'id1',
   'trial6': 'none',
-  'trial7': 's1',
-  'trial8': 's2',
-  'trial9': 's1',
-  'trial10': 's2',
-  'trial11': 's1',
-  'trial12': 's2',
+  'trial7': 'id1',
+  'trial8': 'id2',
+  'trial9': 'id1',
+  'trial10': 'id2',
+  'trial11': 'id1',
+  'trial12': 'id2',
   'trial13': 'none',
-  'trial14': 's1',
+  'trial14': 'id1',
   'trial15': 'none',
   'trial16': 'none',
-  'trial17': 's1',
+  'trial17': 'id1',
   'trial18': 'none'
 }
 

@@ -14,9 +14,11 @@ TEST_DATA.forEach(function(dat) {
       answer: "<b>Bob</b>: " + dat.answer,
       picture1: "stimuli/img/group/" + dat.id1 + ".png",
       picture2: "stimuli/img/group/" + dat.id2 + ".png",
-      s1: dat.id1,
-      s2: dat.id2,
-      type: dat.type
+      id1: dat.id1,
+      id2: dat.id2,
+      type: dat.type,
+      causes_id1: dat.causes_id1,
+      causes_id2: dat.causes_id2
     });
 });
 // adapt path to pictures depending on colour group in each trial
@@ -35,12 +37,16 @@ EXAMPLE_TEST_TRIALS = {
   QUD: "EXAMPLE TRIAL<br/><br/>" + test_qud,
   picture1: "stimuli/img/example_test_trials1.png",
   picture2: "stimuli/img/example_test_trials2.png",
+  id1: "example_test_trials1",
+  id2: "example_test_trials2",
   answer: "<b>Bob</b>: " + ANSWERS.yellow,
   question_long: "<b>Ann</b>: " + QUESTS.neutral,
   question: "neutral",
-  expected: "s1",
+  expected: "id1",
   group: 'example',
-  type: 'test-example'
+  type: 'test-example',
+  causes_id1: '',
+  causes_id2: ''
 }
 
 // ----- TRAINING TRIALS (Buttons) for exp1 + exp2 ---- //

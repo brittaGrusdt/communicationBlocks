@@ -120,12 +120,13 @@ const forced_choice_generator = {
        let trial_data = {
          trial_name: config.name,
          trial_number: CT + 1,
-         type: config.data[CT].type,
+         type: config.data[CT].type
        };
        $("#picture1").on("click", function() {
            const RT = Date.now() - startingTime;
            trial_data.RT = RT
-           trial_data.response = "s1"
+           trial_data.response = config.data[CT].causes_id1
+           trial_data.selected_pic = "picture1"
 
            toggleNextIfDone($("#smallMarginNextButton"), true)
            $("#picture1").addClass('selected_img')
@@ -134,7 +135,8 @@ const forced_choice_generator = {
       $("#picture2").on("click", function() {
             const RT = Date.now() - startingTime;
             trial_data.RT = RT
-            trial_data.response = "s2"
+            trial_data.response = config.data[CT].causes_id2
+            trial_data.selected_pic = "picture2"
 
             toggleNextIfDone($("#smallMarginNextButton"), true)
             $("#picture2").addClass('selected_img')
