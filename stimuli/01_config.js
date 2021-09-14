@@ -187,22 +187,22 @@ TEST_IDS = _.map(TEST_DATA, 'id')
 
 TEST_EXPECT = {
   'trial1': 'none',
-  'trial2': 'id1',
+  'trial2': 'picture1',
   'trial3': 'none',
   'trial4': 'none',
-  'trial5': 'id1',
+  'trial5': 'picture1',
   'trial6': 'none',
-  'trial7': 'id1',
-  'trial8': 'id2',
-  'trial9': 'id1',
-  'trial10': 'id2',
-  'trial11': 'id1',
-  'trial12': 'id2',
+  'trial7': 'picture1',
+  'trial8': 'picture2',
+  'trial9': 'picture1',
+  'trial10': 'picture2',
+  'trial11': 'picture1',
+  'trial12': 'picture2',
   'trial13': 'none',
-  'trial14': 'id1',
+  'trial14': 'picture1',
   'trial15': 'none',
   'trial16': 'none',
-  'trial17': 'id1',
+  'trial17': 'picture1',
   'trial18': 'none'
 }
 

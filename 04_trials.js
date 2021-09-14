@@ -42,7 +42,7 @@ EXAMPLE_TEST_TRIALS = {
   answer: "<b>Bob</b>: " + ANSWERS.yellow,
   question_long: "<b>Ann</b>: " + QUESTS.neutral,
   question: "neutral",
-  expected: "id1",
+  expected: "picture1",
   group: 'example',
   type: 'test-example',
   causes_id1: "",
