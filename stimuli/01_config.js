@@ -160,8 +160,8 @@ ANSWERS = {
 
 TEST_DATA = [
   {id: "trial1", id1: "if1_un", id2: "if2_unu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial2", id1: "if1_un", id2: "if2_unu", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial3", id1: "if1_un", id2: "if2_unu", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial2", id1: "if1_un", id2: "if2_unu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial3", id1: "if1_un", id2: "if2_unu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'},
 
   {id: "trial4", id1: "if1_un", id2: "if1_uh", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
   {id: "trial5", id1: "if1_un", id2: "if1_uh", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
