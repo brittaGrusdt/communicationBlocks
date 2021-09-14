@@ -1,0 +1,105 @@
+---
+title: "Analysis Pilot CommunicationBlocks Experiment"
+output: html_notebook
+---
+
+```{r, packages, message=F}
+library(here)
+library(tidyverse)
+library(dplyr)
+theme_set(theme_bw(base_size=12) + theme(legend.position = "top"))
+```
+
+```{r, message=FALSE, warning=FALSE}
+# fn <- "pablo2.csv"
+fn <- "results_67_communicationBlocks_BG.csv"
+data <- read_csv(here("results", fn)) %>% as_tibble() %>%
+  filter(prolific_id == "test-britta3") %>% 
+  group_by(submission_id)
+```
+
+## Meta information about participants
+
+```{r, meta, echo=FALSE}
+data.meta <- data %>% distinct_at(vars(c(submission_id)), .keep_all = T) %>%
+  mutate(education=as_factor(education), gender=as_factor(gender))
+
+data.meta$gender %>% summary()
+data.meta$education %>% summary()
+data.meta$age %>% summary()
+data.meta$timeSpent %>% summary()
+```
+
+## Reaction times
+
+```{r, timespent, message=FALSE}
+data.rt <- data %>% select(expected, RT, id, trial_name, type, timeSpent)
+data.rt %>%
+  ggplot(aes(x=id, y=RT)) + 
+  geom_jitter(aes(color=type), width=0.2, height=0) +
+  geom_boxplot(outlier.shape=NA) +
+  theme(axis.text.x=element_text(angle=90)) #+
+```
+
+## General comments all participants
+
+```{r}
+data %>% select(comments) %>%  filter(!is.na(comments) & comments!="") %>% 
+  distinct()
+```
+Training Trials
+
+```{r}
+
+```
+
+
+Look at wrong control test trials for which we have clear expectations
+
+```{r, message=FALSE}
+data.train = data %>% filter(type=="training") %>% 
+  mutate(correct = expected == response)
+
+data.train  %>% 
+  # filter(response != expected & expected != "none") %>% 
+  group_by(id, correct) %>% 
+  summarize(n=n()) %>% 
+  ggplot(aes(y=id)) + 
+  geom_bar(aes(fill=correct))
+```
+
+## Plot critical trials
+
+```{r}
+data.critical = data %>% 
+  filter(type=="critical") %>% 
+  select(submission_id, id, type, question, response, expected, id1, id2,
+         selected_pic) %>% 
+  mutate(expectation = case_when(expected == "none" ~ FALSE,
+                                 TRUE ~ TRUE)) %>%
+  group_by(id1, id2)
+
+data.critical$group = data.critical %>% group_indices()
+data.critical <- data.critical %>% 
+  mutate(group=paste(id1, id2, sep=" & ")) %>% group_by(group)
+```
+
+### Trials we make predictions about
+
+1. acrooss all
+
+```{r}
+data.critical %>%
+  ggplot(aes(fill=response, x=question)) + 
+  geom_bar(position=position_dodge(preserve = 'single'))
+```
+
+2. split among different instantiations of critical trials
+
+```{r}
+data.critical %>% 
+  ggplot(aes(fill=response, x=question)) + 
+  geom_bar(position=position_dodge()) + 
+  facet_wrap(~group)
+```
+
