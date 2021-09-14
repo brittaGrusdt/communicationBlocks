@@ -42,7 +42,7 @@ pseudoRandomTestIds = function(){
   }), 'id');
 
   let control = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
-    return dat.type === "control"
+    return dat.type === "control-random"
   }), 'id'));
 
   let control_physics = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
