@@ -232,9 +232,9 @@ functionalityBttnNextAnimation = function(response_fn, magpie, anim){
       // map expected blocks ANT and CONS to randomly assigned colors
       let colors_ant_cons = map_ant_cons_to_colors(current_id);
 
-      let expected = SHUFFLED_TRAIN_TRIALS[CT].expected
+      let expected = SHUFFLED_TRAIN_TRIALS[CT].expected;
       _.range(expected.length).forEach(function(idx) {
-        let val = expected[idx]
+        let val = expected[idx].replace("button", "").toLowerCase();
         val = val.replace("ANT", colors_ant_cons[0]);
         val = val.replace("CONS", colors_ant_cons[1]);
         expected[idx] = val
