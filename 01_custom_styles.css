@@ -101,6 +101,10 @@ picture {
     display: block;
 }
 
+.stim_pic {
+  border: 2px solid #E3DFDC;
+}
+
 #buttonNone {
     width: 86px;
     height: 70px;
