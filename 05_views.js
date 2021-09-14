@@ -110,6 +110,14 @@ const thanks = magpieViews.view_generator("thanks", {
   prolificConfirmText: "Press the button"
 });
 
+const animation_view = animation_generator(
+  {name: "animation_view",
+   title: "title",
+   CT: 0,
+   trials: NB_TRAIN_TRIALS,
+   data: ""}
+ )
+
 const test_image_selection = magpieViews.view_generator(
   "image_selection", {
     data: TEST_TRIALS,
@@ -138,7 +146,6 @@ const example_image_selection = magpieViews.view_generator(
 // speaker and listeneers names to be sampled from for the botcaptcha
 var speaker = _.sample(["James", "John", "Robert", "Michael", "William", "David", "Richard", "Joseph", "Thomas", "Charles"]);
 var listener = _.sample(["Mary", "Patricia", "Jennifer", "Linda", "Elizabeth", "Barbara", "Susan", "Jessica", "Sarah", "Margaret"]);
-
 
 const botcaptcha = custom_botcaptcha({
   name: 'botcaptcha',

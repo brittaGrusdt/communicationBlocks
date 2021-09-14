@@ -7,54 +7,50 @@
 // and a render function, the render function gets CT and the magpie-object as input
 // and has to call magpie.findNextView() eventually to proceed to the next view (or the next trial in this view),
 // if it is an trial view it also makes sense to call magpie.trial_data.push(trial_data) to save the trial information
-const animation_view = {
-  name: "animation_view",
-  title: "title",
-  CT: 0, //is this the start value?
-  trials: NB_TRAIN_TRIALS,
-  data: "",
-  // The render function gets the magpie object as well as the current trial
-  // in view counter as input
-  render: function (CT, magpie) {
-    let html_answers =  htmlButtonResponses() + htmlRunNextButtons();
-    let animation = showAnimationInTrial(CT, html_answers, progress_bar=true);
-    let cleared = false;
-    Events.on(animation.engine, 'afterUpdate', function (event) {
-      if (!cleared && animation.engine.timing.timestamp >= DURATION_ANIMATION) {
-        clearWorld(animation.engine, animation.render, stop2Render = false);
-        cleared = true;
-      }
-    });
-    let bttns = _.filter(TRAIN_BTTN_IDS, function(id){return id !== "buttonNone"});
-    let bttn_none = $('#buttonNone');
-    bttns.forEach(function (id) {
-      $('#' + id)
-        .on('click', function (e) {
-          var parent = document.getElementById('TrainButtons');
-          bttn_none.removeClass('selected');
-          $('#' + id).toggleClass('selected');
+const animation_generator = function(config) {
+  return Object.assign(config, {
+    // The render function gets the magpie object as well as the current trial in view counter as input
+    render: function (CT, magpie) {
+      let html_answers =  htmlButtonResponses() + htmlRunNextButtons();
+      let animation = showAnimationInTrial(CT, html_answers, progress_bar=true);
+      let cleared = false;
+      Events.on(animation.engine, 'afterUpdate', function (event) {
+        if (!cleared && animation.engine.timing.timestamp >= DURATION_ANIMATION) {
+          clearWorld(animation.engine, animation.render, stop2Render = false);
+          cleared = true;
+        }
+      });
+      let bttns = _.filter(TRAIN_BTTN_IDS, function(id){return id !== "buttonNone"});
+      let bttn_none = $('#buttonNone');
+      bttns.forEach(function (id) {
+        $('#' + id)
+          .on('click', function (e) {
+            var parent = document.getElementById('TrainButtons');
+            bttn_none.removeClass('selected');
+            $('#' + id).toggleClass('selected');
+            toggleNextIfDone($('#runButton'), true);
+          });
+      });
+      bttn_none.on('click', function(e) {
+        bttn_none.toggleClass('selected');
+        if(bttn_none.hasClass('selected')) {
+          bttns.forEach(function(id){
+            $('#' + id).removeClass('selected');
+          })
           toggleNextIfDone($('#runButton'), true);
-        });
-    });
-    bttn_none.on('click', function(e) {
-      bttn_none.toggleClass('selected');
-      if(bttn_none.hasClass('selected')) {
-        bttns.forEach(function(id){
-          $('#' + id).removeClass('selected');
-        })
-        toggleNextIfDone($('#runButton'), true);
-      } else {
-        $('#runButton').addClass('grid-button');
-      }
-    });
+        } else {
+          $('#runButton').addClass('grid-button');
+        }
+      });
 
-    let anim = {animation, cleared, CT, started:false,
-                trial_name:'animation_buttons'
-              };
-    functionalityRunBttn(anim, "buttons");
-    functionalityBttnNextAnimation(getButtonResponse, magpie, anim)
-  }
-};
+      let anim = {animation, cleared, CT, started:false,
+                  trial_name:'animation_buttons'
+                };
+      functionalityRunBttn(anim, "buttons");
+      functionalityBttnNextAnimation(getButtonResponse, magpie, anim)
+    }
+  })
+}
 
 const forced_choice_generator = {
   stimulus_container_gen: function (config, CT) {
