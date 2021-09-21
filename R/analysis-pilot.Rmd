@@ -14,7 +14,8 @@ theme_set(theme_bw(base_size=12) + theme(legend.position = "top"))
 # fn <- "pablo2.csv"
 fn <- "results_67_communicationBlocks_BG.csv"
 data <- read_csv(here("results", fn)) %>% as_tibble() %>%
-  filter(prolific_id == "test-britta3") %>% 
+  # filter(prolific_id == "test-britta3") %>% 
+  filter(!str_detect(prolific_id, "britta")) %>% 
   group_by(submission_id)
 ```
 
@@ -33,12 +34,13 @@ data.meta$timeSpent %>% summary()
 ## Reaction times
 
 ```{r, timespent, message=FALSE}
-data.rt <- data %>% select(expected, RT, id, trial_name, type, timeSpent)
+data.rt <- data %>% select(expected, RT, id, question, trial_name, type, timeSpent)
 data.rt %>%
   ggplot(aes(x=id, y=RT)) + 
-  geom_jitter(aes(color=type), width=0.2, height=0) +
+  geom_jitter(aes(color=question), width=0.2, height=0) +
   geom_boxplot(outlier.shape=NA) +
-  theme(axis.text.x=element_text(angle=90)) #+
+  theme(axis.text.x=element_text(angle=90)) +
+  facet_wrap(~type, scales="free")
 ```
 
 ## General comments all participants
@@ -47,12 +49,29 @@ data.rt %>%
 data %>% select(comments) %>%  filter(!is.na(comments) & comments!="") %>% 
   distinct()
 ```
-Training Trials
+## Training Trials
 
 ```{r}
+data.train = data %>% filter(type=="training") %>%
+  mutate(correct=case_when(expected == response ~ T, T ~ F))
 
+data.train.nb = data.train %>% 
+  group_by(trial_number) %>% 
+  summarize(ratio_correct = mean(correct))
+data.train.nb %>% 
+  ggplot(aes(x=trial_number, y=ratio_correct)) + 
+  geom_bar(stat="identity") + 
+  scale_x_continuous(breaks=seq(1, 7))
+
+data.train.id = data.train %>% 
+  group_by(id) %>% 
+  summarize(ratio_correct = mean(correct))
+data.train.id %>% 
+  ggplot(aes(x=id, y=ratio_correct)) + 
+  geom_bar(stat="identity") +
+  theme(axis.text.x=element_text(angle=90))
 ```
-
+## Test trials
 
 Look at wrong control test trials for which we have clear expectations
 
