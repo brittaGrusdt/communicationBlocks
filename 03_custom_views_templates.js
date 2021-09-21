@@ -28,7 +28,19 @@ const animation_generator = function(config) {
             var parent = document.getElementById('TrainButtons');
             bttn_none.removeClass('selected');
             $('#' + id).toggleClass('selected');
-            toggleNextIfDone($('#runButton'), true);
+            if($('#' + id).hasClass('selected')){
+              toggleNextIfDone($('#runButton'), true);
+              $('#trainBttnSelect').html('<b>&emsp;Selected buttons are marked in blue.</b>')
+            } else {
+              var count = 0;
+              bttns.forEach(function(id){
+                count = $('#' + id).hasClass('selected') ? count + 1 : count;
+              })
+              if(count == 0){
+                $('#runButton').addClass('grid-button');
+                $('#trainBttnSelect').html('<b>&emsp;Please make a selection!</b>')
+              }
+            }
           });
       });
       bttn_none.on('click', function(e) {
@@ -37,9 +49,11 @@ const animation_generator = function(config) {
           bttns.forEach(function(id){
             $('#' + id).removeClass('selected');
           })
+          $('#trainBttnSelect').html('<b>&emsp;Selected buttons are marked in blue.</b>')
           toggleNextIfDone($('#runButton'), true);
         } else {
           $('#runButton').addClass('grid-button');
+          $('#trainBttnSelect').html('<b>&emsp;Please make a selection!</b>')
         }
       });
 

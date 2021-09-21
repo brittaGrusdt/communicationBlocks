@@ -144,17 +144,17 @@ QUESTS = {
   if_ant_yellow: 'What happens if the YELLOW block falls?'
 }
 ANSWERS = {
-  conditional: 'If the ANT block falls, the CONS block WILL fall.',
-  conditional_yellow: 'If the YELLOW block falls, the CONS block WILL fall.',
-  not_cons: 'The CONS block WILL NOT fall.',
-  cons: 'The CONS block WILL fall.',
-  both: 'The CONS and the ANT block WILL fall.',
-  not_both: 'NEITHER the ANT NOR the CONS block falls.',
-  ant: 'The ANT block WILL fall.',
-  not_ant: 'The ANT block WILL NOT fall.',
+  conditional: 'If the ANT block falls, the CONS block will fall.',
+  conditional_yellow: 'If the YELLOW block falls, the CONS block will fall.',
+  not_cons: 'The CONS block will NOT fall.',
+  cons: 'The CONS block will fall.',
+  both: 'The CONS and the ANT block will fall.',
+  not_both: 'NEITHER the ANT NOR the CONS block will fall.',
+  ant: 'The ANT block will fall.',
+  not_ant: 'The ANT block will NOT fall.',
   might_ant: 'The ANT block MIGHT fall.',
-  yellow: 'The YELLOW block WILL fall.',
-  yellow_cons: 'The YELLOW and the CONS block WILL fall.',
+  yellow: 'The YELLOW block will fall.',
+  yellow_cons: 'The YELLOW and the CONS block will fall.',
   not_yellow_cons: 'NEITHER the YELLOW NOR the CONS block will fall.'
 }
 

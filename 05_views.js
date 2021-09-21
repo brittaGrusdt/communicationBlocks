@@ -142,6 +142,14 @@ const example_image_selection = magpieViews.view_generator(
   }
 );
 
+const divider_example_test_phase = magpieViews.view_generator("instructions", {
+  trials: 1,
+  name: "divider_example_test_phase",
+  title: "Training completed!",
+  text: `Please click on CONTINUE to start the actual experiment.`,
+  buttonText: "Start Experiment"
+});
+
 // captcha
 // speaker and listeneers names to be sampled from for the botcaptcha
 var speaker = _.sample(["James", "John", "Robert", "Michael", "William", "David", "Richard", "Joseph", "Thomas", "Charles"]);

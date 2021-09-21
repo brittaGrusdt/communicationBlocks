@@ -23,6 +23,7 @@ $("document")
       animation_view, // training phase
       instructions_test,
       example_image_selection, // test example
+      divider_example_test_phase,
       test_image_selection, // test phase
       post_test,
       thanks

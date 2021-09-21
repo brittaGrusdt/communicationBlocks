@@ -89,7 +89,9 @@ htmlButtonResponses = function () {
     </button>
     <div class="divider"/>
     <button id="buttonNone" class="styled-button">None</button>
-  </bttns>`;
+    <p id=trainBttnSelect style="font-size:14px;"><b>&emsp;Please make a selection!</b></p>
+  </bttns>
+  `;
 }
 
 htmlRunNextButtons = function () {
@@ -189,6 +191,10 @@ functionalityRunBttn = function(anim, answers){
         _.forEach(ids_correct, function(id){
           $('#' + id).addClass('correct')
         });
+        $('#trainBttnSelect').html(`<b>&emsp;Blocks that actually fell this time are marked in green,
+          <br/>&emsp;blocks that were selected but did not fall
+          are marked in red.</b>`);
+
         _.map(TRAIN_BTTN_IDS, function(id){
           $('#' + id).addClass('train-not-clickable');
           if($('#' + id).hasClass('selected') && !ids_correct.includes(id)) {
