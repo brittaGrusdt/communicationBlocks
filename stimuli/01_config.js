@@ -89,7 +89,7 @@ let TRAIN_IDS = {
          'if1_ln',
          'if2_nnh',
          'if2_hnh',
-         'if2_nnl'
+         'if2_nnl'//,
          // 'independent_edge_nn',
          // 'if1_u-Ln',
          // 'if1_u-Hh',
@@ -163,9 +163,9 @@ TEST_DATA = [
   {id: "trial2", id1: "if1_un", id2: "if2_unu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
   {id: "trial3", id1: "if1_un", id2: "if2_unu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'},
 
-  {id: "trial4", id1: "if1_un", id2: "if1_uh", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial5", id1: "if1_un", id2: "if1_uh", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial6", id1: "if1_un", id2: "if1_uh", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial4", id1: "if2_unn", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial5", id1: "if2_unn", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial6", id1: "if2_unn", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'},
 
   {id: "trial7", id1: "if1_nn", id2: "if2_nnh", causes_id1: "", causes_id2: "", question: QUESTS.neutral, answer: ANSWERS.not_both, type: 'control-physics'},
   {id: "trial8", id1: "if1_nn", id2: "if1_hn", causes_id1: "", causes_id2: "", question: QUESTS.cons, answer: ANSWERS.both, type: 'control-physics'},
