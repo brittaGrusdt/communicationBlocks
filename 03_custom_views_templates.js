@@ -88,7 +88,7 @@ const forced_choice_generator = {
                   <p id='pqud' class='magpie-view-question magpie-view-qud'>${config.data[CT].QUD}</p>
                   <p id='questionAnn' class='magpie-view-question magpie-view-qud'></p>
                    <button id='bttnQuestionAnn' class='magpie-view-button'>See Ann's question</button>
-                   <button id='askBob' class='magpie-view-button grid-button'>See Bob's answer</button>
+                   <button id='askBob' class='magpie-view-button grid-button'>See Bob's response</button>
                    <p id='answerBob' class='magpie-view-question'></p>
                    <div class="stimuli">
                    <div id="label_left_pic" class="bottom-left">${side[0]}</div>

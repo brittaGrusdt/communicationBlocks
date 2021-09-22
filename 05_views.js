@@ -68,9 +68,9 @@ const instructions_general = magpieViews.view_generator("instructions", {
   buttonText: "Start Training"
 });
 
-const instructions_test = magpieViews.view_generator("instructions", {
+const instructions_test_text = magpieViews.view_generator("instructions", {
   trials: 1,
-  name: "instructions_test",
+  name: "instructions_test_text",
   title: "Instructions Test Phase",
   text: `Great -  we'll now proceed with the test phase of the experiment.
     You will be shown two pictures of the same scenes of block arrangements as in the training phase.
@@ -92,6 +92,25 @@ const instructions_test = magpieViews.view_generator("instructions", {
     `,
   buttonText: "go to example"
 });
+
+const instructions_test_img = magpieViews.view_generator("instructions", {
+  trials: 1,
+  name: "instructions_test_img",
+  title: "Instructions Test Phase",
+  text: `Great -  we'll now proceed with the test phase of the experiment.
+    You will be shown two pictures of the same scenes of block arrangements as in the training phase.
+    <br/>
+    <br/>
+    Below, you see how test trials will look like. Follow the instructions given in 1. to 5. to complete a trial.
+    <br />
+    <br />
+    <img src="./stimuli/img/instructions-test-anonym.jpeg" style="max-width:90%;">
+    <br />
+    There will be one example trial next before the actual test phase starts.
+    `,
+  buttonText: "go to example"
+});
+
 
 const post_test = magpieViews.view_generator("post_test", {
   trials: 1,
