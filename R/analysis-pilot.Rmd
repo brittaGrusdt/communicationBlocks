@@ -7,6 +7,7 @@ output: html_notebook
 library(here)
 library(tidyverse)
 library(dplyr)
+source(here("R", "utils.R"))
 theme_set(theme_bw(base_size=12) + theme(legend.position = "top"))
 ```
 
@@ -14,8 +15,7 @@ theme_set(theme_bw(base_size=12) + theme(legend.position = "top"))
 # fn <- "pablo2.csv"
 fn <- "results_67_communicationBlocks_BG.csv"
 data <- read_csv(here("results", fn)) %>% as_tibble() %>%
-  # filter(prolific_id == "test-britta3") %>% 
-  filter(!str_detect(prolific_id, "britta")) %>% 
+  filter(submission_id == 2223) %>%
   group_by(submission_id)
 ```
 
@@ -52,7 +52,7 @@ data %>% select(comments) %>%  filter(!is.na(comments) & comments!="") %>%
 ## Training Trials
 
 ```{r}
-data.train = data %>% filter(type=="training") %>%
+data.train = data %>% filter(type=="training" | type=="test-example") %>%
   mutate(correct=case_when(expected == response ~ T, T ~ F))
 
 data.train.nb = data.train %>% 
@@ -76,16 +76,25 @@ data.train.id %>%
 Look at wrong control test trials for which we have clear expectations
 
 ```{r, message=FALSE}
-data.train = data %>% filter(type=="training") %>% 
-  mutate(correct = expected == response)
+data.control = data %>% filter(startsWith(type,"control")) %>% 
+  mutate(correct = expected == selected_pic)
 
-data.train  %>% 
-  # filter(response != expected & expected != "none") %>% 
+data.control  %>% 
   group_by(id, correct) %>% 
   summarize(n=n()) %>% 
   ggplot(aes(y=id)) + 
   geom_bar(aes(fill=correct))
 ```
+
+Clean data
+
+```{r}
+n_all = data$submission_id %>% unique() %>% length
+data.cleaned = clean_data(data)
+n_filtered = data.cleaned$submission_id %>% unique() %>% length
+```
+
+Data from `r round(n_filtered/n_all, 2)` of all participants is retained.
 
 ## Plot critical trials
 
