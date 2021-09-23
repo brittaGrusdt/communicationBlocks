@@ -12,10 +12,8 @@ theme_set(theme_bw(base_size=12) + theme(legend.position = "top"))
 ```
 
 ```{r, message=FALSE, warning=FALSE}
-# fn <- "pablo2.csv"
 fn <- "results_67_communicationBlocks_BG.csv"
 data <- read_csv(here("results", fn)) %>% as_tibble() %>%
-  filter(submission_id == 2223) %>%
   group_by(submission_id)
 ```
 
@@ -52,38 +50,59 @@ data %>% select(comments) %>%  filter(!is.na(comments) & comments!="") %>%
 ## Training Trials
 
 ```{r}
-data.train = data %>% filter(type=="training" | type=="test-example") %>%
+data.train = data %>% filter(type=="training") %>%
   mutate(correct=case_when(expected == response ~ T, T ~ F))
 
-data.train.nb = data.train %>% 
-  group_by(trial_number) %>% 
+# ratio correct per trial number (different order per participant)
+train.correct.nb = data.train %>% group_by(trial_number) %>% 
   summarize(ratio_correct = mean(correct))
-data.train.nb %>% 
+train.correct.nb %>% 
   ggplot(aes(x=trial_number, y=ratio_correct)) + 
   geom_bar(stat="identity") + 
   scale_x_continuous(breaks=seq(1, 7))
 
-data.train.id = data.train %>% 
-  group_by(id) %>% 
+# ratio correct per trial id
+train.correct.id = data.train %>% group_by(id) %>% 
   summarize(ratio_correct = mean(correct))
-data.train.id %>% 
+train.correct.id %>% 
   ggplot(aes(x=id, y=ratio_correct)) + 
   geom_bar(stat="identity") +
   theme(axis.text.x=element_text(angle=90))
 ```
+
+## Example Test-Trial
+
+```{r}
+data.example_test = data %>% filter(type=="test-example") %>%
+  group_by(submission_id) %>% 
+  dplyr::select(expected, selected_pic) %>% 
+  transmute(correct = expected == selected_pic)
+
+rate_correct_example = data.example_test %>%
+  summarize(ratio_correct = sum(correct) / n()) %>% 
+  pull(ratio_correct)
+
+ids.wrong = data.example_test %>% filter(!correct) %>% pull(submission_id) %>% 
+  unique()
+```
+
+
 ## Test trials
 
-Look at wrong control test trials for which we have clear expectations
+Look at control test trials
 
 ```{r, message=FALSE}
 data.control = data %>% filter(startsWith(type,"control")) %>% 
-  mutate(correct = expected == selected_pic)
-
-data.control  %>% 
-  group_by(id, correct) %>% 
-  summarize(n=n()) %>% 
-  ggplot(aes(y=id)) + 
-  geom_bar(aes(fill=correct))
+  mutate(correct = expected == selected_pic) %>% 
+  group_by(id, type) %>%
+  mutate(n=n(), n_correct = sum(correct), ratio_correct = n_correct/n) %>% 
+  dplyr::select(c(id, type, n, n_correct, ratio_correct)) %>%
+  distinct_at(vars(c(id, type)), .keep_all = T)
+    
+data.control %>% 
+  ggplot(aes(x=ratio_correct, y=id)) + 
+  geom_bar(aes(fill=type), stat="identity") +
+  labs(x="ratio correct", title="control test trials", y="")
 ```
 
 Clean data
@@ -91,10 +110,12 @@ Clean data
 ```{r}
 n_all = data$submission_id %>% unique() %>% length
 data.cleaned = clean_data(data)
-n_filtered = data.cleaned$submission_id %>% unique() %>% length
+n_kept = data.cleaned$submission_id %>% unique() %>% length
+
+ratio_kept = round(n_kept/n_all, 2)
 ```
 
-Data from `r round(n_filtered/n_all, 2)` of all participants is retained.
+Data from `r ratio_kept` of all participants is retained.
 
 ## Plot critical trials
 
@@ -107,9 +128,18 @@ data.critical = data %>%
                                  TRUE ~ TRUE)) %>%
   group_by(id1, id2)
 
-data.critical$group = data.critical %>% group_indices()
+data.critical$pic_combi = data.critical %>% group_indices()
 data.critical <- data.critical %>% 
-  mutate(group=paste(id1, id2, sep=" & ")) %>% group_by(group)
+  mutate(pic_combi=paste(id1, id2, sep=" & ")) %>% 
+  group_by(pic_combi, question) %>% mutate(n=n()) 
+
+data.critical.rate = data.critical %>% group_by(question) %>% 
+  summarize(rate_exhaustive = sum(response == "exhaustive") / n(),
+            .groups = "drop_last") 
+data.critical.rate.pic_combi = data.critical %>% 
+  group_by(question, pic_combi) %>% 
+  summarize(rate_exhaustive = sum(response == "exhaustive") / n(),
+            .groups="drop_last") 
 ```
 
 ### Trials we make predictions about
@@ -117,17 +147,28 @@ data.critical <- data.critical %>%
 1. acrooss all
 
 ```{r}
+conditions = configure(c("conditions"))
 data.critical %>%
-  ggplot(aes(fill=response, x=question)) + 
-  geom_bar(position=position_dodge(preserve = 'single'))
+  ggplot(aes(fill=response, y=question)) + 
+  geom_bar(position=position_dodge(preserve = 'single')) + 
+  scale_y_discrete(breaks=names(conditions), labels = conditions) + 
+  labs(y="Ann's question")
+
+# same plot with ratios instead of absolute numbers
+data.critical.rate %>%
+  ggplot(aes(x=rate_exhaustive, y=question)) + 
+  geom_bar(stat="identity") + 
+  scale_y_discrete(breaks=names(conditions), labels = conditions) + 
+  labs(y="Ann's question", x="selection rate exhaustive picture")
 ```
 
-2. split among different instantiations of critical trials
+2. split among different instantiations of critical trials 
+(i.e., across different picture combinations)
 
 ```{r}
-data.critical %>% 
-  ggplot(aes(fill=response, x=question)) + 
-  geom_bar(position=position_dodge()) + 
-  facet_wrap(~group)
+data.critical.rate.pic_combi %>% 
+  ggplot(aes(x=rate_exhaustive, y=question)) + 
+  geom_bar(stat="identity") + 
+  facet_wrap(~pic_combi)
 ```
 

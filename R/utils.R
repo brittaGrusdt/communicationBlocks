@@ -1,5 +1,14 @@
 FS = .Platform$file.sep
 
+configure <- function(config_keys) {
+  config_file = yaml::yaml.load_file(here("R", "config.yml"), eval.expr=TRUE)
+  params = c() 
+  for(key in rev(config_keys)){
+    params = c(params, config_file[[key]])
+  }
+  return(params)
+}
+
 rep_each <- function(x, times) {
   times <- rep(times, length.out = length(x))
   rep(x, times = times)
