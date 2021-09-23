@@ -12,7 +12,7 @@ theme_set(theme_bw(base_size=12) + theme(legend.position = "top"))
 ```
 
 ```{r, message=FALSE, warning=FALSE}
-fn <- "results_67_communicationBlocks_BG.csv"
+fn <- "results_67_communicationBlocks_BG_pilot.csv"
 data <- read_csv(here("results", fn)) %>% as_tibble() %>%
   group_by(submission_id)
 ```
@@ -37,8 +37,8 @@ data.rt %>%
   ggplot(aes(x=id, y=RT)) + 
   geom_jitter(aes(color=question), width=0.2, height=0) +
   geom_boxplot(outlier.shape=NA) +
-  theme(axis.text.x=element_text(angle=90)) +
-  facet_wrap(~type, scales="free")
+  theme(axis.text.x=element_text(angle=90), legend.position = "right") +
+  facet_wrap(~type, scales="free_x")
 ```
 
 ## General comments all participants
@@ -47,6 +47,7 @@ data.rt %>%
 data %>% select(comments) %>%  filter(!is.na(comments) & comments!="") %>% 
   distinct()
 ```
+
 ## Training Trials
 
 ```{r}
@@ -84,6 +85,7 @@ rate_correct_example = data.example_test %>%
 
 ids.wrong = data.example_test %>% filter(!correct) %>% pull(submission_id) %>% 
   unique()
+ids.wrong
 ```
 
 
@@ -119,8 +121,8 @@ Data from `r ratio_kept` of all participants is retained.
 
 ## Plot critical trials
 
-```{r}
-data.critical = data %>% 
+```{r, data-critical}
+data.critical = data.cleaned %>% 
   filter(type=="critical") %>% 
   select(submission_id, id, type, question, response, expected, id1, id2,
          selected_pic) %>% 
@@ -158,6 +160,7 @@ data.critical %>%
 data.critical.rate %>%
   ggplot(aes(x=rate_exhaustive, y=question)) + 
   geom_bar(stat="identity") + 
+  geom_text(aes(label=round(rate_exhaustive, 2)), hjust=1, color='white') +
   scale_y_discrete(breaks=names(conditions), labels = conditions) + 
   labs(y="Ann's question", x="selection rate exhaustive picture")
 ```
@@ -169,6 +172,7 @@ data.critical.rate %>%
 data.critical.rate.pic_combi %>% 
   ggplot(aes(x=rate_exhaustive, y=question)) + 
   geom_bar(stat="identity") + 
+  geom_text(aes(label=round(rate_exhaustive, 2)), hjust=1, color='white') +
   facet_wrap(~pic_combi)
 ```
 

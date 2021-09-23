@@ -15,8 +15,9 @@ rep_each <- function(x, times) {
 }
 
 # at most one control-physics trial and none of the control-random trials wrong
+# and test-example trial must be correctly replied to
 clean_data = function(data){
-  controls = data %>% filter(startsWith(type, "control")) %>% 
+  controls = data %>% filter(startsWith(type, "control") | type=="test-example") %>% 
     dplyr::select(c(submission_id, starts_with("id"), type, question,
                     selected_pic, expected)) %>% 
     group_by(submission_id, type) %>% 
@@ -26,7 +27,8 @@ clean_data = function(data){
   
   submission_ids.out = controls %>% 
     filter(!(type == "control-random" & n_correct == n) &
-           !(type == "control-physics" & n_correct >= n-1)) %>% 
+           !(type == "control-physics" & n_correct >= n-1) &
+           !(type == "test-example" & n_correct == 1)) %>% 
     pull(submission_id) %>% unique()
   
   return(data %>% filter(!submission_id %in% submission_ids.out))

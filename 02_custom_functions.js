@@ -226,9 +226,9 @@ map_ant_cons_to_colors = function(current_id, first_upper_case=false){
 functionalityBttnNextAnimation = function(response_fn, magpie, anim){
   $("#buttonNextAnimation")
     .on("click", function () {
+      const RT = Date.now() - animation.startTime; // measure RT before anything else
       let CT = anim.CT
       let animation = anim.animation
-      const RT = Date.now() - animation.startTime; // measure RT before anything else
       if (!anim.cleared) {
         clearWorld(animation.engine, animation.render, stop2Render = false);
       }
