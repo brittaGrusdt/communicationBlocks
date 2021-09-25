@@ -134,7 +134,8 @@ const forced_choice_generator = {
        let trial_data = {
          trial_name: config.name,
          trial_number: CT + 1,
-         type: config.data[CT].type
+         type: config.data[CT].type,
+         picture_left: $('#label_left_pic').html()
        };
        $("#picture1").on("click", function() {
            const RT = Date.now() - startingTime;
