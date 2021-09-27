@@ -41,6 +41,45 @@ data.rt %>%
   facet_wrap(~type, scales="free_x")
 ```
 
+```{r, message=FALSE}
+data.rt %>%
+  summarise(timeSpent, type, RT)
+```
+
+```{r, message=FALSE}
+
+data.rt %>% 
+  group_by(submission_id) %>%
+  mutate(timeAll = timeSpent * 60,
+         timeExperiment = (sum(RT) / 1000),
+         timeInstructions = timeSpent - timeExperiment,
+         timeTraining = (sum(RT[type=="training"]) / 1000),
+         timeTesting = timeExperiment - timeTraining
+         ) %>% 
+  summarise(timeAll, timeTraining, timeTesting) %>% 
+  unique()
+
+# first digits before point are in seconds 
+```
+
+Training time:
+- Fast run took me **53 seconds** while waiting for the animations,
+- Fast run without waiting for the animations took **32 seconds**
+- Thorough (slow) run took **99 seconds**
+- Thus, anyone **below ~50 seconds** time might not have fully watched the animations (or understood the training)
+
+--> Only one person (ID 2234) took below 50 secs (49s) but it is so marginal, I think training times are fine.
+
+
+Test Time:
+- Fast run took me **185 seconds** while still reading all text
+- Very fast run took **117 seconds** only browsing over the questions quickly and sometimes clicking sloppily
+- Thorough (slow) run took **244 seconds**
+- Thus, anything **below ~150 seconds** was not done thorough enough and the person might not have read the questions properly
+
+--> Two people took below 130 seconds (ID 2243 = 148s and ID 2237 = 114s). It might be possible to be as fast as 114 seconds while still fulfilling the task but only if you are highly concentrated. 
+
+
 ## General comments all participants
 
 ```{r}
