@@ -2,3 +2,12 @@ conditions:
   neutral: "Which blocks do you think will fall?"
   if_ant: "What happens if the 'antecedent' block falls?"
   cons: "Will the 'consequent' block fall?"
+
+train_times:
+  independent_edge_nh: 4
+  if2_nnl: 4
+  if2_hnh: 10
+  if1_ln: 3
+  if2_nnh: 7
+  if1_nn: 2
+  if1_hn: 6

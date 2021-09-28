@@ -32,7 +32,9 @@ data.meta$timeSpent %>% summary()
 ## Reaction times
 
 ```{r, timespent, message=FALSE}
-data.rt <- data %>% select(expected, RT, id, question, trial_name, type, timeSpent)
+data.rt <- data %>% 
+  select(expected, RT, id, question, trial_name, type, timeSpent, trial_number, 
+         response)
 data.rt %>%
   ggplot(aes(x=id, y=RT)) + 
   geom_jitter(aes(color=question), width=0.2, height=0) +
@@ -40,14 +42,15 @@ data.rt %>%
   theme(axis.text.x=element_text(angle=90), legend.position = "right") +
   facet_wrap(~type, scales="free_x")
 ```
+### Reaction Times per trial-type
 
 ```{r, message=FALSE}
 data.rt %>%
   summarise(timeSpent, type, RT)
 ```
 
-```{r, message=FALSE}
 
+```{r, message=FALSE}
 data.rt %>% 
   group_by(submission_id) %>%
   mutate(timeAll = timeSpent * 60,
@@ -58,8 +61,25 @@ data.rt %>%
          ) %>% 
   summarise(timeAll, timeTraining, timeTesting) %>% 
   unique()
-
 # first digits before point are in seconds 
+
+train_times = configure(c("train_times")) %>% as_tibble() %>% 
+  pivot_longer(cols=everything(), names_to="id", values_to="min")
+data.rt.train = data.rt %>% 
+  mutate(correct = response == expected) %>% 
+  group_by(submission_id, id, trial_number, correct) %>%
+  filter(type == "training") %>% 
+  summarize(time_sec=sum(RT)/1000) %>% 
+  arrange(submission_id, trial_number)
+
+data.rt.train %>% mutate(submission_id = as.factor(submission_id)) %>% 
+  ggplot(aes(x=id, y=time_sec)) + 
+  geom_boxplot(outlier.shape=NA) + geom_jitter() +
+  geom_point(data=train_times, aes(x=id, y=min), size=1.5, color='red')
+
+left_join(data.rt.train, train_times, by="id") %>% 
+  filter(time_sec < min)
+
 ```
 
 Training time:
@@ -151,6 +171,8 @@ Clean data
 ```{r}
 n_all = data$submission_id %>% unique() %>% length
 data.cleaned = clean_data(data)
+#from training trials:
+data.cleaned <- data.cleaned %>% filter(!submission_id %in% c(2233, 2237))
 n_kept = data.cleaned$submission_id %>% unique() %>% length
 
 ratio_kept = round(n_kept/n_all, 2)
