@@ -1,12 +1,16 @@
 ---
 title: "Analysis Pilot CommunicationBlocks Experiment"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r, packages, message=F}
 library(here)
 library(tidyverse)
 library(dplyr)
+options(dplyr.summarise.inform = FALSE)
+
 source(here("R", "utils.R"))
 theme_set(theme_bw(base_size=12) + theme(legend.position = "top"))
 ```
@@ -25,7 +29,9 @@ data.meta <- data %>% distinct_at(vars(c(submission_id)), .keep_all = T) %>%
 
 data.meta$gender %>% summary()
 data.meta$education %>% summary()
+print("age:")
 data.meta$age %>% summary()
+print("timeSpent:")
 data.meta$timeSpent %>% summary()
 ```
 
@@ -42,15 +48,10 @@ data.rt %>%
   theme(axis.text.x=element_text(angle=90), legend.position = "right") +
   facet_wrap(~type, scales="free_x")
 ```
+
 ### Reaction Times per trial-type
 
-```{r, message=FALSE}
-data.rt %>%
-  summarise(timeSpent, type, RT)
-```
-
-
-```{r, message=FALSE}
+```{r, message=FALSE, results=FALSE, echo=FALSE, warning=FALSE}
 data.rt %>% 
   group_by(submission_id) %>%
   mutate(timeAll = timeSpent * 60,
@@ -62,7 +63,9 @@ data.rt %>%
   summarise(timeAll, timeTraining, timeTesting) %>% 
   unique()
 # first digits before point are in seconds 
+```
 
+```{r}
 train_times = configure(c("train_times")) %>% as_tibble() %>% 
   pivot_longer(cols=everything(), names_to="id", values_to="min")
 data.rt.train = data.rt %>% 
@@ -76,10 +79,11 @@ data.rt.train %>% mutate(submission_id = as.factor(submission_id)) %>%
   ggplot(aes(x=id, y=time_sec)) + 
   geom_boxplot(outlier.shape=NA) + geom_jitter() +
   geom_point(data=train_times, aes(x=id, y=min), size=1.5, color='red')
+```
 
+```{r, include=FALSE, echo=FALSE}
 left_join(data.rt.train, train_times, by="id") %>% 
   filter(time_sec < min)
-
 ```
 
 Training time:
@@ -98,6 +102,32 @@ Test Time:
 - Thus, anything **below ~150 seconds** was not done thorough enough and the person might not have read the questions properly
 
 --> Two people took below 130 seconds (ID 2243 = 148s and ID 2237 = 114s). It might be possible to be as fast as 114 seconds while still fulfilling the task but only if you are highly concentrated. 
+
+### Training time vs. nb correct answers
+
+```{r, relation-train-rt, warning=FALSE, message=FALSE}
+train.time_total = data.rt %>% group_by(submission_id, type) %>% 
+  mutate(correct = response == expected) %>% 
+  summarize(time_sec = sum(RT)/1000, n_correct = sum(correct)) %>% 
+  filter(type == "training")
+
+train.time_total %>% 
+  ggplot() + geom_point(aes(x=n_correct, y= time_sec)) +
+  geom_hline(aes(yintercept=train.time_total$time_sec %>% mean()), color='red') +
+  geom_hline(aes(yintercept=train.time_total$time_sec %>% median()), color='blue')
+
+
+```
+
+### Reaction times per train trial for correct/wrong trials
+
+```{r}
+data.rt.train %>%
+  ggplot(aes(y=id, x=time_sec, color=correct)) +
+  geom_jitter(height=0.2, width=0) +
+  geom_boxplot(outlier.shape=NA) +
+  labs(x="Reaction time in seconds", y = "training id") 
+```
 
 
 ## General comments all participants
@@ -132,7 +162,7 @@ train.correct.id %>%
 
 ## Example Test-Trial
 
-```{r}
+```{r, warning=FALSE}
 data.example_test = data %>% filter(type=="test-example") %>%
   group_by(submission_id) %>% 
   dplyr::select(expected, selected_pic) %>% 
@@ -182,7 +212,7 @@ Data from `r ratio_kept` of all participants is retained.
 
 ## Plot critical trials
 
-```{r, data-critical}
+```{r, data-critical, echo=FALSE}
 data.critical = data.cleaned %>% 
   filter(type=="critical") %>% 
   select(submission_id, id, type, question, response, expected, id1, id2,
@@ -207,7 +237,8 @@ data.critical.rate.pic_combi = data.critical %>%
 
 ### Trials we make predictions about
 
-1. acrooss all
+1. across all different instantiations, i.e. exhaustive/non-exhaustive 
+picture combinations
 
 ```{r}
 conditions = configure(c("conditions"))
@@ -217,7 +248,7 @@ data.critical %>%
   scale_y_discrete(breaks=names(conditions), labels = conditions) + 
   labs(y="Ann's question")
 
-# same plot with ratios instead of absolute numbers
+# same plot with exhaustive-picture selection ratios instead of absolute numbers
 data.critical.rate %>%
   ggplot(aes(x=rate_exhaustive, y=question)) + 
   geom_bar(stat="identity") + 

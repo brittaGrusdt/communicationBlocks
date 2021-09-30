@@ -105,8 +105,9 @@ const forced_choice_generator = {
        let show_labels = DEBUG ? 'visible' : 'hidden';
        $('#label_left_pic').css('visibility', show_labels);
        $('#label_right_pic').css('visibility', show_labels);
-       if(DEBUG) console.log(config.data[CT].id)
-
+       if(DEBUG) {
+         console.log(config.data[CT].id + ": " + config.data[CT].id1 + ", " + config.data[CT].id2)
+       }
        $("#bttnQuestionAnn").on("click", function(){
         this.remove();
         let question = config.data[CT].question_long;
