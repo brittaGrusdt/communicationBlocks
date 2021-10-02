@@ -86,15 +86,14 @@ const forced_choice_generator = {
 
        return    `<div class='magpie-view-answer-container'>
                   <p id='pqud' class='magpie-view-question magpie-view-qud'>${config.data[CT].QUD}</p>
-                  <p id='questionAnn' class='magpie-view-question magpie-view-qud'></p>
-                   <button id='bttnQuestionAnn' class='magpie-view-button'>See Ann's question</button>
-                   <button id='askBob' class='magpie-view-button grid-button'>See Bob's response</button>
-                   <p id='answerBob' class='magpie-view-question'></p>
-                   <div class="stimuli">
-                   <div id="label_left_pic" class="bottom-left">${side[0]}</div>
-                   <img src=${config.data[CT][side[0]]} id=${side[0]} class="stim_pic unclickable" style="max-width:48%;height:auto;">
-                   <img src=${config.data[CT][side[1]]} id=${side[1]} class="stim_pic unclickable" style="max-width:48%;height:auto;">
-                   <div id="label_right_pic" class="bottom-right">${side[1]}</div>
+                  <p id='answerBob' class='magpie-view-question'></p>
+                   <button id='askBob' class='magpie-view-button'>See Bob's response</button>
+                   <p id='firstImg' class='magpie-view-question magpie-view-qud'></p>
+                   <button id='bttnFirstImg' class='magpie-view-button grid-button'>See situation selected by Ann</button>
+                   <p id='secondImg' class='magpie-view-question magpie-view-qud'></p>
+                   <button id='bttnSecondImg' class='magpie-view-button grid-button'>See same situation a few seconds later</button>
+                   <p id='question' class='magpie-view-question magpie-view-qud'></p>
+                   <button id='bttnQuestion' class='magpie-view-button grid-button'>See question</button>
                    </div>
                    <button id='smallMarginNextButton' class='grid-button magpie-view-button'>continue</button>
                  </div>`;
@@ -108,28 +107,51 @@ const forced_choice_generator = {
        if(DEBUG) {
          console.log(config.data[CT].id + ": " + config.data[CT].id1 + ", " + config.data[CT].id2)
        }
-       $("#bttnQuestionAnn").on("click", function(){
+
+       $("#askBob").on("click", function(){
+        this.remove();
+        let answer = config.data[CT].answer;
+        let cols_group = COLS_GROUPS[config.data[CT].group]
+        answer = answer.replace("CONS", cols_group.CONS);
+        answer = answer.replace("ANT", cols_group.ANT);
+        $("#answerBob").html(answer);
+        toggleNextIfDone($("#bttnFirstImg"), true)
+       });
+
+       $("#bttnFirstImg").on("click", function(){
+        this.remove();
+        $("#pqud").css("visibility", "visible");
+        let img1 = config.data[CT].picture1; // question_long
+        $("#firstImg").html(
+          `<div class="stimuli">
+            <div id="label_upper_pic" class="bottom-left"></div>
+            <img src=${img1} id="imgBefore" class="stim_pic unclickable" style="max-width:100%;height:auto;">
+          </div>`
+          );
+        toggleNextIfDone($("#bttnSecondImg"), true)
+       });
+
+       $("#bttnSecondImg").on("click", function(){
+        this.remove();
+        $("#pqud").css("visibility", "visible");
+        let img2 = config.data[CT].picture2; // question_long
+        $("#secondImg").html(`Same situation a few seconds later:
+          <div class="stimuli">
+            <div id="label_lower_pic" class="bottom-right"></div>
+            <img src=${img2} id="imgAfter" class="stim_pic unclickable" style="max-width:100%;height:auto;">
+            </div>`
+            );
+        toggleNextIfDone($("#bttnQuestion"), true)
+       });
+
+       $("#bttnQuestion").on("click", function(){
         this.remove();
         let question = config.data[CT].question_long;
         let cols_group = COLS_GROUPS[config.data[CT].group]
         question = question.replace("CONS", cols_group.CONS);
         question = question.replace("ANT", cols_group.ANT);
-
-        $("#questionAnn").html(question);
-        toggleNextIfDone($("#askBob"), true)
-       });
-
-       $("#askBob").on("click", function(){
-        this.remove();
-        $("#pqud").css("visibility", "visible");
-        let answer = config.data[CT].answer;
-        let cols_group = COLS_GROUPS[config.data[CT].group]
-        answer = answer.replace("CONS", cols_group.CONS);
-        answer = answer.replace("ANT", cols_group.ANT);
-
-        $("#answerBob").html(answer);
-        $("#picture1").removeClass('unclickable')
-        $("#picture2").removeClass('unclickable')
+        $("#question").html(question);
+        toggleNextIfDone($("#bttnFirstImg"), true)
        });
 
        let trial_data = {
