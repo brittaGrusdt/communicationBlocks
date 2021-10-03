@@ -30,6 +30,15 @@ clean_data = function(data){
            !(type == "control-physics" & n_correct >= n-1) &
            !(type == "test-example" & n_correct == 1)) %>% 
     pull(submission_id) %>% unique()
-  
+  print(paste('remove data from participants:',
+              paste(submission_ids.out, collapse = ", ")))
   return(data %>% filter(!submission_id %in% submission_ids.out))
+}
+
+
+bootstrap_bounds = function(df){
+  N = df %>% nrow()
+  bound.low = ceiling(0.025 * N)
+  bound.up = ceiling(0.975 * N)
+  return(c(low=bound.low, up=bound.up))
 }

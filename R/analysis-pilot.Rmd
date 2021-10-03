@@ -202,7 +202,7 @@ Clean data
 n_all = data$submission_id %>% unique() %>% length
 data.cleaned = clean_data(data)
 #from training trials:
-data.cleaned <- data.cleaned %>% filter(!submission_id %in% c(2233, 2237))
+# data.cleaned <- data.cleaned %>% filter(!submission_id %in% c(2233, 2237))
 n_kept = data.cleaned$submission_id %>% unique() %>% length
 
 ratio_kept = round(n_kept/n_all, 2)
@@ -216,7 +216,7 @@ Data from `r ratio_kept` of all participants is retained.
 data.critical = data.cleaned %>% 
   filter(type=="critical") %>% 
   select(submission_id, id, type, question, response, expected, id1, id2,
-         selected_pic) %>% 
+         selected_pic, RT) %>% 
   mutate(expectation = case_when(expected == "none" ~ FALSE,
                                  TRUE ~ TRUE)) %>%
   group_by(id1, id2)
@@ -225,14 +225,69 @@ data.critical$pic_combi = data.critical %>% group_indices()
 data.critical <- data.critical %>% 
   mutate(pic_combi=paste(id1, id2, sep=" & ")) %>% 
   group_by(pic_combi, question) %>% mutate(n=n()) 
+```
 
+95%-bootstrap confidence intervals
+
+```{r, boostrap-samples}
+N = 1000
+n = data.critical$submission_id %>% unique() %>% length()
+df.all = data.critical %>% dplyr::select(submission_id, pic_combi, question, response)
+
+bootstrap_samples = group_map(df.all, function(df, df.group){
+  bootstrap = map(seq(1, N), function(i){
+    tibble(rate_exhaustive =
+             sum(sample(df$response, n, replace=T) == "exhaustive")/n)
+  }) %>% bind_rows() %>% 
+    add_column(pic_combi = df.group$pic_combi, question = df.group$question) %>% 
+    arrange(rate_exhaustive)
+  
+  CI.bounds = bootstrap_bounds(bootstrap)
+  ci.low = bootstrap[CI.bounds[["low"]], ]$rate_exhaustive
+  ci.up = bootstrap[CI.bounds[["up"]], ]$rate_exhaustive
+  bootstrap %>% add_column(ci.low=ci.low, ci.up=ci.up)
+}) %>% bind_rows() %>% group_by(pic_combi, question)
+
+bootstraps.CI.question_pic = bootstrap_samples %>%
+  dplyr::select(-rate_exhaustive) %>% 
+  distinct()
+
+# CIs bounds across pic_combis (same for each question)
+CI.bounds.question = bootstrap_samples %>% 
+  filter(question=="cons") %>% 
+  bootstrap_bounds()
+
+df = bootstrap_samples %>% dplyr::select(-ci.low, -ci.up) %>%
+  group_by(question) %>% arrange(rate_exhaustive)
+bootstraps.CI.question = group_map(df, function(samples, grp) {
+  ci.low = samples[CI.bounds.question[["low"]], ]$rate_exhaustive
+  ci.up = samples[CI.bounds.question[["up"]], ]$rate_exhaustive
+  samples %>% add_column(ci.low=ci.low, ci.up=ci.up, question=grp$question)
+}) %>% bind_rows() %>%
+  dplyr::select(-rate_exhaustive, -pic_combi) %>% distinct()
+```
+
+
+```{r}
 data.critical.rate = data.critical %>% group_by(question) %>% 
   summarize(rate_exhaustive = sum(response == "exhaustive") / n(),
             .groups = "drop_last") 
+
+data.critical.rate = left_join(
+  data.critical.rate,
+  bootstraps.CI.question, 
+  by="question"
+)
+
 data.critical.rate.pic_combi = data.critical %>% 
   group_by(question, pic_combi) %>% 
   summarize(rate_exhaustive = sum(response == "exhaustive") / n(),
             .groups="drop_last") 
+data.critical.rate.pic_combi <- left_join(
+  data.critical.rate.pic_combi,
+  bootstraps.CI.question_pic,
+  by = c("question", "pic_combi")
+)
 ```
 
 ### Trials we make predictions about
@@ -244,7 +299,7 @@ picture combinations
 conditions = configure(c("conditions"))
 data.critical %>%
   ggplot(aes(fill=response, y=question)) + 
-  geom_bar(position=position_dodge(preserve = 'single')) + 
+  geom_bar(position=position_dodge(preserve = 'single')) +
   scale_y_discrete(breaks=names(conditions), labels = conditions) + 
   labs(y="Ann's question")
 
@@ -252,6 +307,7 @@ data.critical %>%
 data.critical.rate %>%
   ggplot(aes(x=rate_exhaustive, y=question)) + 
   geom_bar(stat="identity") + 
+  geom_errorbar(aes(xmin=ci.low, xmax=ci.up)) +
   geom_text(aes(label=round(rate_exhaustive, 2)), hjust=1, color='white') +
   scale_y_discrete(breaks=names(conditions), labels = conditions) + 
   labs(y="Ann's question", x="selection rate exhaustive picture")
@@ -261,10 +317,85 @@ data.critical.rate %>%
 (i.e., across different picture combinations)
 
 ```{r}
-data.critical.rate.pic_combi %>% 
+df = data.critical.rate.pic_combi %>% group_by(pic_combi) %>% 
+   mutate(group_id = cur_group_id(), 
+          group_id = chartr('1234', 'ABCD', group_id)) %>% 
+  unite("pic_combi", "group_id", "pic_combi", sep=". ")
+
+df %>% 
   ggplot(aes(x=rate_exhaustive, y=question)) + 
   geom_bar(stat="identity") + 
+  geom_errorbar(aes(xmin=ci.low, xmax=ci.up)) +
+  geom_vline(aes(xintercept= 0.5), color='green', linetype='dashed') +
   geom_text(aes(label=round(rate_exhaustive, 2)), hjust=1, color='white') +
   facet_wrap(~pic_combi)
+```
+## Observations 
+
+1. *if1_un & if2_unu* (B) and *if2_unn & if2_unu* (D): preference for exhaustive situation
+2. *if2_unn & if1_uu* (C): preference for non-exhaustive situation
+3. *if1_un & if1_uu* (A): avg selection rate < 0.5, but 95% bootstrap CI-interval contains 0.5, i.e.no particular strong preference for non-exhaustive situation here
+4. no difference observed between *if_ant* and cons conditions for any picture combi except maybe for *if1_un & if2_unu* (B).
+
+## Possible reasons
+
+1. For the *will_cons* condition, there might be a tendency towards the situation where the consequent-block is more likely to fall per se (came to my mind when watching someone doing the experiment). This only applies to *if1_un & if1_uu* (A) and *if2_unn & if1_uu* (C) conditions. In the other two conditions the consequent-block is positioned identical, namely completely on the platform.  
+
+2. The stronger tendency towards the non-exhaustive situation in condition *if2_unn & if1_uu* (C) might be due to the fact that in the non-exhaustive situation only the green and the blue block are shown, which are the only blocks Bob talks about whereas for the condition *if1_un & if1_uu* (A), neither situation shows a yellow block.
+
+3. Generally, it might be the case that participants tend to prefer the situation that involves *less* uncertainty. I'd say that these correspond to the following: 
+  
+  - A. *if1_un & if1_uu*: if1_un (non-exhaustive)
+  - B. *if1_un & if2_unu*: if1_un (exhaustive)
+  - C. *if2_unn & if1_uu*: ? (if1_uu because no yellow block? or if2_unn, because position might be clearer?)
+  - D. *if2_unn & if2_unu*: if2_unn (exhaustive)
+
+
+## Bayesian regression model
+
+```{r}
+df = data.critical %>% 
+  mutate(y=case_when(response == "exhaustive" ~ 1, T ~ 0)) %>%
+  group_by(pic_combi) %>% 
+   mutate(group_id = cur_group_id(), 
+          pics = chartr('1234', 'ABCD', group_id)) %>% 
+  group_by(pics, question) %>%
+  rename(submissionID = submission_id)
+
+fit <-
+  brm(data = df,
+      family = bernoulli,
+      y ~ 0 + Intercept + pics * question + (1 + pics|submissionID) +
+        (1|question),
+      seed = 1)
+fixef(fit)
+
+pp_check(fit)
+mcmc_plot(fit)
+
+post_samples = tidy_draws(fit)
+hypothesis(fit, "picsB > Intercept", class = "b")
+hypothesis(fit, "picsD > Intercept", class = "b")
+hypothesis(fit, "picsC < Intercept", class = "b")
+
+```
+
+**General thoughts**:
+  - Maybe show two pictures only after participants have read Ann's response? 
+  This would hopefully make clear that Ann's question is not necessarily the 
+  best question to distinguish both pictures. Rephrase, e.g. Ann is interested in 
+  what happens if the antecedent-block falls. 
+  - Maybe also rephrase Bob's response? E.g. 'In that case, ... will fall' or put
+  consequent first, e.g. 'the consequent-block will fall if the ...'. 
+
+
+### Look at RTs for critical test-trials
+
+```{r}
+data.critical %>%
+  ggplot(aes(x=RT, y=question)) + 
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(alpha=0.5) +
+  facet_wrap(~pic_combi, scales="free")
 ```
 
