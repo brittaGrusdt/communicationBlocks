@@ -87,14 +87,22 @@ const forced_choice_generator = {
        return    `<div class='magpie-view-answer-container'>
                   <p id='pqud' class='magpie-view-question magpie-view-qud'>${config.data[CT].QUD}</p>
                   <p id='answerBob' class='magpie-view-question'></p>
-                   <button id='askBob' class='magpie-view-button'>See Bob's response</button>
+                   <button id='askBob' class='magpie-view-button'>See Bob's response</button><hr>
                    <p id='firstImg' class='magpie-view-question magpie-view-qud'></p>
                    <button id='bttnFirstImg' class='magpie-view-button grid-button'>See situation selected by Ann</button>
                    <p id='secondImg' class='magpie-view-question magpie-view-qud'></p>
                    <button id='bttnSecondImg' class='magpie-view-button grid-button'>See same situation a few seconds later</button>
+                   <div class="divider"/>
                    <p id='question' class='magpie-view-question magpie-view-qud'></p>
-                   <button id='bttnQuestion' class='magpie-view-button grid-button'>See question</button>
+                  <button id='bttnQuestion' class='magpie-view-button grid-button'>See question</button>
+                   <div id="answerButtons" class="buttonContainer" style='visibility:hidden'>
+                     <p id="pyes" class="styled-button">YES</p>
+                     <div class="divider"/>
+                     <p id="pno" class="styled-button">NO</p>
+                     <div class="divider"/>
+                     <p id="pundecided" class="styled-button">UNDECIDED</p>
                    </div>
+                   <div class="divider"/>
                    <button id='smallMarginNextButton' class='grid-button magpie-view-button'>continue</button>
                  </div>`;
    },
@@ -151,7 +159,19 @@ const forced_choice_generator = {
         question = question.replace("CONS", cols_group.CONS);
         question = question.replace("ANT", cols_group.ANT);
         $("#question").html(question);
+        $('#answerButtons').css('visibility', 'visible');
+
         toggleNextIfDone($("#bttnFirstImg"), true)
+       });
+
+       ["pyes", "pno", "pundecided"].forEach(function (id) {
+         $('#' + id).on('click', function (e) {
+           $('#' + id).toggleClass('selected');
+           //if($('#' + id).hasClass('selected')){
+           //}
+// make sure that only one can be selected!
+
+         });
        });
 
        let trial_data = {

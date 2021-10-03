@@ -1,8 +1,8 @@
 // In this file you can specify the trial data for your experiment
 
 // Test trials
-var test_qud = `Ann and Bob are talking about a situation.` +
-  `<br/><br/><b>Ann</b>: What happens in the situation?<hr>`
+var test_qud = //`Ann and Bob are talking about a situation.` +
+  `<b>Ann</b>: What do you think happens in the situation that you see?`
 var image_selection_trials = [];
 TEST_DATA.forEach(function(dat) {
   let idx_quest = Object.values(QUESTS).indexOf(dat.question)
