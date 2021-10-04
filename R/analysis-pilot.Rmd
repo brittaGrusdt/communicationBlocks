@@ -9,6 +9,8 @@ output:
 library(here)
 library(tidyverse)
 library(dplyr)
+library(brms)
+library(tidybayes)
 options(dplyr.summarise.inform = FALSE)
 
 source(here("R", "utils.R"))
@@ -80,6 +82,9 @@ data.rt.train %>% mutate(submission_id = as.factor(submission_id)) %>%
   geom_boxplot(outlier.shape=NA) + geom_jitter() +
   geom_point(data=train_times, aes(x=id, y=min), size=1.5, color='red')
 ```
+
+Red data points are my estimates of the minimal time needed to watch the entire
+animation to see which blocks fall. 
 
 ```{r, include=FALSE, echo=FALSE}
 left_join(data.rt.train, train_times, by="id") %>% 
@@ -227,9 +232,9 @@ data.critical <- data.critical %>%
   group_by(pic_combi, question) %>% mutate(n=n()) 
 ```
 
-95%-bootstrap confidence intervals
+With 95%-bootstrap confidence intervals
 
-```{r, boostrap-samples}
+```{r, boostrap-samples, echo = FALSE}
 N = 1000
 n = data.critical$submission_id %>% unique() %>% length()
 df.all = data.critical %>% dplyr::select(submission_id, pic_combi, question, response)
@@ -267,8 +272,7 @@ bootstraps.CI.question = group_map(df, function(samples, grp) {
   dplyr::select(-rate_exhaustive, -pic_combi) %>% distinct()
 ```
 
-
-```{r}
+```{r, critical-data-rates, echo = FALSE}
 data.critical.rate = data.critical %>% group_by(question) %>% 
   summarize(rate_exhaustive = sum(response == "exhaustive") / n(),
             .groups = "drop_last") 
@@ -289,8 +293,6 @@ data.critical.rate.pic_combi <- left_join(
   by = c("question", "pic_combi")
 )
 ```
-
-### Trials we make predictions about
 
 1. across all different instantiations, i.e. exhaustive/non-exhaustive 
 picture combinations
@@ -330,6 +332,7 @@ df %>%
   geom_text(aes(label=round(rate_exhaustive, 2)), hjust=1, color='white') +
   facet_wrap(~pic_combi)
 ```
+
 ## Observations 
 
 1. *if1_un & if2_unu* (B) and *if2_unn & if2_unu* (D): preference for exhaustive situation
@@ -353,13 +356,14 @@ df %>%
 
 ## Bayesian regression model
 
-```{r}
+```{r, results='hide'}
 df = data.critical %>% 
   mutate(y=case_when(response == "exhaustive" ~ 1, T ~ 0)) %>%
   group_by(pic_combi) %>% 
    mutate(group_id = cur_group_id(), 
           pics = chartr('1234', 'ABCD', group_id)) %>% 
   group_by(pics, question) %>%
+  mutate(pics = as.factor(pics), question = as.factor(question)) %>%
   rename(submissionID = submission_id)
 
 fit <-
@@ -369,25 +373,47 @@ fit <-
         (1|question),
       seed = 1)
 fixef(fit)
-
 pp_check(fit)
 mcmc_plot(fit)
+```
 
+```{r, regression-hypotheses}
 post_samples = tidy_draws(fit)
-hypothesis(fit, "picsB > Intercept", class = "b")
+hypothesis(fit, "questionif_ant < Intercept", class = "b")
 hypothesis(fit, "picsD > Intercept", class = "b")
 hypothesis(fit, "picsC < Intercept", class = "b")
+```
+
+Just look at data for picture_combination with largest difference between question-condititions. (if1_un vs. if2_unu)
+
+```{r, results='hide'}
+fit2 <- 
+  brm(data = df,
+    family = bernoulli,
+    y ~ 1 + question + (1 + pics | submissionID),
+    seed = 1)
+
+fixef(fit2)
+pp_check(fit2)
+mcmc_plot(fit2)
 
 ```
 
 **General thoughts**:
+
   - Maybe show two pictures only after participants have read Ann's response? 
   This would hopefully make clear that Ann's question is not necessarily the 
   best question to distinguish both pictures. Rephrase, e.g. Ann is interested in 
   what happens if the antecedent-block falls. 
+  
   - Maybe also rephrase Bob's response? E.g. 'In that case, ... will fall' or put
   consequent first, e.g. 'the consequent-block will fall if the ...'. 
 
+  - Maybe we would need to make Bob say in a control-trial something like 'If 
+  blue or yellow, green will fall'. This would emphasize the presence of the 
+  yellow block in general I’d think.We may also have such a trial directly
+  before *if2_unn vs. if2_unu* (yellow block in both situations) one to further
+  direct attention towards the yellow block.
 
 ### Look at RTs for critical test-trials
 
