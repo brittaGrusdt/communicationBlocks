@@ -161,7 +161,7 @@ ANSWERS = {
 TEST_DATA = [
   {id: "trial1", id1: "if1_un", id2: "if1_un_no", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
   {id: "trial2", id1: "if2_unn", id2: "if2_unn_no", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial3", id1: "if1_uu", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial3", id1: "if1_uu", id2: "if1_uu_no", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
 
   {id: "trial4", id1: "if2_unu", id2: "if2_unu_no", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'}
 
@@ -188,7 +188,7 @@ TEST_IDS = _.map(TEST_DATA, 'id')
 
 TEST_EXPECT = {
   'trial1': 'none',
-  'trial2': 'picture1',
+  'trial2': 'none',
   'trial3': 'none',
   'trial4': 'none',
   // 'trial5': 'picture1',

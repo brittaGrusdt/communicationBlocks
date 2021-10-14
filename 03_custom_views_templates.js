@@ -85,26 +85,28 @@ const forced_choice_generator = {
                                         : ["picture2", "picture1"];
 
        return    `<div class='magpie-view-answer-container'>
-                  <p id='pqud' class='magpie-view-question magpie-view-qud'>${config.data[CT].QUD}</p>
-                  <p id='answerBob' class='magpie-view-question'></p>
-                   <button id='askBob' class='magpie-view-button'>See Bob's response</button><hr>
-                   <p id='firstImg' class='magpie-view-question magpie-view-qud'></p>
-                   <button id='bttnFirstImg' class='magpie-view-button grid-button'>See situation selected by Ann</button>
-                   <p id='secondImg' class='magpie-view-question magpie-view-qud'></p>
-                   <button id='bttnSecondImg' class='magpie-view-button grid-button'>See same situation a few seconds later</button>
-                   <div class="divider"/>
-                   <p id='question' class='magpie-view-question magpie-view-qud'></p>
-                  <button id='bttnQuestion' class='magpie-view-button grid-button'>See question</button>
-                   <div id="answerButtons" class="buttonContainer" style='visibility:hidden'>
-                     <p id="pyes" class="styled-button">YES</p>
-                     <div class="divider"/>
-                     <p id="pno" class="styled-button">NO</p>
-                     <div class="divider"/>
-                     <p id="pundecided" class="styled-button">UNDECIDED</p>
-                   </div>
-                   <div class="divider"/>
-                   <button id='smallMarginNextButton' class='grid-button magpie-view-button'>continue</button>
-                 </div>`;
+                      <p id='pqud' class='magpie-view-question magpie-view-qud'>${config.data[CT].QUD}</p>
+                      <p id='answerBob' class='magpie-view-question'></p>
+                      <button id='askBob' class='magpie-view-button'>Bob's description</button><hr>
+                    <div class="stimulus">
+                      <p id='firstImg' class='magpie-view-question magpie-view-qud'></p>
+                      <button id='bttnFirstImg' class='magpie-view-button grid-button'>See situation selected by Ann</button>
+                      <p id='secondImg' class='magpie-view-question magpie-view-qud'></p>
+                      <button id='bttnSecondImg' class='magpie-view-button grid-button'>See same situation a few seconds later</button>
+                    </div>
+                    <div class="divider"/>
+                      <p id='question' class='magpie-view-question magpie-view-qud'></p>
+                      <button id='bttnQuestion' class='magpie-view-button grid-button'>See question</button>
+                    <div id="answerButtons" class="buttonContainer" style='visibility:hidden'>
+                      <p id="pyes" class="styled-button-answer">YES</p>
+                    <div class="divider"/>
+                      <p id="pno" class="styled-button-answer">NO</p>
+                    <div class="divider"/>
+                      <p id="pundecided" class="styled-button-answer">UNDECIDED</p>
+                    </div>
+                    <div class="divider"/>
+                      <button id='smallMarginNextButton' class='grid-button magpie-view-button'>continue</button>
+                   </div>`;
    },
 
   handle_response_function: function(config, CT, magpie, answer_container_generator, startingTime) {
@@ -131,10 +133,8 @@ const forced_choice_generator = {
         $("#pqud").css("visibility", "visible");
         let img1 = config.data[CT].picture1; // question_long
         $("#firstImg").html(
-          `<div class="stimuli">
-            <div id="label_upper_pic" class="bottom-left"></div>
-            <img src=${img1} id="imgBefore" class="stim_pic unclickable" style="max-width:100%;height:auto;">
-          </div>`
+          `<id="label_upper_pic" class="bottom-left">
+          <img src=${img1} id="imgBefore" class="stim_pic unclickable">`
           );
         toggleNextIfDone($("#bttnSecondImg"), true)
        });
@@ -144,10 +144,8 @@ const forced_choice_generator = {
         $("#pqud").css("visibility", "visible");
         let img2 = config.data[CT].picture2; // question_long
         $("#secondImg").html(`Same situation a few seconds later:
-          <div class="stimuli">
-            <div id="label_lower_pic" class="bottom-right"></div>
-            <img src=${img2} id="imgAfter" class="stim_pic unclickable" style="max-width:100%;height:auto;">
-            </div>`
+            <id="label_lower_pic" class="bottom-right">
+            <img src=${img2} id="imgAfter" class="stim_pic unclickable">`
             );
         toggleNextIfDone($("#bttnQuestion"), true)
        });
@@ -167,10 +165,19 @@ const forced_choice_generator = {
        ["pyes", "pno", "pundecided"].forEach(function (id) {
          $('#' + id).on('click', function (e) {
            $('#' + id).toggleClass('selected');
-           //if($('#' + id).hasClass('selected')){
-           //}
-// make sure that only one can be selected!
+           // make sure that only one can be selected!
+           if (id == "pyes" && $("#pyes").hasClass('selected')) {
+            $("#pno").removeClass('selected');
+            $("#pundecided").removeClass('selected')
+           } else if (id == "pno" && $("#pno").hasClass('selected')) {
+            $("#pyes").removeClass('selected');
+            $("#pundecided").removeClass('selected')
+           } else {
+            $("#pyes").removeClass('selected');
+            $("#pno").removeClass('selected')
+           }
 
+          toggleNextIfDone($("#smallMarginNextButton"), true)
          });
        });
 
