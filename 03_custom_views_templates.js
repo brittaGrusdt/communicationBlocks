@@ -95,6 +95,8 @@ const forced_choice_generator = {
                       <button id='bttnSecondImg' class='magpie-view-button grid-button'>See same situation a few seconds later</button>
                     </div>
                     <div class="divider"/>
+                      <br/>
+                      <br/>
                       <p id='question' class='magpie-view-question magpie-view-qud'></p>
                       <button id='bttnQuestion' class='magpie-view-button grid-button'>See question</button>
                     <div id="answerButtons" class="buttonContainer" style='visibility:hidden'>
@@ -141,7 +143,7 @@ const forced_choice_generator = {
 
        $("#bttnSecondImg").on("click", function(){
         this.remove();
-        $("#pqud").css("visibility", "visible");
+        //$("#pqud").css("visibility", "visible");
         let img2 = config.data[CT].picture2; // question_long
         $("#secondImg").html(`Same situation a few seconds later:
             <id="label_lower_pic" class="bottom-right">
