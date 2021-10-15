@@ -114,6 +114,7 @@ picture {
   letter-spacing: 0.9px;
   padding: 5px;
   margin: 4px;
+  cursor: default;
   /*outline: none;*/
 }
 
@@ -123,7 +124,7 @@ picture {
 
 .stim_pic {
   border: 2px solid #E3DFDC;
-  max-width:60%;
+  max-width:40%;
   height:auto;
 }
 

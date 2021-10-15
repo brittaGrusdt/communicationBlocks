@@ -68,6 +68,8 @@ const animation_generator = function(config) {
 
 const forced_choice_generator = {
   stimulus_container_gen: function (config, CT) {
+    let img1 = config.data[CT].picture1;
+    let img2 = config.data[CT].picture2;
         return `<div class='magpie-view'>
           <h1 class='magpie-view-title'>${config.title}</h1>
           <button id='bttnBob' class='magpie-view-button'>Bob's description</button>
@@ -77,7 +79,10 @@ const forced_choice_generator = {
           <hr><br/><br/>
           <div class="stimulus no-margin">
             <p id='firstImg' class='magpie-view-question magpie-view-qud left_stim'></p>
+            <img src=${img1} id="imgBefore" class="stim_pic unclickable" style='visibility:hidden' alt="Selected situation:">
             <p id='secondImg' class='magpie-view-question magpie-view-qud right_stim'></p>
+            <p id='secondText' style='visibility:hidden'>A few seconds later:</p>
+            <img src=${img2} id="imgAfter" class="stim_pic unclickable" style='visibility:hidden'>
           </div>
         </div>`;
         //<p id='pqud' class='magpie-view-question magpie-view-qud'>${config.data[CT].QUD}</p>
@@ -130,23 +135,15 @@ const forced_choice_generator = {
         this.remove();
         $("#pqud").css("visibility", "visible");
         $("#bttnSecondImg").css("visibility", "visible");
-
-        let img1 = config.data[CT].picture1; // question_long
-        $("#firstImg").html(
-          `<id="label_upper_pic">
-          <img src=${img1} id="imgBefore" class="stim_pic unclickable">`
-          );
+        $('#imgBefore').css('visibility', 'visible');
         toggleNextIfDone($("#bttnSecondImg"), true)
         $("#bttnSecondImg").css("display", "");
        });
 
        $("#bttnSecondImg").on("click", function(){
         $(this).addClass('grid-button');
-        let img2 = config.data[CT].picture2; // question_long
-        $("#secondImg").html(`Same situation a few seconds later:
-            <id="label_lower_pic">
-            <img src=${img2} id="imgAfter" class="stim_pic unclickable">`
-            );
+        $('#secondText').css('visibility', 'visible');
+        $('#imgAfter').css('visibility', 'visible');
         toggleNextIfDone($("#bttnQuestion"), true)
         $("#bttnQuestion").css("display", "");
        });
@@ -159,8 +156,6 @@ const forced_choice_generator = {
         question = question.replace("ANT", cols_group.ANT);
         $("#question").html(question);
         $('#answerButtons').css('visibility', 'visible');
-
-        toggleNextIfDone($("#bttnFirstImg"), true)
        });
 
        ["pyes", "pno", "pundecided"].forEach(function (id) {
@@ -178,7 +173,11 @@ const forced_choice_generator = {
             $("#pno").removeClass('selected')
            }
           $("#smallMarginNextButton").css("display", "");
-          toggleNextIfDone($("#smallMarginNextButton"), true)
+          if($('#' + id).hasClass('selected')){
+            toggleNextIfDone($('#smallMarginNextButton'), true)
+          } else {
+            $('#smallMarginNextButton').addClass('grid-button');
+          }
          });
        });
 
