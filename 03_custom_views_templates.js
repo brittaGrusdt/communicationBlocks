@@ -69,11 +69,18 @@ const animation_generator = function(config) {
 const forced_choice_generator = {
   stimulus_container_gen: function (config, CT) {
         return `<div class='magpie-view'>
-                    <h1 class='magpie-view-title'>${config.title}</h1>
-                    <div class='magpie-view-stimulus-container'>
-                        <div class='magpie-view-stimulus magpie-nodisplay'></div>
-                    </div>
-                </div>`;
+          <h1 class='magpie-view-title'>${config.title}</h1>
+          <button id='bttnBob' class='magpie-view-button'>Bob's description</button>
+          <p id='answerBob' class='magpie-view-question'></p>
+          <button id='bttnFirstImg' class='magpie-view-button grid-button'>See situation selected by Ann</button>
+          <button id='bttnSecondImg' class='magpie-view-button grid-button' style='display:none'>See same situation after a few seconds</button>
+          <hr><br/><br/>
+          <div class="stimulus no-margin">
+            <p id='firstImg' class='magpie-view-question magpie-view-qud left_stim'></p>
+            <p id='secondImg' class='magpie-view-question magpie-view-qud right_stim'></p>
+          </div>
+        </div>`;
+        //<p id='pqud' class='magpie-view-question magpie-view-qud'>${config.data[CT].QUD}</p>
     },
   answer_container_gen: function(config, CT){
        $(".magpie-view-stimulus-container").addClass("magpie-nodisplay");
@@ -84,31 +91,20 @@ const forced_choice_generator = {
        let side = _.sample([0, 1]) == 0 ? ["picture1", "picture2"]
                                         : ["picture2", "picture1"];
 
-       return    `<div class='magpie-view-answer-container'>
-                      <p id='pqud' class='magpie-view-question magpie-view-qud'>${config.data[CT].QUD}</p>
-                      <p id='answerBob' class='magpie-view-question'></p>
-                      <button id='askBob' class='magpie-view-button'>Bob's description</button><hr>
-                    <div class="stimulus">
-                      <p id='firstImg' class='magpie-view-question magpie-view-qud'></p>
-                      <button id='bttnFirstImg' class='magpie-view-button grid-button'>See situation selected by Ann</button>
-                      <p id='secondImg' class='magpie-view-question magpie-view-qud'></p>
-                      <button id='bttnSecondImg' class='magpie-view-button grid-button'>See same situation a few seconds later</button>
-                    </div>
-                    <div class="divider"/>
-                      <br/>
-                      <br/>
-                      <p id='question' class='magpie-view-question magpie-view-qud'></p>
-                      <button id='bttnQuestion' class='magpie-view-button grid-button'>See question</button>
-                    <div id="answerButtons" class="buttonContainer" style='visibility:hidden'>
-                      <p id="pyes" class="styled-button-answer">YES</p>
-                    <div class="divider"/>
-                      <p id="pno" class="styled-button-answer">NO</p>
-                    <div class="divider"/>
-                      <p id="pundecided" class="styled-button-answer">UNDECIDED</p>
-                    </div>
-                    <div class="divider"/>
-                      <button id='smallMarginNextButton' class='grid-button magpie-view-button'>continue</button>
-                   </div>`;
+       return `<div class='magpie-view-answer-container'>
+                <button id='bttnQuestion' class='magpie-view-button grid-button' style='display:none'>See question</button>
+                <p id='question' class='magpie-view-question magpie-view-qud'></p>
+                <div id="answerButtons" class="buttonContainer" style='visibility:hidden'>
+                  <p id="pyes" class="styled-button-answer">YES</p>
+                  <div class="divider"/>
+                  <p id="pno" class="styled-button-answer">NO</p>
+                  <div class="divider"/>
+                  <p id="pundecided" class="styled-button-answer">UNDECIDED</p>
+                </div>
+                <br/>
+                <button id='smallMarginNextButton' class='grid-button magpie-view-button' style='display:none'>continue</button>
+              </div>`;
+               //<div class="divider"/>
    },
 
   handle_response_function: function(config, CT, magpie, answer_container_generator, startingTime) {
@@ -120,7 +116,7 @@ const forced_choice_generator = {
          console.log(config.data[CT].id + ": " + config.data[CT].id1 + ", " + config.data[CT].id2)
        }
 
-       $("#askBob").on("click", function(){
+       $("#bttnBob").on("click", function(){
         this.remove();
         let answer = config.data[CT].answer;
         let cols_group = COLS_GROUPS[config.data[CT].group]
@@ -133,23 +129,26 @@ const forced_choice_generator = {
        $("#bttnFirstImg").on("click", function(){
         this.remove();
         $("#pqud").css("visibility", "visible");
+        $("#bttnSecondImg").css("visibility", "visible");
+
         let img1 = config.data[CT].picture1; // question_long
         $("#firstImg").html(
-          `<id="label_upper_pic" class="bottom-left">
+          `<id="label_upper_pic">
           <img src=${img1} id="imgBefore" class="stim_pic unclickable">`
           );
         toggleNextIfDone($("#bttnSecondImg"), true)
+        $("#bttnSecondImg").css("display", "");
        });
 
        $("#bttnSecondImg").on("click", function(){
-        this.remove();
-        //$("#pqud").css("visibility", "visible");
+        $(this).addClass('grid-button');
         let img2 = config.data[CT].picture2; // question_long
         $("#secondImg").html(`Same situation a few seconds later:
-            <id="label_lower_pic" class="bottom-right">
+            <id="label_lower_pic">
             <img src=${img2} id="imgAfter" class="stim_pic unclickable">`
             );
         toggleNextIfDone($("#bttnQuestion"), true)
+        $("#bttnQuestion").css("display", "");
        });
 
        $("#bttnQuestion").on("click", function(){
@@ -178,7 +177,7 @@ const forced_choice_generator = {
             $("#pyes").removeClass('selected');
             $("#pno").removeClass('selected')
            }
-
+          $("#smallMarginNextButton").css("display", "");
           toggleNextIfDone($("#smallMarginNextButton"), true)
          });
        });

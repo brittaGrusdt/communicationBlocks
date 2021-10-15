@@ -173,6 +173,10 @@ picture {
   margin: 2px auto 300px auto;
 }
 
+.no-margin {
+  margin: 0px;
+}
+
 #qud {
   max-width: 85%;
 }
@@ -314,14 +318,12 @@ picture {
   cursor: pointer;
 }
 
-.bottom-left {
-  position: absolute;
-  top: 180px;
-  left: 16px;
+.left_stim {
+  display: inline-block;
+  /* margin-right: 5px; */
 }
 
-.bottom-right {
-  position: absolute;
-  top: 180px;
-  right: 16px;
+.right_stim {
+  display: inline-block;
+  /* margin-right: 5px; */
 }
