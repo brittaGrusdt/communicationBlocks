@@ -1,4 +1,4 @@
-const DEBUG = false;
+const DEBUG = true;
 // var MODE = "color-vision"
 // var MODE = "train"
 var MODE = "test"
@@ -163,7 +163,13 @@ TEST_DATA = [
   {id: "trial2", id1: "if2_unn", id2: "if2_unn_no", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
   {id: "trial3", id1: "if1_uu", id2: "if1_uu_no", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
 
-  {id: "trial4", id1: "if2_unu", id2: "if2_unu_no", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'}
+  {id: "trial4", id1: "if2_unu", id2: "if2_unu_no", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial5", id1: "if1_hn", id2: "if1_hn_no", causes_id1: "", causes_id2: "", question: QUESTS.if_ant, answer: ANSWERS.ant, type: 'control-physics'},
+  {id: "trial6", id1: "if2_nnh", id2: "if2_nnh_no", causes_id1: "", causes_id2: "", question: QUESTS.if_ant, answer: ANSWERS.not_ant, type: 'control-physics'},
+  {id: "trial7", id1: "if2_hnh", id2: "if2_hnh_no", causes_id1: "", causes_id2: "", question: QUESTS.if_ant, answer: ANSWERS.ant, type: 'control-physics'},
+  {id: "trial8", id1: "independent_edge_hn", id2: "independent_edge_hn_no", causes_id1: "", causes_id2: "", question: QUESTS.if_ant, answer: ANSWERS.ant, type: 'control-random'},
+  {id: "trial9", id1: "if1_nn", id2: "if1_nn_no", causes_id1: "", causes_id2: "", question: QUESTS.if_ant, answer: ANSWERS.not_ant, type: 'control-physics'},
+  {id: "trial10", id1: "independent_edge_nn", id2: "independent_edge_nn_no", causes_id1: "", causes_id2: "", question: QUESTS.if_ant, answer: ANSWERS.not_ant, type: 'control-random'}
 
   // {id: "trial5", id1: "if2_unn", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
   // {id: "trial6", id1: "if2_unn", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'},
@@ -187,16 +193,16 @@ TEST_DATA = [
 TEST_IDS = _.map(TEST_DATA, 'id')
 
 TEST_EXPECT = {
-  'trial1': 'none',
-  'trial2': 'none',
-  'trial3': 'none',
-  'trial4': 'none',
-  // 'trial5': 'picture1',
-  // 'trial6': 'none',
-  // 'trial7': 'picture1',
-  // 'trial8': 'picture2',
-  // 'trial9': 'picture1',
-  // 'trial10': 'picture2',
+  'trial1': 'no',
+  'trial2': 'no',
+  'trial3': 'undecided',
+  'trial4': 'undecided',
+  'trial5': 'yes',
+  'trial6': 'yes',
+  'trial7': 'yes',
+  'trial8': 'no',
+  'trial9': 'no',
+  'trial10': 'no',
   // 'trial11': 'picture1',
   // 'trial12': 'picture2',
   // 'trial13': 'none',

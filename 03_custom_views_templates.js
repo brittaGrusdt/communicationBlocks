@@ -76,16 +76,19 @@ const forced_choice_generator = {
           <p id='answerBob' class='magpie-view-question'></p>
           <button id='bttnFirstImg' class='magpie-view-button grid-button'>See situation selected by Ann</button>
           <button id='bttnSecondImg' class='magpie-view-button grid-button' style='display:none'>See same situation after a few seconds</button>
-          <hr><br/><br/>
+          <hr><br/>
+          <div class="text">
+          <p id='secondText' class='magpie-view-image-text' style='visibility:hidden'>A few seconds later:</p><br/>
+          </div>
           <div class="stimulus no-margin">
-            <p id='firstImg' class='magpie-view-question magpie-view-qud left_stim'></p>
-            <img src=${img1} id="imgBefore" class="stim_pic unclickable" style='visibility:hidden' alt="Selected situation:">
-            <p id='secondImg' class='magpie-view-question magpie-view-qud right_stim'></p>
-            <p id='secondText' style='visibility:hidden'>A few seconds later:</p>
+            <p id='firstImg' class='magpie-view-question magpie-view-qud' left_stim'></p>
+            <img src=${img1} id="imgBefore" class="stim_pic unclickable" style='visibility:hidden'>
+            <p id='secondImg' class='magpie-view-question magpie-view-qud' right_stim'></p>
             <img src=${img2} id="imgAfter" class="stim_pic unclickable" style='visibility:hidden'>
           </div>
         </div>`;
         //<p id='pqud' class='magpie-view-question magpie-view-qud'>${config.data[CT].QUD}</p>
+        //<p id='secondText' style='visibility:hidden'>A few seconds later:</p><br/>
     },
   answer_container_gen: function(config, CT){
        $(".magpie-view-stimulus-container").addClass("magpie-nodisplay");
