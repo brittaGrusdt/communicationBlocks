@@ -28,7 +28,7 @@
 /* the default */
 .magpie-view-answer-container {
   text-align: center;
-  margin: 45px auto;
+  margin: 40px auto;
 }
 
 
@@ -172,15 +172,16 @@ picture {
   font-size: 17px;
   line-height: 27px;
   font-family: "Lato", "Noto Sans", sans-serif;
-  margin: 0 auto;
-  max-width: 700px;
+  margin: 0 auto 0 55%;
+  max-width: 400px;
+  text-align: left;
 }
 
 .stimulus {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 2px auto 300px auto;
+  margin: 0 9% 0 auto;
 }
 
 .no-margin {

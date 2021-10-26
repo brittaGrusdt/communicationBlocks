@@ -78,9 +78,9 @@ const forced_choice_generator = {
           <button id='bttnSecondImg' class='magpie-view-button grid-button' style='display:none'>See same situation after a few seconds</button>
           <hr><br/>
           <div class="text">
-          <p id='secondText' class='magpie-view-image-text' style='visibility:hidden'>A few seconds later:</p><br/>
+          <p id='secondText' class='magpie-view-image-text' style='visibility:hidden'>Same situation a few seconds later:</p>
           </div>
-          <div class="stimulus no-margin">
+          <div class="stimulus">
             <p id='firstImg' class='magpie-view-question magpie-view-qud' left_stim'></p>
             <img src=${img1} id="imgBefore" class="stim_pic unclickable" style='visibility:hidden'>
             <p id='secondImg' class='magpie-view-question magpie-view-qud' right_stim'></p>
@@ -144,7 +144,8 @@ const forced_choice_generator = {
        });
 
        $("#bttnSecondImg").on("click", function(){
-        $(this).addClass('grid-button');
+        this.remove();
+        // $(this).addClass('grid-button');
         $('#secondText').css('visibility', 'visible');
         $('#imgAfter').css('visibility', 'visible');
         toggleNextIfDone($("#bttnQuestion"), true)
