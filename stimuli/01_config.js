@@ -8,7 +8,7 @@ var ANIM_ANSWERS = "sliders"
 // var ANIM_ANSWERS = "buttons"
 
 const SCENE = {w: 800, h: 500};
-PROPS = {'blocks': {'w':40, 'h': 80},
+PROPS = {'blocks': {'w':40, 'h': 60},
          'walls': {'w': 200, 'h': 20},
          'balls': {'radius': 20, 'move_to_roll': 4},
          'bottom': {'w': SCENE.w, 'h': 20},
