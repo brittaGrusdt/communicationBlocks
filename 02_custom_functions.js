@@ -191,7 +191,7 @@ functionalityRunBttn = function(anim, answers){
         _.forEach(ids_correct, function(id){
           $('#' + id).addClass('correct')
         });
-        $('#trainBttnSelect').html(`<b>&emsp;Blocks that actually fell this time are marked in green,
+        $('#trainBttnSelect').html(`<b>&emsp;Blocks that actually fell are marked in green,
           <br/>&emsp;blocks that were selected but did not fall
           are marked in red.</b>`);
 
