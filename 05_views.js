@@ -106,6 +106,11 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
     <br />
     <img src="./stimuli/img/instructions-test-anonym.jpeg" style="max-width:90%;">
     <br />
+    <br />
+    We includeded some simple attention check trials where you are explicitly told which picture to select.
+    Note that if you do not follow these instructions, you will not get paid.
+    <br />
+    <br />
     There will be one example trial next before the actual test phase starts.
     `,
   buttonText: "go to example"
