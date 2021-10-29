@@ -39,7 +39,7 @@ EXAMPLE_TEST_TRIALS = {
   picture2: "stimuli/img/example_test_trials2.png",
   id1: "example_test_trials1",
   id2: "example_test_trials2",
-  answer: "<b>Bob</b>: " + ANSWERS.yellow,
+  answer: "<b>Bob</b>: " + ANSWERS.yellow + ANSWERS.normal_check,
   question_long: "<b>Ann</b>: " + QUESTS.neutral,
   question: "neutral",
   expected: "picture1",
