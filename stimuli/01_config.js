@@ -155,7 +155,9 @@ ANSWERS = {
   might_ant: 'The ANT block MIGHT fall.',
   yellow: 'The YELLOW block will fall.',
   yellow_cons: 'The YELLOW and the CONS block will fall.',
-  not_yellow_cons: 'NEITHER the YELLOW NOR the CONS block will fall.'
+  not_yellow_cons: 'NEITHER the YELLOW NOR the CONS block will fall.',
+  attention_check: '<br/>Eva knows that the SIDE picture is more likely described by Bob.',
+  normal_check: '<br/>Eva does not know which picture is more likely described by Bob.'
 }
 
 TEST_DATA = [
@@ -183,6 +185,12 @@ TEST_DATA = [
   {id: "trial17", id1: "if1_un", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
   {id: "trial18", id1: "if1_un", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'}
 ];
+TEST_DATA = _.map(TEST_DATA, function(data){
+  let answer2 = data.type == "control-random" ? ANSWERS.attention_check : ANSWERS.normal_check;
+  data.answer = data.answer + answer2
+  return(data)
+});
+
 TEST_IDS = _.map(TEST_DATA, 'id')
 
 TEST_EXPECT = {

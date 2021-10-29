@@ -92,8 +92,8 @@ const forced_choice_generator = {
                    <p id='answerBob' class='magpie-view-question'></p>
                    <div class="stimuli">
                    <div id="label_left_pic" class="bottom-left">${side[0]}</div>
-                   <img src=${config.data[CT][side[0]]} id=${side[0]} class="stim_pic unclickable" style="max-width:48%;height:auto;">
-                   <img src=${config.data[CT][side[1]]} id=${side[1]} class="stim_pic unclickable" style="max-width:48%;height:auto;">
+                   <img src=${config.data[CT][side[0]]} id=${side[0]} class="stim_pic unclickable isLeft" style="max-width:48%;height:auto;">
+                   <img src=${config.data[CT][side[1]]} id=${side[1]} class="stim_pic unclickable isRight" style="max-width:48%;height:auto;">
                    <div id="label_right_pic" class="bottom-right">${side[1]}</div>
                    </div>
                    <button id='smallMarginNextButton' class='grid-button magpie-view-button'>continue</button>
@@ -126,6 +126,8 @@ const forced_choice_generator = {
         let cols_group = COLS_GROUPS[config.data[CT].group]
         answer = answer.replace("CONS", cols_group.CONS);
         answer = answer.replace("ANT", cols_group.ANT);
+        let attention_side = $("#" + config.data[CT].expected).hasClass("isLeft") ? "left" : "right"
+        answer = answer.replace("SIDE", attention_side)
 
         $("#answerBob").html(answer);
         $("#picture1").removeClass('unclickable')
