@@ -11,7 +11,7 @@ library(tidyverse)
 library(dplyr)
 library(brms)
 library(tidybayes)
-options(dplyr.summarise.inform = FALSE)
+#options(dplyr.summarise.inform = FALSE)
 
 source(here("R", "utils.R"))
 theme_set(theme_bw(base_size=12) + theme(legend.position = "top"))
@@ -363,14 +363,14 @@ df = data.critical %>%
    mutate(group_id = cur_group_id(), 
           pics = chartr('1234', 'ABCD', group_id)) %>% 
   group_by(pics, question) %>%
-  mutate(pics = as.factor(pics), question = as.factor(question)) %>%
+  mutate(pics = as.factor(pics), 
+         question = factor(question, levels = c("neutral", "if_ant", "cons"))) %>%
   rename(submissionID = submission_id)
 
 fit <-
   brm(data = df,
       family = bernoulli,
-      y ~ 0 + Intercept + pics * question + (1 + pics|submissionID) +
-        (1|question),
+      y ~ 0 + Intercept + pics * question + (1 + pics + question|submissionID),
       seed = 1)
 fixef(fit)
 pp_check(fit)
@@ -379,9 +379,7 @@ mcmc_plot(fit)
 
 ```{r, regression-hypotheses}
 post_samples = tidy_draws(fit)
-hypothesis(fit, "questionif_ant < Intercept", class = "b")
-hypothesis(fit, "picsD > Intercept", class = "b")
-hypothesis(fit, "picsC < Intercept", class = "b")
+hypothesis(fit, "questionif_ant + picsB:questionif_ant < questioncons + picsB:questioncons", class = "b")
 ```
 
 Just look at data for picture_combination with largest difference between question-condititions. (if1_un vs. if2_unu)
