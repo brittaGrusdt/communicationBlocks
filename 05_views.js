@@ -97,7 +97,8 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   name: "instructions_test_img",
   title: "Instructions Test Phase",
   text: `Great -  we'll now proceed with the test phase of the experiment.
-    You will be shown two pictures of the same scenes of block arrangements as in the training phase.
+    You will be shown two pictures of the same scenes of block arrangements as in the training phase and a dialog between Ann and Bob talking about such a scene.
+    Note that this scene is not necessarily one of the two pictures that you see.
     <br/>
     <br/>
     Below, you see how test trials will look like. Follow the instructions given in 1. to 5. to complete a trial.

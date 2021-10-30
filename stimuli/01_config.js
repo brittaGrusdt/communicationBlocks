@@ -156,8 +156,8 @@ ANSWERS = {
   yellow: 'The YELLOW block will fall.',
   yellow_cons: 'The YELLOW and the CONS block will fall.',
   not_yellow_cons: 'NEITHER the YELLOW NOR the CONS block will fall.',
-  attention_check: '<br/>Eva knows that the SIDE picture is more likely described by Bob.',
-  normal_check: '<br/>Eva does not know which picture is more likely described by Bob.'
+  attention_check: '<br/><small>So, click on the SIDE picture which is more likely described by Bob.</small>',
+  normal_check: '<br/><small>So, click on the picture that is more likely described by Bob.</small>'
 }
 
 TEST_DATA = [

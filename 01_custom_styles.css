@@ -303,3 +303,12 @@ picture {
   bottom: 8px;
   right: 16px;
 }
+
+
+#answerBob {
+  margin-top: 0;
+}
+
+#questionAnn {
+  margin-bottom: 0;
+}
