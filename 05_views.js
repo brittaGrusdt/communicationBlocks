@@ -63,7 +63,7 @@ const instructions_general = magpieViews.view_generator("instructions", {
          <br/>
          <b>Please note</b>:
          <br/>
-         We recommend to use <b>Full Screen Mode</b> throughout the experiment.`,
+         We recommend to use <b>Full Screen Mode</b> throughout the experiment (usually switched on/off with F11).`,
   buttonText: "Start Training"
 });
 
