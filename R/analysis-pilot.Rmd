@@ -211,6 +211,7 @@ data.cleaned = clean_data(data)
 n_kept = data.cleaned$submission_id %>% unique() %>% length
 
 ratio_kept = round(n_kept/n_all, 2)
+ratio_kept
 ```
 
 Data from `r ratio_kept` of all participants is retained.
@@ -370,7 +371,7 @@ df = data.critical %>%
 fit <-
   brm(data = df,
       family = bernoulli,
-      y ~ 0 + Intercept + pics * question + (1 + pics + question|submissionID),
+      y ~ 1 + pics * question + (1 + pics + question|submissionID),
       seed = 1)
 fixef(fit)
 pp_check(fit)
@@ -380,20 +381,6 @@ mcmc_plot(fit)
 ```{r, regression-hypotheses}
 post_samples = tidy_draws(fit)
 hypothesis(fit, "questionif_ant + picsB:questionif_ant < questioncons + picsB:questioncons", class = "b")
-```
-
-Just look at data for picture_combination with largest difference between question-condititions. (if1_un vs. if2_unu)
-
-```{r, results='hide'}
-fit2 <- 
-  brm(data = df,
-    family = bernoulli,
-    y ~ 1 + question + (1 + pics | submissionID),
-    seed = 1)
-
-fixef(fit2)
-pp_check(fit2)
-mcmc_plot(fit2)
 
 ```
 

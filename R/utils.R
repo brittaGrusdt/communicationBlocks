@@ -1,4 +1,4 @@
-FS = .Platform$file.sep
+library(here)
 
 configure <- function(config_keys) {
   config_file = yaml::yaml.load_file(here("R", "config.yml"), eval.expr=TRUE)
