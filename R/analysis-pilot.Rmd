@@ -42,13 +42,24 @@ data.meta$timeSpent %>% summary()
 ```{r, timespent, message=FALSE}
 data.rt <- data %>% 
   select(expected, RT, id, question, trial_name, type, timeSpent, trial_number, 
-         response)
+         response, id1, id2) %>%
+  unite("picPair", id1, id2, sep=".vs.")
 data.rt %>%
   ggplot(aes(x=id, y=RT)) + 
   geom_jitter(aes(color=question), width=0.2, height=0) +
   geom_boxplot(outlier.shape=NA) +
   theme(axis.text.x=element_text(angle=90), legend.position = "right") +
   facet_wrap(~type, scales="free_x")
+
+data.rt %>% filter(type == "critical") %>% 
+  group_by(picPair, question) %>% 
+  summarize(mean_rt = mean(RT)) %>% 
+  ggplot(aes(x=picPair, y=mean_rt)) + 
+  # geom_jitter(aes(color=question), width=0.2, height=0) +
+  #geom_boxplot(outlier.shape=NA) +
+  geom_bar(stat="identity") +
+  theme(axis.text.x=element_text(angle=90), legend.position = "right") +
+  facet_wrap(~question)
 ```
 
 ### Reaction Times per trial-type
