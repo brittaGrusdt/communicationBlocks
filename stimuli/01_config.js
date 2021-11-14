@@ -137,7 +137,7 @@ COLS_GROUPS = {group1: {ANT: "BLUE", CONS: "GREEN"},
                example: {}
               }
 QUESTS = {
-  neutral: 'Which blocks do you think will fall?',
+  neutral: 'Did any of the blocks fall?', // 'Which blocks do you think will fall?',
   cons: 'Will the CONS block fall?',
   if_ant: 'Did the CONS block fall?',
   if_cons: 'What happens if the CONS block falls?',
@@ -159,11 +159,11 @@ ANSWERS = {
 }
 
 TEST_DATA = [
-  {id: "trial1", id1: "if1_un", id2: "if1_un_no", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial2", id1: "if2_unn", id2: "if2_unn_no", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial3", id1: "if1_uu", id2: "if1_uu_no", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial1", id1: "if1_un", id2: "if1_un_no", causes_id1: "", causes_id2: "", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial2", id1: "if2_unn", id2: "if2_unn_no", causes_id1: "", causes_id2: "", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial3", id1: "if1_uu", id2: "if1_uu_no", causes_id1: "", causes_id2: "", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
 
-  {id: "trial4", id1: "if2_unu", id2: "if2_unu_no", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial4", id1: "if2_unu", id2: "if2_unu_no", causes_id1: "", causes_id2: "", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
   {id: "trial5", id1: "if1_hn", id2: "if1_hn_no", causes_id1: "", causes_id2: "", question: QUESTS.if_ant, answer: ANSWERS.ant, type: 'control-physics'},
   {id: "trial6", id1: "if2_nnh", id2: "if2_nnh_no", causes_id1: "", causes_id2: "", question: QUESTS.if_ant, answer: ANSWERS.not_ant, type: 'control-physics'},
   {id: "trial7", id1: "if2_hnh", id2: "if2_hnh_no", causes_id1: "", causes_id2: "", question: QUESTS.if_ant, answer: ANSWERS.ant, type: 'control-physics'},

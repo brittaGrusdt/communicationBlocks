@@ -188,28 +188,41 @@ const forced_choice_generator = {
        let trial_data = {
          trial_name: config.name,
          trial_number: CT + 1,
-         type: config.data[CT].type,
-         picture_left: $('#label_left_pic').html()
+         type: config.data[CT].type
+         // picture_left: $('#label_left_pic').html()
        };
-       $("#picture1").on("click", function() {
+       $("#pyes").on("click", function() {
            const RT = Date.now() - startingTime;
            trial_data.RT = RT
-           trial_data.response = config.data[CT].causes_id1
-           trial_data.selected_pic = "picture1"
+           // trial_data.cause = config.data[CT].causes_id1
+           trial_data.response = "yes"
 
-           toggleNextIfDone($("#smallMarginNextButton"), true)
-           $("#picture1").addClass('selected_img')
-           $("#picture2").removeClass('selected_img')
+           // toggleNextIfDone($("#smallMarginNextButton"), true)
+           // $("#pyes").addClass('selected_img')
+           // $("#pno").removeClass('selected_img')
+           // $("#pundecided").removeClass('selected_img')
       });
-      $("#picture2").on("click", function() {
+      $("#pno").on("click", function() {
             const RT = Date.now() - startingTime;
             trial_data.RT = RT
-            trial_data.response = config.data[CT].causes_id2
-            trial_data.selected_pic = "picture2"
+            // trial_data.cause = config.data[CT].causes_id2
+            trial_data.response = "no"
 
-            toggleNextIfDone($("#smallMarginNextButton"), true)
-            $("#picture2").addClass('selected_img')
-            $("#picture1").removeClass('selected_img')
+            // toggleNextIfDone($("#smallMarginNextButton"), true)
+            // $("#pno").addClass('selected_img')
+            // $("#pyes").removeClass('selected_img')
+            // $("#pundecided").removeClass('selected_img')
+      });
+      $("#pundecided").on("click", function() {
+           const RT = Date.now() - startingTime;
+           trial_data.RT = RT
+           // trial_data.cause = config.data[CT].causes_id3
+           trial_data.response = "undecided"
+
+           // toggleNextIfDone($("#smallMarginNextButton"), true)
+           // $("#pundecided").addClass('selected_img')
+           // $("#pyes").removeClass('selected_img')
+           // $("#pno").removeClass('selected_img')
       });
 
       $('#smallMarginNextButton').on("click", function(){

@@ -22,8 +22,8 @@ $("document")
       // instructions_general,
       // animation_view, // training phase
       // instructions_test_img,
-      // example_image_selection, // test example
-      // divider_example_test_phase,
+      example_image_selection, // test example
+      divider_example_test_phase,
       test_image_selection, // test phase
       post_test,
       thanks
@@ -35,7 +35,7 @@ $("document")
         // Possible deployment methods are:
         // "debug" and "directLink"
         // As well as "MTurk", "MTurkSandbox" and "Prolific"
-        deployMethod: "Prolific",
+        deployMethod: "debug",
         contact_email: "britta.grusdt@uni-osnabrueck.de",
         prolificURL: "https://app.prolific.co/submissions/complete?cc=38EEABF8"
       },
