@@ -98,7 +98,7 @@ wallsIf1 = function(side, horiz, prior, exhaustive){
   }
   let base_walls = [dat.w_up, ramp.wall_bottom].concat(wall_exhaustive);
   return {walls: base_walls.concat([ramp_top,ramp.tilted, base_ssw, ssw.skeleton]),
-          dynamic: [ramp.ball]}//, ssw.plank, ssw.constraint]}
+          dynamic: [ramp.ball, ssw.plank, ssw.constraint]}
 }
 
 seesawIf2 = function(prior, dir, side_ramp, offset=PROPS.seesaw.d_to_walls){
