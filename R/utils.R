@@ -16,7 +16,6 @@ rep_each <- function(x, times) {
 
 # at most one control-physics trial and none of the control-random trials wrong
 # and test-example trial must be correctly replied to
-# sanity check: prints prolific ids that appear more than once
 clean_data = function(data){
   data <- data %>% filter(!str_detect(prolific_id, "test-"))
   controls = data %>% 
@@ -35,16 +34,6 @@ clean_data = function(data){
     pull(submission_id) %>% unique()
   print(paste('remove data from participants:',
               paste(submission_ids.out, collapse = ", ")))
-  
-  duplicate_prolific_ids = data %>% 
-    dplyr::group_by(submission_id, prolific_id, startDate) %>% 
-    dplyr::count() %>%
-    group_by(prolific_id) %>% dplyr::count() %>% filter(n > 1) %>% 
-    pull(prolific_id)
-  
-  message(paste("prolific_ids that were not unique (despite exclusion criteria
-  defined in Prolific): ", duplicate_prolific_ids))
-
   return(data %>% filter(!submission_id %in% submission_ids.out))
 }
 

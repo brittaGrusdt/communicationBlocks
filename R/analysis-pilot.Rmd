@@ -212,13 +212,13 @@ data.control %>%
   labs(x="ratio correct", title="control test trials", y="")
 ```
 
-Clean data
+Clean data and save
 
 ```{r}
 n_all = data$submission_id %>% unique() %>% length
 data.cleaned = clean_data(data)
-#from training trials:
-# data.cleaned <- data.cleaned %>% filter(!submission_id %in% c(2233, 2237))
+write_csv(data.cleaned, here("results", "pilot_data_cleaned.csv"))
+
 n_kept = data.cleaned$submission_id %>% unique() %>% length
 
 ratio_kept = round(n_kept/n_all, 2)
