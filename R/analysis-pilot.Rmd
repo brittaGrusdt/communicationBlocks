@@ -345,26 +345,6 @@ df %>%
   facet_wrap(~pic_combi)
 ```
 
-## Observations 
-
-1. *if1_un & if2_unu* (B) and *if2_unn & if2_unu* (D): preference for exhaustive situation
-2. *if2_unn & if1_uu* (C): preference for non-exhaustive situation
-3. *if1_un & if1_uu* (A): avg selection rate < 0.5, but 95% bootstrap CI-interval contains 0.5, i.e.no particular strong preference for non-exhaustive situation here
-4. no difference observed between *if_ant* and cons conditions for any picture combi except maybe for *if1_un & if2_unu* (B).
-
-## Possible reasons
-
-1. For the *will_cons* condition, there might be a tendency towards the situation where the consequent-block is more likely to fall per se (came to my mind when watching someone doing the experiment). This only applies to *if1_un & if1_uu* (A) and *if2_unn & if1_uu* (C) conditions. In the other two conditions the consequent-block is positioned identical, namely completely on the platform.  
-
-2. The stronger tendency towards the non-exhaustive situation in condition *if2_unn & if1_uu* (C) might be due to the fact that in the non-exhaustive situation only the green and the blue block are shown, which are the only blocks Bob talks about whereas for the condition *if1_un & if1_uu* (A), neither situation shows a yellow block.
-
-3. Generally, it might be the case that participants tend to prefer the situation that involves *less* uncertainty. I'd say that these correspond to the following: 
-  
-  - A. *if1_un & if1_uu*: if1_un (non-exhaustive)
-  - B. *if1_un & if2_unu*: if1_un (exhaustive)
-  - C. *if2_unn & if1_uu*: ? (if1_uu because no yellow block? or if2_unn, because position might be clearer?)
-  - D. *if2_unn & if2_unu*: if2_unn (exhaustive)
-
 
 ## Bayesian regression model
 
@@ -392,24 +372,7 @@ mcmc_plot(fit)
 ```{r, regression-hypotheses}
 post_samples = tidy_draws(fit)
 hypothesis(fit, "questionif_ant + picsB:questionif_ant < questioncons + picsB:questioncons", class = "b")
-
 ```
-
-**General thoughts**:
-
-  - Maybe show two pictures only after participants have read Ann's response? 
-  This would hopefully make clear that Ann's question is not necessarily the 
-  best question to distinguish both pictures. Rephrase, e.g. Ann is interested in 
-  what happens if the antecedent-block falls. 
-  
-  - Maybe also rephrase Bob's response? E.g. 'In that case, ... will fall' or put
-  consequent first, e.g. 'the consequent-block will fall if the ...'. 
-
-  - Maybe we would need to make Bob say in a control-trial something like 'If 
-  blue or yellow, green will fall'. This would emphasize the presence of the 
-  yellow block in general I’d think.We may also have such a trial directly
-  before *if2_unn vs. if2_unu* (yellow block in both situations) one to further
-  direct attention towards the yellow block.
 
 ### Look at RTs for critical test-trials
 
