@@ -1,7 +1,7 @@
 conditions:
   neutral: "Which blocks do you think will fall?"
-  if_ant: "What happens if the 'antecedent' block falls?"
-  cons: "Will the 'consequent' block fall?"
+  ifp: "What happens if the 'antecedent-block' falls?"
+  willq: "Will the 'consequent-block' fall?"
 
 train_times:
   independent_edge_nh: 4
