@@ -53,7 +53,7 @@ data = anti_join(data, out.comments)
 
 n_all = data.original$submission_id %>% unique() %>% length
 n_kept = data$submission_id %>% unique() %>% length
-ratio_kept = round(n_kept/n_all, 2)
+ratio_kept = round(n_kept/n_all, 4)
 msg <- "% of all recorded data after cleaning that is included in analysis:"
 message(paste(msg, ratio_kept))
 write_csv(data, here("results", "data_cleaned.csv"))
@@ -86,21 +86,26 @@ out.attention = attention_checks %>%
   filter(nb_correct != 3)
 
 # 4. total number of participants removed
-out.n = c(out.test_ex$submission_id, out.control$submission_id, 
-          out.attention$submission_id, out.comments,
-          duplicates.out$submission_id) %>% unique() %>% length()
+out.all = c(out.test_ex$submission_id, out.control$submission_id, 
+            out.attention$submission_id, out.comments$submission_id,
+            duplicates.out$submission_id) %>% unique() 
+out.n = out.all %>% length()
 
+data.keep = anti_join(
+  data.original %>% dplyr::select(submission_id, prolific_id) %>% distinct(),
+  tibble(submission_id=out.all)
+)
 # Print numbers
-message(paste("#participants who got test-example wrong:", 
+message(paste("#submissions with wrong test-example:", 
               out.test_ex$submission_id %>% unique() %>% length()))
-message(paste("#participants who got more than 1 control trial wrong:", 
+message(paste("#submissions with more than 1 wrong control trial:", 
               out.control$submission_id %>% unique() %>% length()))
-message(paste("#participants who got any of the attention-checks wrong:", 
+message(paste("#submissions with at least one wrong attention-check trial:", 
               out.attention$submission_id %>% unique() %>% length()))
-message(paste("#participants removed due to several recordings:", 
+message(paste("#submissions removed due to several recordings:", 
               duplicates.out$submission_id %>% unique() %>% length()))
-message(paste("#participants removed due to comments:", 
+message(paste("#submissions removed due to comments:", 
               out.comments$submission_id %>% unique() %>% length()))
 
-message(paste("#participants whose data was excluded for the analysis:", out.n))
+message(paste("#submissions that were excluded for the analysis:", out.n))
 
