@@ -17,16 +17,16 @@ $("document")
       // You have to specify all views you want to use in this experiment and the order of them
       //*alternating trials of Exp1 (prior elicitation) and Exp2 (production)* in views_test!//
       views_seq: [
-      botcaptcha,
-      intro,
-      instructions_general,
-      animation_view, // training phase
-      instructions_test_img,
-      example_image_selection, // test example
-      divider_example_test_phase,
+      // botcaptcha,
+      // intro,
+      // instructions_general,
+      // animation_view, // training phase
+      // instructions_test_img,
+      // example_image_selection, // test example
+      // divider_example_test_phase,
       test_image_selection, // test phase
-      post_test,
-      thanks
+      // post_test,
+      // thanks
       ],
       // Here, you can specify all information for the deployment
       deploy: {

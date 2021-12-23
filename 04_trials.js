@@ -14,8 +14,12 @@ TEST_DATA.forEach(function(dat) {
       answer: "<b>Bob</b>: " + dat.answer,
       picture1: "stimuli/img/group/" + dat.id1 + ".png",
       picture2: "stimuli/img/group/" + dat.id2 + ".png",
+      picture3: "stimuli/img/group/" + dat.id3 + ".png",
+      picture0: "stimuli/img/group/" + dat.id0 + ".png",
       id1: dat.id1,
       id2: dat.id2,
+      id3: dat.id3,
+      id0: dat.id0,
       type: dat.type,
       causes_id1: dat.causes_id1,
       causes_id2: dat.causes_id2
@@ -28,6 +32,8 @@ _.map(image_selection_trials, function (trial) {
   let group = _.sample(["group1", "group2"]);
   trial.picture1 = trial.picture1.replace("group", group);
   trial.picture2 = trial.picture2.replace("group", group);
+  trial.picture3 = trial.picture3.replace("group", group);
+  trial.picture0 = trial.picture0.replace("group", group);
   trial.group = group;
   trial.expected = TEST_EXPECT[trial.id]
 });

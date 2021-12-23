@@ -161,29 +161,29 @@ ANSWERS = {
 }
 
 TEST_DATA = [
-  {id: "trial1", id1: "if1_un", id2: "if2_unu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial2", id1: "if1_un", id2: "if2_unu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial3", id1: "if1_un", id2: "if2_unu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial1", id1: "if1_nn", id2: "if2_unu", id3: "independent_edge_nn", id0: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'} // ,
+  // {id: "trial2", id1: "if1_un", id2: "if2_unu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
+  // {id: "trial3", id1: "if1_un", id2: "if2_unu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'},
 
-  {id: "trial4", id1: "if2_unn", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial5", id1: "if2_unn", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial6", id1: "if2_unn", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'},
+  // {id: "trial4", id1: "if2_unn", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
+  // {id: "trial5", id1: "if2_unn", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
+  // {id: "trial6", id1: "if2_unn", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'},
 
-  {id: "trial7", id1: "if1_nn", id2: "if2_nnh", causes_id1: "", causes_id2: "", question: QUESTS.neutral, answer: ANSWERS.not_both, type: 'control-physics'},
-  {id: "trial8", id1: "if1_nn", id2: "if1_hn", causes_id1: "", causes_id2: "", question: QUESTS.cons, answer: ANSWERS.both, type: 'control-physics'},
-  {id: "trial9", id1: "if2_nnn", id2: "if2_nnh", causes_id1: "", causes_id2: "", question: QUESTS.if_ant_yellow, answer: ANSWERS.not_yellow_cons, type: 'control-physics'},
+  // {id: "trial7", id1: "if1_nn", id2: "if2_nnh", causes_id1: "", causes_id2: "", question: QUESTS.neutral, answer: ANSWERS.not_both, type: 'control-physics'},
+  // {id: "trial8", id1: "if1_nn", id2: "if1_hn", causes_id1: "", causes_id2: "", question: QUESTS.cons, answer: ANSWERS.both, type: 'control-physics'},
+  // {id: "trial9", id1: "if2_nnn", id2: "if2_nnh", causes_id1: "", causes_id2: "", question: QUESTS.if_ant_yellow, answer: ANSWERS.not_yellow_cons, type: 'control-physics'},
 
-  {id: "trial10", id1: "independent_edge_nh", id2: "independent_edge_nn", causes_id1: "", causes_id2: "", question: QUESTS.if_cons, answer: ANSWERS.not_cons, type: 'control-random'},
-  {id: "trial11", id1: "independent_edge_nh", id2: "independent_edge_nn", causes_id1: "", causes_id2: "", question: QUESTS.neutral, answer: ANSWERS.cons, type: 'control-random'},
-  {id: "trial12", id1: "if1_hn", id2: "if1_nn", causes_id1: "", causes_id2: "", question: QUESTS.cons, answer: ANSWERS.not_both, type: 'control-random'},
+  // {id: "trial10", id1: "independent_edge_nh", id2: "independent_edge_nn", causes_id1: "", causes_id2: "", question: QUESTS.if_cons, answer: ANSWERS.not_cons, type: 'control-random'},
+  // {id: "trial11", id1: "independent_edge_nh", id2: "independent_edge_nn", causes_id1: "", causes_id2: "", question: QUESTS.neutral, answer: ANSWERS.cons, type: 'control-random'},
+  // {id: "trial12", id1: "if1_hn", id2: "if1_nn", causes_id1: "", causes_id2: "", question: QUESTS.cons, answer: ANSWERS.not_both, type: 'control-random'},
 
-  {id: "trial13", id1: "if2_unn", id2: "if2_unu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial14", id1: "if2_unn", id2: "if2_unu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial15", id1: "if2_unn", id2: "if2_unu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'},
+  // {id: "trial13", id1: "if2_unn", id2: "if2_unu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
+  // {id: "trial14", id1: "if2_unn", id2: "if2_unu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
+  // {id: "trial15", id1: "if2_unn", id2: "if2_unu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'},
 
-  {id: "trial16", id1: "if1_un", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial17", id1: "if1_un", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial18", id1: "if1_un", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'}
+  // {id: "trial16", id1: "if1_un", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
+  // {id: "trial17", id1: "if1_un", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
+  // {id: "trial18", id1: "if1_un", id2: "if1_uu", causes_id1: "exhaustive", causes_id2: "non-exhaustive", question: QUESTS.neutral, answer: ANSWERS.conditional, type: 'critical'}
 ];
 TEST_DATA = _.map(TEST_DATA, function(data){
   let answer2 = data.type == "control-random" ? ANSWERS.attention_check : ANSWERS.normal_check;
@@ -194,24 +194,24 @@ TEST_DATA = _.map(TEST_DATA, function(data){
 TEST_IDS = _.map(TEST_DATA, 'id')
 
 TEST_EXPECT = {
-  'trial1': 'none',
-  'trial2': 'picture1',
-  'trial3': 'none',
-  'trial4': 'none',
-  'trial5': 'picture1',
-  'trial6': 'none',
-  'trial7': 'picture1',
-  'trial8': 'picture2',
-  'trial9': 'picture1',
-  'trial10': 'picture2',
-  'trial11': 'picture1',
-  'trial12': 'picture2',
-  'trial13': 'none',
-  'trial14': 'picture1',
-  'trial15': 'none',
-  'trial16': 'none',
-  'trial17': 'picture1',
-  'trial18': 'none'
+  'trial1': 'none' // ,
+  // 'trial2': 'picture1',
+  // 'trial3': 'none',
+  // 'trial4': 'none',
+  // 'trial5': 'picture1',
+  // 'trial6': 'none',
+  // 'trial7': 'picture1',
+  // 'trial8': 'picture2',
+  // 'trial9': 'picture1',
+  // 'trial10': 'picture2',
+  // 'trial11': 'picture1',
+  // 'trial12': 'picture2',
+  // 'trial13': 'none',
+  // 'trial14': 'picture1',
+  // 'trial15': 'none',
+  // 'trial16': 'none',
+  // 'trial17': 'picture1',
+  // 'trial18': 'none'
 }
 
 // position of antecedent-block in if2ssw/independent-trials wrt its base platform

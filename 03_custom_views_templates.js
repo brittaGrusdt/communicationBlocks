@@ -81,20 +81,24 @@ const forced_choice_generator = {
        let cols_group = COLS_GROUPS[config.data[CT].group]
        let question = config.data[CT].question.replace("ANT", cols_group.ANT)
        question = question.replace("CONS", cols_group.CONS)
-       let side = _.sample([0, 1]) == 0 ? ["picture1", "picture2"]
-                                        : ["picture2", "picture1"];
+       let side = _.sample([0, 1, 2, 3]) == 0 ? ["picture0", "picture1", "picture2", "picture3"]
+                                           : ["picture0", "picture1", "picture2", "picture3"];
 
        return    `<div class='magpie-view-answer-container'>
                   <p id='pqud' class='magpie-view-question magpie-view-qud'>${config.data[CT].QUD}</p>
+                  <div id="label_obscured_pic" class="top-middle"></div>
+                  <img src=${config.data[CT][side[0]]} id="obscured_pic" class="stim_pic unclickable" style="max-width:30%;height:auto;">
                   <p id='questionAnn' class='magpie-view-question magpie-view-qud'></p>
                    <button id='bttnQuestionAnn' class='magpie-view-button'>See Ann's question</button>
                    <button id='askBob' class='magpie-view-button grid-button'>See Bob's response</button>
                    <p id='answerBob' class='magpie-view-question'></p>
                    <div class="stimuli">
-                   <div id="label_left_pic" class="bottom-left">${side[0]}</div>
-                   <img src=${config.data[CT][side[0]]} id=${side[0]} class="stim_pic unclickable isLeft" style="max-width:48%;height:auto;">
-                   <img src=${config.data[CT][side[1]]} id=${side[1]} class="stim_pic unclickable isRight" style="max-width:48%;height:auto;">
-                   <div id="label_right_pic" class="bottom-right">${side[1]}</div>
+                   <div id="label_left_pic" class="bottom-left">${side[1]}</div>
+                   <img src=${config.data[CT][side[1]]} id=${side[1]} class="stim_pic unclickable isLeft" style="max-width:30%;height:auto;">
+                   <div id="label_middle_pic" class="bottom-left">${side[2]}</div>
+                   <img src=${config.data[CT][side[2]]} id=${side[2]} class="stim_pic unclickable isRight" style="max-width:30%;height:auto;">
+                   <img src=${config.data[CT][side[3]]} id=${side[3]} class="stim_pic unclickable isRight" style="max-width:30%;height:auto;">
+                   <div id="label_right_pic" class="bottom-right">${side[3]}</div>
                    </div>
                    <button id='smallMarginNextButton' class='grid-button magpie-view-button'>continue</button>
                  </div>`;
@@ -105,6 +109,7 @@ const forced_choice_generator = {
        let show_labels = DEBUG ? 'visible' : 'hidden';
        $('#label_left_pic').css('visibility', show_labels);
        $('#label_right_pic').css('visibility', show_labels);
+       $('#label_middle_pic').css('visibility', show_labels);
        if(DEBUG) {
          console.log(config.data[CT].id + ": " + config.data[CT].id1 + ", " + config.data[CT].id2)
        }
@@ -130,11 +135,36 @@ const forced_choice_generator = {
         answer = answer.replace("SIDE", attention_side)
 
         $("#answerBob").html(answer);
-        $("#picture1").removeClass('unclickable')
-        $("#picture2").removeClass('unclickable')
+        $("#picture1").removeClass('unclickable');
+        $("#picture2").removeClass('unclickable');
+        $("#picture3").removeClass('unclickable');
        });
 
-       let trial_data = {
+       const pictures = ["picture1", "picture2", "picture3"];
+       pictures.forEach(function (id) {
+        $('#' + id).on('click', function (e) {
+        // remove image selection with second click
+        if($('#' + id).hasClass('selected_img')) {
+          $('#' + id).removeClass('selected_img');
+        } else {
+          $('#' + id).addClass('selected_img');
+        };
+        // continue button is clickable if at least one image is selected
+        if($('#' + id).hasClass('selected_img')){
+          toggleNextIfDone($('#smallMarginNextButton'), true);
+        } else {
+          var count = 0;
+          pictures.forEach(function(id){
+          count = $('#' + id).hasClass('selected_img') ? count + 1 : count;
+        })
+          if(count == 0){
+            $('#smallMarginNextButton').addClass('grid-button');
+          }
+        }
+        });
+      });
+
+      let trial_data = {
          trial_name: config.name,
          trial_number: CT + 1,
          type: config.data[CT].type,
@@ -145,21 +175,19 @@ const forced_choice_generator = {
            trial_data.RT = RT
            trial_data.response = config.data[CT].causes_id1
            trial_data.selected_pic = "picture1"
-
-           toggleNextIfDone($("#smallMarginNextButton"), true)
-           $("#picture1").addClass('selected_img')
-           $("#picture2").removeClass('selected_img')
-      });
-      $("#picture2").on("click", function() {
+       });
+       $("#picture2").on("click", function() {
             const RT = Date.now() - startingTime;
             trial_data.RT = RT
             trial_data.response = config.data[CT].causes_id2
             trial_data.selected_pic = "picture2"
-
-            toggleNextIfDone($("#smallMarginNextButton"), true)
-            $("#picture2").addClass('selected_img')
-            $("#picture1").removeClass('selected_img')
-      });
+       });
+       $("#picture3").on("click", function() {
+            const RT = Date.now() - startingTime;
+            trial_data.RT = RT
+            trial_data.response = config.data[CT].causes_id2
+            trial_data.selected_pic = "picture3"
+       });
 
       $('#smallMarginNextButton').on("click", function(){
         trial_data = magpieUtils.view.save_config_trial_data(config.data[CT], trial_data);
