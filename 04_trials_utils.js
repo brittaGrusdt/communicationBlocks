@@ -41,18 +41,24 @@ pseudoRandomTestIds = function(){
     return dat.type === "critical"
   }), 'id');
 
-  let control = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
-    return dat.type === "control-random"
+  let practice = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
+    return dat.type === "practice"
   }), 'id'));
 
-  let control_physics = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
-    return dat.type === "control-physics"
+  let balance = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
+    return dat.type === "balance"
   }), 'id'));
 
-  let control_ids = _.compact(_.flatten(
-    _.zip(control_physics.concat(control))
-  ));
-  let shuffled_ids = _.compact(_.flatten(_.zip(control_ids, _.shuffle(critical))));
+  let filler = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
+    return dat.type === "filler"
+  }), 'id'));
+
+  let control_ids = _.compact(_.flatten(_.zip(balance.concat(filler))));
+
+  let shuffled = _.compact(_.flatten(_.zip(_.shuffle(control_ids), _.shuffle(critical))));
+  
+  let shuffled_ids = _.compact(_.flatten(_.zip(practice.concat(shuffled))));
+
   return(shuffled_ids)
 }
 

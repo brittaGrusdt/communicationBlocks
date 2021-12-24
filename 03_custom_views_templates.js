@@ -142,25 +142,25 @@ const forced_choice_generator = {
 
        const pictures = ["picture1", "picture2", "picture3"];
        pictures.forEach(function (id) {
+      // remove image selection with second click
         $('#' + id).on('click', function (e) {
-        // remove image selection with second click
-        if($('#' + id).hasClass('selected_img')) {
-          $('#' + id).removeClass('selected_img');
-        } else {
-          $('#' + id).addClass('selected_img');
-        };
-        // continue button is clickable if at least one image is selected
-        if($('#' + id).hasClass('selected_img')){
-          toggleNextIfDone($('#smallMarginNextButton'), true);
-        } else {
-          var count = 0;
-          pictures.forEach(function(id){
-          count = $('#' + id).hasClass('selected_img') ? count + 1 : count;
-        })
-          if(count == 0){
-            $('#smallMarginNextButton').addClass('grid-button');
+          if($('#' + id).hasClass('selected_img')) {
+            $('#' + id).removeClass('selected_img');
+          } else {
+            $('#' + id).addClass('selected_img');
+          };
+          // continue button is clickable if at least one image is selected
+          if($('#' + id).hasClass('selected_img')){
+            toggleNextIfDone($('#smallMarginNextButton'), true);
+          } else {
+            var count = 0;
+            pictures.forEach(function(id){
+              count = $('#' + id).hasClass('selected_img') ? count + 1 : count;
+            });
+            if(count == 0){
+              $('#smallMarginNextButton').addClass('grid-button');
+            }
           }
-        }
         });
       });
 
@@ -168,28 +168,34 @@ const forced_choice_generator = {
          trial_name: config.name,
          trial_number: CT + 1,
          type: config.data[CT].type,
-         picture_left: $('#label_left_pic').html()
+         picture_left: $('#label_left_pic').html(),
+         picture_middle: $('#label_middle_pic').html(),
+         picture_right: $('#label_right_pic').html(),
+         selected_pic: ""
        };
        $("#picture1").on("click", function() {
            const RT = Date.now() - startingTime;
            trial_data.RT = RT
            trial_data.response = config.data[CT].causes_id1
-           trial_data.selected_pic = "picture1"
        });
        $("#picture2").on("click", function() {
             const RT = Date.now() - startingTime;
             trial_data.RT = RT
             trial_data.response = config.data[CT].causes_id2
-            trial_data.selected_pic = "picture2"
        });
        $("#picture3").on("click", function() {
             const RT = Date.now() - startingTime;
             trial_data.RT = RT
             trial_data.response = config.data[CT].causes_id2
-            trial_data.selected_pic = "picture3"
        });
 
       $('#smallMarginNextButton').on("click", function(){
+        // save which images were selected when continuing
+        ["picture1", "picture2", "picture3"].forEach(function (id) {
+          if($('#' + id).hasClass('selected_img')) {
+            trial_data.selected_pic += id;
+          }
+        });
         trial_data = magpieUtils.view.save_config_trial_data(config.data[CT], trial_data);
         magpie.trial_data.push(trial_data);
         magpie.findNextView();
