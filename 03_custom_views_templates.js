@@ -94,13 +94,13 @@ const forced_choice_generator = {
                    <p id='answerBob' class='magpie-view-question'></p>
                    <div class="stimuli">
                    <div id="label_left_pic" class="bottom-left">${side[1]}</div>
-                   <img src=${config.data[CT][side[1]]} id=${side[1]} class="stim_pic unclickable isLeft" style="max-width:30%;height:auto;">
+                   <img src=${config.data[CT][side[1]]} id=${side[1]} class="stim_pic unclickable isLeft" style="max-width:30%;height:auto;visibility:hidden">
                    <div id="label_middle_pic" class="bottom-left">${side[2]}</div>
-                   <img src=${config.data[CT][side[2]]} id=${side[2]} class="stim_pic unclickable isRight" style="max-width:30%;height:auto;">
-                   <img src=${config.data[CT][side[3]]} id=${side[3]} class="stim_pic unclickable isRight" style="max-width:30%;height:auto;">
+                   <img src=${config.data[CT][side[2]]} id=${side[2]} class="stim_pic unclickable isRight" style="max-width:30%;height:auto;visibility:hidden">
+                   <img src=${config.data[CT][side[3]]} id=${side[3]} class="stim_pic unclickable isRight" style="max-width:30%;height:auto;visibility:hidden">
                    <div id="label_right_pic" class="bottom-right">${side[3]}</div>
                    </div>
-                   <button id='smallMarginNextButton' class='grid-button magpie-view-button'>continue</button>
+                   <button id='smallMarginNextButton' class='grid-button magpie-view-button' style="visibility:hidden">continue</button>
                  </div>`;
    },
 
@@ -135,6 +135,10 @@ const forced_choice_generator = {
         answer = answer.replace("SIDE", attention_side)
 
         $("#answerBob").html(answer);
+        $("#picture1").css("visibility", "visible");
+        $("#picture2").css("visibility", "visible");
+        $("#picture3").css("visibility", "visible");
+        $("#smallMarginNextButton").css("visibility", "visible");
         $("#picture1").removeClass('unclickable');
         $("#picture2").removeClass('unclickable');
         $("#picture3").removeClass('unclickable');
