@@ -202,24 +202,31 @@ TEST_DATA = _.map(TEST_DATA, function(data){
 TEST_IDS = _.map(TEST_DATA, 'id')
 
 TEST_EXPECT = {
+  // critical
   'trial1': 'none',
-  'trial2': 'picture1',
+  'trial2': 'none',
   'trial3': 'none',
   'trial4': 'none',
-  'trial5': 'picture1',
+  'trial5': 'none',
   'trial6': 'none',
-  'trial7': 'picture1',
+  // practice
+  'trial7': 'picture3',
   'trial8': 'picture2',
-  'trial9': 'picture1' //,
-  // 'trial10': 'picture2',
-  // 'trial11': 'picture1',
-  // 'trial12': 'picture2',
-  // 'trial13': 'none',
-  // 'trial14': 'picture1',
-  // 'trial15': 'none',
-  // 'trial16': 'none',
-  // 'trial17': 'picture1',
-  // 'trial18': 'none'
+  'trial9': 'picture3',
+  // balance
+  'trial10': 'picture2',
+  'trial11': 'picture2picture3',
+  'trial12': 'picture2',
+  'trial13': 'picture2picture3',
+  'trial14': 'picture2picture3',
+  'trial15': 'picture2',
+  // filler
+  'trial16': 'picture2',
+  'trial17': 'picture3',
+  'trial18': 'picture2',
+  'trial19': 'picture2',
+  'trial20': 'picture2',
+  'trial21': 'picture3'
 }
 
 // position of antecedent-block in if2ssw/independent-trials wrt its base platform
