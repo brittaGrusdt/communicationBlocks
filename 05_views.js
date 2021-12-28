@@ -156,9 +156,9 @@ const test_image_selection = magpieViews.view_generator(
 
 const example_image_selection = magpieViews.view_generator(
   "image_selection", {
-    data: [EXAMPLE_TEST_TRIALS],
+    data: PRACTICE_TRIALS,
     name: 'image_selection',
-    trials: 1
+    trials: PRACTICE_IDS.length
   }, {
     stimulus_container_generator: forced_choice_generator.stimulus_container_gen,
     answer_container_generator: forced_choice_generator.answer_container_gen,

@@ -79,3 +79,5 @@ let shuffleTestTrials = function(trial_data){
 
 const TEST_TRIALS = shuffleTestTrials(image_selection_trials);
 //const TEST_TRIALS = image_selection_trials;
+const PRACTICE_TRIALS = image_selection_practice;
+
