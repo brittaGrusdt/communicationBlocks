@@ -29,17 +29,17 @@
       let cond, stimulus, id;
       if(MODE === "test") {
         let types = TEST_TYPES;
-        // types = ['if1']
+        //types = ['if1']
         // types = ['if2']
-        types = ['independent_edge']
+        types = ['independent_edge3']
         cond = types[_.random(0, types.length-1)];
         let priors = ['u', 'h', 'l', 'n', 'u-L', 'u-H']
         let p1 = _.sample(priors);
         let p2 = _.sample(priors);
         let p3 = cond == 'if2' ? _.sample(priors) : '';
-        p1 = 'n'
+        p1 = 'h'
         p2 = 'n'
-        // p3 = 'n'
+        p3 = 'n'
         id =  cond + '_' + p1 + p2 + p3;
         console.log(TestStimuli[cond])
         stimulus = TestStimuli[cond][id];

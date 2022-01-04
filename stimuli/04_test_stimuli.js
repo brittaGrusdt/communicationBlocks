@@ -1,5 +1,5 @@
 let TestStimuli = {"independent": {}, "if1": {}, "if2ssw": {}, 'if2': {},
-                   "independent_edge": {}};
+                   "independent_edge": {}, "independent_edge3": {}};
 
 // IMPORTANT: DYNAMIC BLOCKS HAVE TO BE ADDED BEFORE STATIC OBJECTS, OTHERWISE
 // THEY WILL FALL VERY ODD (JITTERING)
@@ -88,11 +88,11 @@ testTrials_if1 = function(priors, exhaustive){
   return blocks.concat(objs.walls)
 }
 
-testTrials_independent_edge = function(priors) {
+testTrials_independent_edge = function(priors, nBlocks=2) {
   let pp = priors[0][0] + priors[1][0];
   //specify trials with ramp on left and trials with ramp on right side
-  let walls = Walls.test.independent_edge
-  let horiz = ['vertical', 'vertical']
+  let walls = nBlocks == 2 ? Walls.test.independent_edge : Walls.test.independent_edge3;
+  let horiz = ['vertical', 'vertical', 'vertical']
 
   let colors = assignColors();
   let b1 = blockOnBase(walls[0], -1 * PRIOR[horiz[0]][priors[0]],
@@ -103,7 +103,15 @@ testTrials_independent_edge = function(priors) {
   let b2 = blockOnBase(walls[1], PRIOR[horiz[1]][priors[1]],
     COLS_OBJS_HEX.test_blocks[colors[1]], "blockC", horiz[1] == 'horizontal')
 
-  return [b1, b2].concat(walls);
+  let blocks = [b1, b2]
+  if(nBlocks == 3) {
+    blocks = blocks.concat(
+      [blockOnBase(walls[2], PRIOR[horiz[2]][priors[2]],
+        COLS_OBJS_HEX.if2_xblock[0], "blockX", horiz[2] == 'horizontal')]
+    )
+  }
+
+  return blocks.concat(walls);
 }
 
 testTrials_independent = function(priors){
@@ -152,7 +160,7 @@ makeTestStimuli = function(conditions, relations, objStoredTo){
       let priors = priors_all[i];
       let pb1 = _prior2ID(priors[0])
       let pb2 = _prior2ID(priors[1])
-      let pb3 = rel === "if2" ? _prior2ID(priors[2]) : ''
+      let pb3 = rel === "if2" || rel=="independent_edge3" ? _prior2ID(priors[2]) : ''
       // pb1 = (pb1.endsWith("L") || pb1.endsWith("H")) ?
       //   (pb1[0] + "-" + pb1[pb1.length-1]) : pb1[0];
       // let pb2 = priors[1]
@@ -163,6 +171,7 @@ makeTestStimuli = function(conditions, relations, objStoredTo){
                    rel === "if1" ? testTrials_if1(priors, true) :
                    rel === "independent" ? testTrials_independent(priors) :
                    rel === "independent_edge" ? testTrials_independent_edge(priors) :
+                   rel === "independent_edge3" ? testTrials_independent_edge(priors, 3) :
                    rel === "if2" ? testTrials_if1(priors, false) : null;
 
       objStoredTo[rel][id] = {"objs": blocks, "meta": priors, "id": id};

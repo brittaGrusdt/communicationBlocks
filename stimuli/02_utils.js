@@ -76,7 +76,7 @@ getConditions = function(){
   let combis = [];
   probs.forEach(function(ps){
     TEST_TYPES.forEach(function(r){
-      if(r === "if2") {
+      if(r === "if2" || r == "independent_edge3") {
         keys.forEach(function(p){
           combis.push(ps.concat([p]).concat(r))
         })

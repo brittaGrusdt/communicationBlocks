@@ -29,7 +29,8 @@ OPTS = {
   'plank': {isStatic: false, density: 0.001, restitution: .02, friction: 0.1}
 }
 
-let TEST_TYPES = ['if1', 'if2ssw', 'independent', 'independent_edge', 'if2'];
+let TEST_TYPES = ['if1', 'if2ssw', 'independent', 'independent_edge', 'if2',
+                  'independent_edge3'];
 
 // Proportion of block that's ON TOP of its base wall beneath
 let PRIOR = {
@@ -192,7 +193,7 @@ TEST_DATA = [
   {id: "trial13", id1: "if1_hn", id2: "if1_nn", id3: "if2_nnh", id0: "cons_n", causes_id1: "exhaustive", causes_id2: "non-exhaustive", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.not_both, type: 'filler'} //,
   // {id: "trial14", id1: "if1_ni", id2: "if1_nn", id3: "if1_hn", id0: "cons_n", causes_id1: "exhaustive", causes_id2: "non-exhaustive", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.both, type: 'filler'},
   // {id: "trial15", id1: "if2hnh", id2: "if2_nnn", id3: "if2_nnh", id0: "cons_n", causes_id1: "exhaustive", causes_id2: "non-exhaustive", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.not_yellow_cons, type: 'filler'},
-  
+
   // {id: "trial16", id1: "MISSING", id2: "ind_edge_nh", id3: "ind_edge_nn", id0: "ant_ind_n", causes_id1: "exhaustive", causes_id2: "non-exhaustive", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.not_ant, type: 'filler'},
   // {id: "trial17", id1: "MISSING", id2: "ind_edge_nh", id3: "ind_edge_nn", id0: "ant_ind_n", causes_id1: "exhaustive", causes_id2: "non-exhaustive", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.cons, type: 'filler'},
   // {id: "trial18", id1: "if2_nnh", id2: "if1_nh", id3: "if1_nn", id0: "ant_n", causes_id1: "exhaustive", causes_id2: "non-exhaustive", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.not_both, type: 'filler'}
