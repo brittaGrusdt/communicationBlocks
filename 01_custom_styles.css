@@ -130,6 +130,9 @@ picture {
 .incorrect {
   border: 4px solid #ff0000;
 }
+.forgotten {
+  border: 4px solid #006400;
+}
 
 .selected_img {
   border: 8px solid #51DE19;

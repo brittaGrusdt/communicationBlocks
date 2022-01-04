@@ -191,7 +191,7 @@ functionalityRunBttn = function(anim, answers){
         _.forEach(ids_correct, function(id){
           $('#' + id).addClass('correct')
         });
-        $('#trainBttnSelect').html(`<b>&emsp;Blocks that actually fell are marked in green,
+        $('#trainBttnSelect').html(`<b>&emsp;Blocks that actually fell are marked in green (light if selected, dark if not selected),
           <br/>&emsp;blocks that were selected but did not fall
           are marked in red.</b>`);
 
@@ -200,6 +200,13 @@ functionalityRunBttn = function(anim, answers){
           if($('#' + id).hasClass('selected') && !ids_correct.includes(id)) {
             $('#' + id).addClass('incorrect')
           }
+          if(!$('#' + id).hasClass('selected') && ids_correct.includes(id)) {
+            _.forEach(_.range(1,4), function(i){
+              $("#" + id).fadeOut(200).fadeIn(200);
+              $('#' + id).addClass('forgotten');
+            })
+          }
+
         });
         $('#comment').append(SHUFFLED_TRAIN_TRIALS[CT].comment)
         toggleNextIfDone($("#buttonNextAnimation"), true);
