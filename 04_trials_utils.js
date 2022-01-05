@@ -56,7 +56,7 @@ pseudoRandomTestIds = function(){
   let control_ids = _.compact(_.flatten(_.zip(balance.concat(filler))));
 
   let shuffled = _.compact(_.flatten(_.zip(_.shuffle(control_ids), _.shuffle(critical))));
-  
+
   let shuffled_ids = _.compact(_.flatten(_.zip(practice.concat(shuffled))));
 
   return(shuffled_ids)
@@ -67,8 +67,8 @@ pseudoRandomTestIds = function(){
 let shuffleTestTrials = function(trial_data){
   let shuffled_trials = [];
   let trial_ids = _.map(trial_data, 'id'); // data for all to be used test-ids
-  const ids_sequence = pseudoRandomTestIds();
-  //const ids_sequence = randomTestIds();
+  //const ids_sequence = pseudoRandomTestIds();
+  const ids_sequence = randomTestIds();
   ids_sequence.forEach(function(id){
     let idx = _.indexOf(trial_ids, id)
     if(idx === -1) console.warn('Test trial with id: ' + id +  ' not found.')
@@ -80,4 +80,3 @@ let shuffleTestTrials = function(trial_data){
 const TEST_TRIALS = shuffleTestTrials(image_selection_trials);
 //const TEST_TRIALS = image_selection_trials;
 const PRACTICE_TRIALS = image_selection_practice;
-
