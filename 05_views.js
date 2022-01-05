@@ -97,25 +97,22 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   name: "instructions_test_img",
   title: "Instructions Test Phase",
   text: `Great -  we'll now proceed with the test phase of the experiment.
-    You will be shown two pictures of the same scenes of block arrangements as in the training phase and a dialog between Ann and Bob talking about such a scene.
-    Note that this scene is not necessarily one of the two pictures that you see.
-    <br/>
-    <br/>
-    Below, you see how test trials will look like. Follow the instructions given in 1. to 5. to complete a trial.
-    <br />
-    <br />
-    <img src="./stimuli/img/instructions-test-anonym.jpeg" style="max-width:90%;">
-    <br />
-    <br />
-    We includeded some simple attention check trials where you are explicitly told which picture to select.
-    Note that if you do not follow these instructions, you will not get paid.
-    <br />
-    <br />
-    There will be one example trial next before the actual test phase starts.
-    `,
+  Ann and Bob play the following game: both see the same scene of block arrangements on two separate screens.
+  However, only Bob sees the entire scene since Ann's screen is partly occluded.<br/><br/>
+  <img src="./stimuli/img/img-screens-example.jpg" style="max-width:90%"><br/>
+  Ann asks Bob a question to find out what he sees. You will see three entire scenes and we will ask you to help Ann by selecting those scenes that you think Bob is likely to see.
+  <br/><br/>
+  If you select only one scene and your choice is right, Bob and Ann will both get $1.<br/>
+  If you select more than one scene, including the correct one, they will neither loose nor win any money.</br>
+  And if you select one or several scenes but your choice is wrong (with respect to Bob's utterance), both will loose $1.<br/>
+  <br/>
+  With your selection(s) you help Ann and Bob to reach their joint goal: to make as much money as possible.
+  `,
   buttonText: "go to example"
 });
-
+// <br />
+// We includeded some simple attention check trials where you are explicitly told which picture to select.
+// Note that if you do not follow these instructions, you will not get paid.
 
 const post_test = magpieViews.view_generator("post_test", {
   trials: 1,

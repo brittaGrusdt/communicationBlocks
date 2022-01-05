@@ -83,12 +83,7 @@ const forced_choice_generator = {
        question = question.replace("CONS", cols_group.CONS)
        // randomize image order for each trial
        var rnd = _.sample([0, 1, 2, 3, 4, 5]);
-       let side = rnd == 0 ? ["picture0", "picture1", "picture2", "picture3"]
-                : rnd == 1 ? ["picture0", "picture2", "picture3", "picture1"]
-                : rnd == 2 ? ["picture0", "picture3", "picture1", "picture2"]
-                : rnd == 3 ? ["picture0", "picture1", "picture3", "picture2"]
-                : rnd == 4 ? ["picture0", "picture3", "picture2", "picture1"]
-                : ["picture0", "picture2", "picture1", "picture3"];
+       let side = ["picture0"].concat(_.shuffle(["picture1", "picture2", "picture3"]));
 
        return    `<div class='magpie-view-answer-container'>
                   <p id='pqud' class='magpie-view-question magpie-view-qud'>${config.data[CT].QUD}</p>
