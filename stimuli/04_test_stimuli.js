@@ -58,7 +58,7 @@ testTrials_if2ssw = function(priors){
   return blocks.concat(xBlock).concat(objs);
 }
 
-testTrials_if1 = function(priors, exhaustive){
+testTrials_if = function(priors, nb_external_causes){
   let colors = assignColors();
   let p1 = priors[0];
   let p2 = priors[1];
@@ -69,7 +69,8 @@ testTrials_if1 = function(priors, exhaustive){
   {edge_blocks: -1, increase: true, idx_w: 0, moveBall: 1, side:"right"} :
   {edge_blocks: 1, increase: false, idx_w: 1, moveBall: -1, side:"left"};
 
-  let objs = Walls.test.if1(data.side, horiz[1], IF1_BASE_RAMP, exhaustive)
+  let objs = Walls.test.if1(data.side, horiz[1], IF1_BASE_RAMP,
+                            nb_external_causes == 1 ? true : false)
 
   let b1 = blockOnBase(objs.walls[0], PRIOR[horiz[0]][p1] * data.edge_blocks,
     COLS_OBJS_HEX.test_blocks[colors[0]], 'blockA', horiz[0] == 'horizontal');
@@ -77,7 +78,7 @@ testTrials_if1 = function(priors, exhaustive){
     COLS_OBJS_HEX.test_blocks[colors[1]], 'blockC', horiz[1] == 'horizontal');
 
   let extra_block = [];
-  if(exhaustive == false){
+  if(nb_external_causes == 2){
     let pbx = priors[2]
     let bx = blockOnBase(objs.walls[2], PRIOR[horiz[0]][pbx] * (-1 * data.edge_blocks),
     COLS_OBJS_HEX.if2_xblock, 'blockX', horiz[0] == 'horizontal');
@@ -160,10 +161,10 @@ makeTestStimuli = function(conditions, relations, objStoredTo){
       //   (pb2[0] + "-" + pb2[pb2.length-1]) : pb2[0];
       let id = rel + '_' + pb1 + pb2 + pb3;
       let blocks = rel === "if2ssw" ? testTrials_if2ssw(priors) :
-                   rel === "if1" ? testTrials_if1(priors, true) :
+                   rel === "if1" ? testTrials_if(priors, 1) :
                    rel === "independent" ? testTrials_independent(priors) :
                    rel === "independent_edge" ? testTrials_independent_edge(priors) :
-                   rel === "if2" ? testTrials_if1(priors, false) : null;
+                   rel === "if2" ? testTrials_if(priors, 2) : null;
 
       objStoredTo[rel][id] = {"objs": blocks, "meta": priors, "id": id};
     }
