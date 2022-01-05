@@ -75,7 +75,6 @@ wallsIf1 = function(side, horiz, prior, exhaustive){
   let x_up_l = 100
   let base_ssw_y = SCENE.h - 215
   let y_up = base_ssw_y - 95
-  //let y_up = base_ssw_y - 175
   let width_wall_up = 150
   let dat = side == "right" ?
     {w_up: wall('wall_ac_up', x_up_r, y_up, width_wall_up), x_up: x_up_r, move_x: 1, increase: true} :
@@ -94,9 +93,7 @@ wallsIf1 = function(side, horiz, prior, exhaustive){
   if(exhaustive == false){
     let x_w_up2 =  ssw.plank.position.x + (-1 * dat.move_x) * (PROPS.if1_ssw.plank.w/2 +
       PROPS.seesaw.d_to_walls + width_wall_up/2)
-    let y_up_ex = dat.w_up.position.y - PROPS.blocks.h
-    //let y_up_ex = base_ssw_y - 95 - PROPS.blocks.h;
-    let w_ex = wall('wall_ac_up2', x_w_up2, y_up_ex, width_wall_up)
+    let w_ex = wall('wall_ac_up2', x_w_up2, dat.w_up.position.y - PROPS.blocks.h, width_wall_up)
     wall_exhaustive.push(w_ex);
   }
   let base_walls = [dat.w_up, ramp.wall_bottom].concat(wall_exhaustive);
