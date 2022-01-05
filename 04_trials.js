@@ -40,62 +40,13 @@ _.map(image_selection_trials, function (trial) {
   trial.expected = TEST_EXPECT[trial.id]
 });
 
-// PRACTICE_DATA = {
-//   id: "example-test-trials",
-//   QUD: "EXAMPLE TRIAL<br/><br/>" + test_qud,
-//   question: "neutral",
-//   question_long: "<b>Ann</b>: " + QUESTS.neutral,
-//   answer: "<b>Bob</b>: " + ANSWERS.yellow + ANSWERS.normal_check,
-//   picture1: "stimuli/img/example_test_trials1.png",
-//   picture2: "stimuli/img/example_test_trials2.png",
-//   picture3: "stimuli/img/example_test_trials2.png",
-//   picture0: "stimuli/img/example_test_trials2.png",
-//   id1: "example_test_trials1",
-//   id2: "example_test_trials2",
-//   id3: "example_test_trials2",
-//   id0: "example_test_trials2",
-//   expected: "picture1",
-//   group: 'example',
-//   type: 'test-example',
-//   causes_id1: "",
-//   causes_id2: "",
-//   causes_id3: ""
-// }
-var image_selection_practice = [];
-PRACTICE_DATA.forEach(function(dat) {
-  let idx_quest = Object.values(QUESTS).indexOf(dat.question)
-    image_selection_practice.push({
-      id: dat.id,
-      QUD: "EXAMPLE TRIAL<br/><br/>" + test_qud,
-      question: Object.keys(QUESTS)[idx_quest],
-      question_long: "<b>Ann</b>: " + dat.question,
-      answer: "<b>Bob</b>: " + dat.answer,
-      picture1: "stimuli/img/group/" + dat.id1 + ".png",
-      picture2: "stimuli/img/group/" + dat.id2 + ".png",
-      picture3: "stimuli/img/group/" + dat.id3 + ".png",
-      picture0: "stimuli/img/group/" + dat.id0 + ".png",
-      id1: dat.id1,
-      id2: dat.id2,
-      id3: dat.id3,
-      id0: dat.id0,
-      type: dat.type,
-      causes_id1: dat.causes_id1,
-      causes_id2: dat.causes_id2,
-      causes_id3: dat.causes_id3
-    });
+let image_selection_practice = _.filter(image_selection_trials, function(obj){
+  return obj.type == 'practice'
+})
+_.map(image_selection_practice, function(dat) {
+  dat.QUD = "PRACTICE TRIAL<br/><br/>" + dat.QUD;
 });
 
-// adapt path to pictures depending on colour group in each trial
-// add group and id separately
-_.map(image_selection_practice, function (trial) {
-  let group = _.sample(["group1", "group2"]);
-  trial.picture1 = trial.picture1.replace("group", group);
-  trial.picture2 = trial.picture2.replace("group", group);
-  trial.picture3 = trial.picture3.replace("group", group);
-  trial.picture0 = trial.picture0.replace("group", group);
-  trial.group = group;
-  // trial.expected = TEST_EXPECT[trial.id]
-});
 
 // EXAMPLE_TEST_TRIALS = {
 //   id: "example-test-trials",

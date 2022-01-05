@@ -163,15 +163,6 @@ ANSWERS = {
   normal_check: '<br/><small>So, click on the picture that is more likely described by Bob.</small>'
 }
 
-PRACTICE_DATA = [
-  // practice trials
-  {id: "practice-trial1", id1: "if2_unn", id2: "if1_un", id3: "if2_unu", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.conditional_all, type: 'practice'},
-  {id: "practice-trial2", id1: "if2_unu", id2: "if1_un", id3: "if1_uu", id0: "ant_u", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.conditional_only, type: 'practice'},
-  {id: "practice-trial3", id1: "if2_nnn", id2: "if2_unn", id3: "if2_unh", id0: "cons_u", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.yellow_cons, type: 'practice'}
-];
-
-PRACTICE_IDS = _.map(PRACTICE_DATA, 'id')
-
 TEST_DATA = [
   // critical trials
   {id: "trial1", id1: "if1_un_ind", id2: "if1_un", id3: "if2_unu", id0: "ant_u", causes_id1: "control", causes_id2: "exhaustive", causes_id3: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
@@ -201,11 +192,17 @@ TEST_DATA = [
   {id: "trial20", id1: "ind_edge_nn", id2: "ind_edge_nhn", id3: "ind_edge_nhh", id0: "ant_ind_n", causes_id1: "exhaustive", causes_id2: "non-exhaustive", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.cons, type: 'filler'},
   {id: "trial21", id1: "if1_nh", id2: "if1_nn_ind", id3: "if2_nnn", id0: "ant_n", causes_id1: "exhaustive", causes_id2: "non-exhaustive", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.not_both, type: 'filler'},
 
-  // (practice trials)
+  // practice trials
   {id: "trial7", id1: "if2_unn", id2: "if1_un", id3: "if2_unu", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.conditional_all, type: 'practice'},
   {id: "trial8", id1: "if2_unu", id2: "if1_un", id3: "if1_uu", id0: "ant_u", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.conditional_only, type: 'practice'},
   {id: "trial9", id1: "if2_nnn", id2: "if2_unn", id3: "if2_unh", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.yellow_cons, type: 'practice'}
 ];
+
+PRACTICE_IDS = _.map(_.filter(TEST_DATA, function(obj){
+  return obj.type == 'practice'
+}), 'id')
+
+
 TEST_DATA = _.map(TEST_DATA, function(data){
   let answer2 = data.type == "control-random" ? ANSWERS.attention_check : ANSWERS.normal_check;
   data.answer = data.answer + answer2

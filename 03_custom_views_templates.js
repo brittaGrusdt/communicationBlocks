@@ -117,7 +117,8 @@ const forced_choice_generator = {
        $('#label_right_pic').css('visibility', show_labels);
        $('#label_middle_pic').css('visibility', show_labels);
        if(DEBUG) {
-         console.log(config.data[CT].id + ": " + config.data[CT].id1 + ", " + config.data[CT].id2)
+         // console.log(config.data[CT].id + ": " + config.data[CT].id1 + ", " + config.data[CT].id2 + ", " + config.data[CT].id3)
+         console.log(config.data[CT].id + " " + config.data[CT].type)
        }
        $("#bttnQuestionAnn").on("click", function(){
         this.remove();

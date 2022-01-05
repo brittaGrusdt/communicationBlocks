@@ -154,18 +154,6 @@ const test_image_selection = magpieViews.view_generator(
   }
 );
 
-const example_image_selection = magpieViews.view_generator(
-  "image_selection", {
-    data: PRACTICE_TRIALS,
-    name: 'image_selection',
-    trials: PRACTICE_IDS.length
-  }, {
-    stimulus_container_generator: forced_choice_generator.stimulus_container_gen,
-    answer_container_generator: forced_choice_generator.answer_container_gen,
-    handle_response_function: forced_choice_generator.handle_response_function
-  }
-);
-
 const divider_example_test_phase = magpieViews.view_generator("instructions", {
   trials: 1,
   name: "divider_example_test_phase",
