@@ -82,6 +82,11 @@ testTrials_if = function(priors, nb_external_causes){
     let pbx = priors[2]
     let bx = blockOnBase(objs.walls[2], PRIOR[horiz[0]][pbx] * (-1 * data.edge_blocks),
     COLS_OBJS_HEX.if2_xblock, 'blockX', horiz[0] == 'horizontal');
+    // if extra-block has prior 'never', it is positioned in center of platform
+    if(pbx == 'never'){
+      Matter.Body.setPosition(bx, {'x': objs.walls[2].position.x,
+                                   'y': bx.position.y});
+    }
     extra_block.push(bx);
   }
 
