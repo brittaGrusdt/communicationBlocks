@@ -73,7 +73,7 @@ pseudoRandomTestIds = function(){
   let control_ids = _.zip(filler_ids, control_physics_ids, balance_ids);
 
   // create all test ids based on 3 identical blocks
-  let test_ids = _.map([0, 1, 2], function(idx_block){
+  let test_block_ids = _.map([0, 1, 2], function(idx_block){
     let test_block_ids = control_ids[idx_block]
     // add critical trials at specific positions
     _.map([1, 3], function(i, idx_critical){
@@ -83,8 +83,7 @@ pseudoRandomTestIds = function(){
     test_block_ids.splice(3, 0, attention_check_ids[idx_block+1])
     return test_block_ids
   })
-  console.log(test_ids)
-  return(_.flatten(test_ids))
+  return(practice_block_ids.concat(_.flatten(test_block_ids)))
 }
 
 
