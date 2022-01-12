@@ -173,14 +173,19 @@ TEST_DATA = [
   {id: "trial5", id1: "if1_un_ind", id2: "if2_unn", id3: "if2_unu", id0: "ant_u", causes_id1: "control", causes_id2: "exhaustive", causes_id3: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
   {id: "trial6", id1: "if1_un_ind", id2: "if2_unn", id3: "if2_unu", id0: "cons_n", causes_id1: "control", causes_id2: "exhaustive", causes_id3: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
 
+  // practice trials
+  {id: "trial7", id1: "if2_unn", id2: "if1_un", id3: "if2_unu", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.conditional_all, type: 'practice'},
+  {id: "trial8", id1: "if2_unu", id2: "if1_un", id3: "if1_uu", id0: "ant_u", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.conditional_only, type: 'practice'},
+  {id: "trial9", id1: "if2_nnn", id2: "if2_unn", id3: "if2_unh", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.yellow_cons, type: 'practice'},
+
   // balance trials
   {id: "trial10", id1: "if1_un_ind", id2: "if1_un", id3: "if2_unh_ind", id0: "ant_u", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'balance'},
   {id: "trial11", id1: "if1_un_ind", id2: "if1_un", id3: "if1_un_v2", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'balance'},
   {id: "trial12", id1: "if2_unn_ind", id2: "if2_unn", id3: "if1_un_ind", id0: "ant_u", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'balance'},
-
-  {id: "trial13", id1: "if2_unn_ind", id2: "if2_unn", id3: "if2_unn_v2", id0: "cons_n", causes_id1: "exhaustive", causes_id2: "non-exhaustive", causes_id3: "", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'balance'},
-  {id: "trial14", id1: "if2_unn_ind", id2: "if1_un", id3: "if2_unn", id0: "ant_u", causes_id1: "exhaustive", causes_id2: "non-exhaustive", causes_id3: "", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'balance'},
-  {id: "trial15", id1: "if1_un_ind", id2: "if2_unn", id3: "if2_unn_ind", id0: "cons_n", causes_id1: "exhaustive", causes_id2: "non-exhaustive", causes_id3: "", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'balance'},
+  // practice-balance
+  {id: "trial13", id1: "if2_unn_ind", id2: "if2_unn", id3: "if2_unn_v2", id0: "cons_n", causes_id1: "exhaustive", causes_id2: "non-exhaustive", causes_id3: "", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'practice-balance'},
+  {id: "trial14", id1: "if2_unn_ind", id2: "if1_un", id3: "if2_unn", id0: "ant_u", causes_id1: "exhaustive", causes_id2: "non-exhaustive", causes_id3: "", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'practice-balance'},
+  {id: "trial15", id1: "if1_un_ind", id2: "if2_unn", id3: "if2_unn_ind", id0: "cons_n", causes_id1: "exhaustive", causes_id2: "non-exhaustive", causes_id3: "", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'practice-balance'},
 
   // control-physics trials
   {id: "trial16", id1: "if1_hn", id2: "if1_nn", id3: "if2_nnh", id0: "cons_n", causes_id1: "exhaustive", causes_id2: "non-exhaustive", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.not_both, type: 'control-physics'} ,
@@ -192,10 +197,11 @@ TEST_DATA = [
   {id: "trial20", id1: "ind_edge_nn", id2: "ind_edge_nhn", id3: "ind_edge_nhh", id0: "ant_ind_n", causes_id1: "exhaustive", causes_id2: "non-exhaustive", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.cons, type: 'filler'},
   {id: "trial21", id1: "if1_nh", id2: "if1_nn_ind", id3: "if2_nnn", id0: "ant_n", causes_id1: "exhaustive", causes_id2: "non-exhaustive", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.not_both, type: 'filler'},
 
-  // practice trials
-  {id: "trial7", id1: "if2_unn", id2: "if1_un", id3: "if2_unu", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.conditional_all, type: 'practice'},
-  {id: "trial8", id1: "if2_unu", id2: "if1_un", id3: "if1_uu", id0: "ant_u", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.conditional_only, type: 'practice'},
-  {id: "trial9", id1: "if2_nnn", id2: "if2_unn", id3: "if2_unh", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.yellow_cons, type: 'practice'}
+  // attention check trials
+  {id: "trial22", id1: "MISSING", id2: "MISSING", id3: "MISSING", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.conditional_all, type: 'attention-check'},
+  {id: "trial23", id1: "MISSING", id2: "MISSING", id3: "MISSING", id0: "ant_u", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.conditional_only, type: 'attention-check'},
+  {id: "trial24", id1: "MISSING", id2: "MISSING", id3: "MISSING", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.yellow_cons, type: 'attention-check'},
+  {id: "trial25", id1: "MISSING", id2: "MISSING", id3: "MISSING", id0: "ant_u", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.yellow_cons, type: 'attention-check'} 
 ];
 
 PRACTICE_IDS = _.map(_.filter(TEST_DATA, function(obj){
