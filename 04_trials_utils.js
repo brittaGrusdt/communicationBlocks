@@ -105,4 +105,7 @@ let shuffleTestTrials = function(trial_data){
 
 const TEST_TRIALS = shuffleTestTrials(image_selection_trials);
 //const TEST_TRIALS = image_selection_trials;
-const PRACTICE_TRIALS = image_selection_practice;
+const PRACTICE_TRIALS = TEST_TRIALS.slice(0, 7);
+const TEST_TRIALS_01 = TEST_TRIALS.slice(7, 13);
+const TEST_TRIALS_02 = TEST_TRIALS.slice(13, 19);
+const TEST_TRIALS_03 = TEST_TRIALS.slice(19);

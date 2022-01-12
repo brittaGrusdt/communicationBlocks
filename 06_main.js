@@ -22,8 +22,13 @@ $("document")
       // instructions_general,
       // animation_view, // training phase
       instructions_test_img,
+      practice_image_selection,
       divider_example_test_phase,
-      test_image_selection, // test phase with all 21 trials (+attention checks)
+      test_image_selection,
+      divider_first_break,
+      test_image_selection_02,
+      divider_second_break,
+      test_image_selection_03, // test phase with all 21 trials (+attention checks)
       // post_test,
       thanks
       ],

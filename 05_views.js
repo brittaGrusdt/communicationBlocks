@@ -139,11 +139,47 @@ const animation_view = animation_generator(
    data: ""}
  )
 
+const practice_image_selection = magpieViews.view_generator(
+  "image_selection", {
+    data: PRACTICE_TRIALS,
+    name: 'image_selection',
+    trials: 7
+  }, {
+    stimulus_container_generator: forced_choice_generator.stimulus_container_gen,
+    answer_container_generator: forced_choice_generator.answer_container_gen,
+    handle_response_function: forced_choice_generator.handle_response_function
+  }
+);
+
 const test_image_selection = magpieViews.view_generator(
   "image_selection", {
-    data: TEST_TRIALS,
+    data: TEST_TRIALS_01,
     name: 'image_selection',
-    trials: TEST_IDS.length
+    trials: 6
+  }, {
+    stimulus_container_generator: forced_choice_generator.stimulus_container_gen,
+    answer_container_generator: forced_choice_generator.answer_container_gen,
+    handle_response_function: forced_choice_generator.handle_response_function
+  }
+);
+
+const test_image_selection_02 = magpieViews.view_generator(
+  "image_selection", {
+    data: TEST_TRIALS_02,
+    name: 'image_selection',
+    trials: 6
+  }, {
+    stimulus_container_generator: forced_choice_generator.stimulus_container_gen,
+    answer_container_generator: forced_choice_generator.answer_container_gen,
+    handle_response_function: forced_choice_generator.handle_response_function
+  }
+);
+
+const test_image_selection_03 = magpieViews.view_generator(
+  "image_selection", {
+    data: TEST_TRIALS_03,
+    name: 'image_selection',
+    trials: 6
   }, {
     stimulus_container_generator: forced_choice_generator.stimulus_container_gen,
     answer_container_generator: forced_choice_generator.answer_container_gen,
@@ -157,6 +193,30 @@ const divider_example_test_phase = magpieViews.view_generator("instructions", {
   title: "Training completed!",
   text: `Please click on CONTINUE to start the actual experiment.`,
   buttonText: "Start Experiment"
+});
+
+const divider_first_break = magpieViews.view_generator("instructions", {
+  trials: 1,
+  name: "divider_first_break",
+  title: "Take a short break",
+  text: `Well done so far! - The first of three blocks is finished.
+  		<br/>
+  		<br/>
+  		You can now take a short break if needed.
+  		As soon as you are ready to continue with the experiment, click on the button below.`,
+  buttonText: "Continue with Experiment"
+});
+
+const divider_second_break = magpieViews.view_generator("instructions", {
+  trials: 1,
+  name: "divider_second_break",
+  title: "Take a short break",
+  text: `Great! - You finished the second block and are nearly done with the experiment.
+  		<br/>
+  		<br/>
+  		You can now take a short break if needed.
+  		As soon as you are ready, click on the button below to continue with the last block of the experiment.`,
+  buttonText: "Continue with Experiment"
 });
 
 // captcha
