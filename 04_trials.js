@@ -40,7 +40,7 @@ _.map(image_selection_trials, function (trial) {
 });
 
 let image_selection_practice = _.filter(image_selection_trials, function(obj){
-  return obj.type == 'practice'
+  return obj.type.includes('practice')
 })
 _.map(image_selection_practice, function(dat) {
   dat.QUD = "PRACTICE TRIAL<br/><br/>" + dat.QUD;
