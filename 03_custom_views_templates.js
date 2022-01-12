@@ -88,7 +88,8 @@ const forced_choice_generator = {
        return    `<div class='magpie-view-answer-container'>
                   <p id='pqud' class='magpie-view-question magpie-view-qud'>${config.data[CT].QUD}</p>
                   <div id="label_obscured_pic" class="top-middle"></div>
-                  <img src=${config.data[CT][side[0]]} id="obscured_pic" class="stim_pic unclickable" style="max-width:30%;height:auto;">
+                  <img src=${config.data[CT][side[0]]} id="obscured_pic" style="max-width:30%;height:auto;">
+                  <img src=${config.data[CT]["picture_bob"]} id="picture_bob" style="max-width:30%;height:auto;">
                   <p id='questionAnn' class='magpie-view-question magpie-view-qud'></p>
                    <button id='bttnQuestionAnn' class='magpie-view-button'>See Ann's question</button>
                    <button id='askBob' class='magpie-view-button grid-button'>See Bob's response</button>

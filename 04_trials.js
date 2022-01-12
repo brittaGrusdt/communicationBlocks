@@ -1,7 +1,8 @@
 // In this file you can specify the trial data for your experiment
 
 // Test trials
-var test_qud = "This is the partial scene that Ann sees:"
+//var test_qud = "This is the partial scene that Ann sees:"
+var test_qud = ""
 var image_selection_trials = [];
 TEST_DATA.forEach(function(dat) {
   let idx_quest = Object.values(QUESTS).indexOf(dat.question)
@@ -14,7 +15,9 @@ TEST_DATA.forEach(function(dat) {
       picture1: "stimuli/img/group/" + dat.id1 + ".png",
       picture2: "stimuli/img/group/" + dat.id2 + ".png",
       picture3: "stimuli/img/group/" + dat.id3 + ".png",
-      picture0: "stimuli/img/group/" + dat.id0 + ".png",
+      //picture0: "stimuli/img/group/" + dat.id0 + ".png",
+      picture0: "stimuli/img/group/" + dat.id0 + "_zoomed.jpeg",
+      picture_bob: "stimuli/img/bobs-screen.jpeg",
       id1: dat.id1,
       id2: dat.id2,
       id3: dat.id3,
@@ -42,9 +45,9 @@ _.map(image_selection_trials, function (trial) {
 let image_selection_practice = _.filter(image_selection_trials, function(obj){
   return obj.type.includes('practice')
 })
-_.map(image_selection_practice, function(dat) {
-  dat.QUD = "PRACTICE TRIAL<br/><br/>" + dat.QUD;
-});
+// _.map(image_selection_practice, function(dat) {
+//   dat.QUD = "PRACTICE TRIAL<br/><br/>" + dat.QUD;
+// });
 
 
 // EXAMPLE_TEST_TRIALS = {
