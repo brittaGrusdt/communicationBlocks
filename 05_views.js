@@ -143,7 +143,7 @@ const practice_image_selection = magpieViews.view_generator(
   "image_selection", {
     data: PRACTICE_TRIALS,
     name: 'image_selection',
-    trials: 7
+    trials: PRACTICE_TRIALS.length
   }, {
     stimulus_container_generator: forced_choice_generator.stimulus_container_gen,
     answer_container_generator: forced_choice_generator.answer_container_gen,
@@ -151,11 +151,11 @@ const practice_image_selection = magpieViews.view_generator(
   }
 );
 
-const test_image_selection = magpieViews.view_generator(
+const test_image_selection_01 = magpieViews.view_generator(
   "image_selection", {
     data: TEST_TRIALS_01,
-    name: 'image_selection',
-    trials: 6
+    name: 'image_selection_01',
+    trials: TEST_TRIALS_01.length
   }, {
     stimulus_container_generator: forced_choice_generator.stimulus_container_gen,
     answer_container_generator: forced_choice_generator.answer_container_gen,
@@ -166,8 +166,8 @@ const test_image_selection = magpieViews.view_generator(
 const test_image_selection_02 = magpieViews.view_generator(
   "image_selection", {
     data: TEST_TRIALS_02,
-    name: 'image_selection',
-    trials: 6
+    name: 'image_selection_02',
+    trials: TEST_TRIALS_02.length
   }, {
     stimulus_container_generator: forced_choice_generator.stimulus_container_gen,
     answer_container_generator: forced_choice_generator.answer_container_gen,
@@ -178,8 +178,8 @@ const test_image_selection_02 = magpieViews.view_generator(
 const test_image_selection_03 = magpieViews.view_generator(
   "image_selection", {
     data: TEST_TRIALS_03,
-    name: 'image_selection',
-    trials: 6
+    name: 'image_selection_03',
+    trials: TEST_TRIALS_03.length
   }, {
     stimulus_container_generator: forced_choice_generator.stimulus_container_gen,
     answer_container_generator: forced_choice_generator.answer_container_gen,
