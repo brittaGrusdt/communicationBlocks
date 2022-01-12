@@ -37,55 +37,55 @@ randomTestIds= function(){
 }
 
 pseudoRandomTestIds = function(){
-  let critical = _.map(_.filter(TEST_DATA, function(dat){
+  let critical_ids = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
     return dat.type === "critical"
-  }), 'id');
+  }), 'id'));
 
-  let practice = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
+  let practice_ids = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
     return dat.type === "practice"
   }), 'id'));
 
-  let balance = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
-    return dat.type === "balance"
-  }), 'id'));
-
-  let practice_balance = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
+  let practice_balance_ids = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
     return dat.type === "practice-balance"
   }), 'id'));
 
-  let control_physics = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
+  let balance_ids = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
+    return dat.type === "balance"
+  }), 'id'));
+
+  let control_physics_ids = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
     return dat.type === "control-physics"
   }), 'id'));
 
-  let filler = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
+  let filler_ids = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
     return dat.type === "filler"
   }), 'id'));
 
-  let attention_check = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
+  let attention_check_ids = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
     return dat.type === "attention-check"
   }), 'id'));
 
   // practice trials
-  let practice_id = _.compact(_.flatten(_.zip(_.shuffle(practice), _.shuffle(practice_balance))));
-
-  let attention = _.shuffle(attention_check);
-
-  let practice_ids = [practice_id[0], practice_id[1], practice[2], attention[0], practice_id[3], practice_id[4], practice_id[5]];
+  let practice_block_ids = _.flatten(_.zip(practice_ids, practice_balance_ids))
+  practice_block_ids.splice(3, 0, attention_check_ids[0])
 
   // testing trials
-  let control_ids = _.compact(_.flatten(_.zip(_.shuffle(filler), _.shuffle(control_physics), _.shuffle(balance))));
+  let control_ids = _.zip(filler_ids, control_physics_ids, balance_ids);
 
-  let critical_shuffled = _.shuffle(critical);
-
-  let testing_ids = [control_ids[0], critical_shuffled[0], control_ids[1], attention[1], critical_shuffled[1], control_ids[2],
-  					control_ids[3], critical_shuffled[2], control_ids[4],  attention[2], critical_shuffled[3], control_ids[5],
-  					control_ids[6], critical_shuffled[4], control_ids[7],  attention[3], critical_shuffled[5], control_ids[8]
-  					];
-
-  // all trials
-  let shuffled_ids = _.compact(_.flatten(_.zip(practice_ids.concat(testing_ids))));
-
-  return(shuffled_ids)
+  // create all test ids based on 3 identical blocks
+  let test_ids = _.map([0, 1, 2], function(idx_block){
+    let test_block_ids = control_ids[idx_block]
+    // add critical trials at specific positions
+    // (count from end since otherwise position would change per iteration)
+    _.map([-1, -3], function(i, idx_critical){
+      test_block_ids.splice(i, 0, critical_ids[idx_critical])
+    })
+    // finally add attention check
+    test_block_ids.splice(3, 0, attention_check_ids[idx_block+1])
+    return test_block_ids
+  })
+  console.log(test_ids)
+  return(_.flatten(test_ids))
 }
 
 
