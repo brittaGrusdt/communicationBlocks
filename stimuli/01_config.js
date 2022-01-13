@@ -159,11 +159,14 @@ ANSWERS = {
   yellow: 'The YELLOW block will fall.',
   yellow_cons: 'The YELLOW and the CONS block will fall.',
   not_yellow_cons: 'NEITHER the YELLOW NOR the CONS block will fall.',
-  attention_check: '<br/><small>So, click on the SIDE picture which is more likely described by Bob.</small>',
-  normal_check: '<br/><small>So, click on the picture that is more likely described by Bob.</small>'
+  attention_check: '<br/><small>ATTENTION CHECK TO BE ADDED</small>',
+  normal_check: '<br/><small>So, click on the picture(s) that you think Bob most likely describes.</small>'
 }
 
 TEST_DATA = [
+  //example to take screenshot for instructions
+  //{id: "trial_ex", id1: "ind_edge_hn", id2: "ind_edge_hh_v2", id3: "ind_edge_hh", id0: "ant_ind_h", causes_id1: "control", causes_id2: "exhaustive", causes_id3: "non-exhaustive", question: QUESTS.neutral, answer: ANSWERS.both, type: 'example-instruction'},
+
   // critical trials
   {id: "trial1", id1: "if1_un_ind", id2: "if1_un", id3: "if2_unu", id0: "ant_u", causes_id1: "control", causes_id2: "exhaustive", causes_id3: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
   {id: "trial2", id1: "if1_un_ind", id2: "if1_un", id3: "if2_unu", id0: "cons_n", causes_id1: "control", causes_id2: "exhaustive", causes_id3: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
@@ -201,7 +204,7 @@ TEST_DATA = [
   {id: "trial22", id1: "MISSING", id2: "MISSING", id3: "MISSING", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.conditional_all, type: 'attention-check'},
   {id: "trial23", id1: "MISSING", id2: "MISSING", id3: "MISSING", id0: "ant_u", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.conditional_only, type: 'attention-check'},
   {id: "trial24", id1: "MISSING", id2: "MISSING", id3: "MISSING", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.yellow_cons, type: 'attention-check'},
-  {id: "trial25", id1: "MISSING", id2: "MISSING", id3: "MISSING", id0: "ant_u", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.yellow_cons, type: 'attention-check'} 
+  {id: "trial25", id1: "MISSING", id2: "MISSING", id3: "MISSING", id0: "ant_u", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.yellow_cons, type: 'attention-check'}
 ];
 
 PRACTICE_IDS = _.map(_.filter(TEST_DATA, function(obj){
@@ -210,7 +213,7 @@ PRACTICE_IDS = _.map(_.filter(TEST_DATA, function(obj){
 
 
 TEST_DATA = _.map(TEST_DATA, function(data){
-  let answer2 = data.type == "control-random" ? ANSWERS.attention_check : ANSWERS.normal_check;
+  let answer2 = data.type == "attention-check" ? ANSWERS.attention_check : ANSWERS.normal_check;
   data.answer = data.answer + answer2
   return(data)
 });

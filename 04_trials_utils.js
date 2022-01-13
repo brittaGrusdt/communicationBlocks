@@ -92,7 +92,7 @@ let shuffleTestTrials = function(trial_data){
   let shuffled_trials = [];
   let trial_ids = _.map(trial_data, 'id'); // data for all to be used test-ids
   const ids_sequence = pseudoRandomTestIds();
-  // const ids_sequence = randomTestIds();
+  //const ids_sequence = randomTestIds();
   ids_sequence.forEach(function(id){
     let idx = _.indexOf(trial_ids, id)
     if(idx === -1) console.warn('Test trial with id: ' + id +  ' not found.')

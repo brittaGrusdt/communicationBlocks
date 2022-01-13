@@ -16,7 +16,7 @@ TEST_DATA.forEach(function(dat) {
       picture2: "stimuli/img/group/" + dat.id2 + ".png",
       picture3: "stimuli/img/group/" + dat.id3 + ".png",
       //picture0: "stimuli/img/group/" + dat.id0 + ".png",
-      picture0: "stimuli/img/group/" + dat.id0 + "_zoomed.jpeg",
+      picture0: "stimuli/img/group/" + dat.id0 + ".jpeg",
       picture_bob: "stimuli/img/bobs-screen.jpeg",
       id1: dat.id1,
       id2: dat.id2,
