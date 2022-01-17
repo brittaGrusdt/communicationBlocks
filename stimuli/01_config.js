@@ -149,6 +149,7 @@ ANSWERS = {
   conditional_yellow: 'If the YELLOW block falls, the CONS block will fall.',
   conditional_all: 'If the ANT or the YELLOW block falls, the CONS block will fall.',
   conditional_only: 'Only if the ANT block falls, the CONS block will fall.',
+  conditional_not: 'Even if the ANT block falls, the CONS block will NOT fall.',
   not_cons: 'The CONS block will NOT fall.',
   cons: 'The CONS block will fall.',
   both: 'The CONS and the ANT block will fall.',
@@ -201,10 +202,10 @@ TEST_DATA = [
   {id: "trial21", id1: "if1_nh", id2: "if1_nn_ind", id3: "if2_nnn", id0: "ant_n", causes_id1: "exhaustive", causes_id2: "non-exhaustive", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.not_both, type: 'filler'},
 
   // attention check trials
-  {id: "trial22", id1: "MISSING", id2: "MISSING", id3: "MISSING", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.conditional_all, type: 'attention-check'},
-  {id: "trial23", id1: "MISSING", id2: "MISSING", id3: "MISSING", id0: "ant_u", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.conditional_only, type: 'attention-check'},
-  {id: "trial24", id1: "MISSING", id2: "MISSING", id3: "MISSING", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.yellow_cons, type: 'attention-check'},
-  {id: "trial25", id1: "MISSING", id2: "MISSING", id3: "MISSING", id0: "ant_u", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.yellow_cons, type: 'attention-check'}
+  {id: "trial22", id1: "if2_nnn", id2: "if1_un_ind", id3: "if1_nn", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.might_ant, type: 'attention-check'},
+  {id: "trial23", id1: "ind_edge_hh", id2: "ind_edge_hnh", id3: "ind_edge_hnn", id0: "ant_ind_h", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.not_yellow_cons, type: 'attention-check'},
+  {id: "trial24", id1: "if1_un_v2", id2: "if2_nnh", id3: "if1_nn_ind", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.cons, answer: ANSWERS.conditional_yellow, type: 'attention-check'},
+  {id: "trial25", id1: "if2_unn", id2: "if1_uu", id3: "if1_un_ind", id0: "ant_u", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.if_ant, answer: ANSWERS.conditional_not, type: 'attention-check'}
 ];
 
 PRACTICE_IDS = _.map(_.filter(TEST_DATA, function(obj){
@@ -228,30 +229,31 @@ TEST_EXPECT = {
   'trial4': 'none',
   'trial5': 'none',
   'trial6': 'none',
+  // practice
+  'trial7': 'picture3',
+  'trial8': 'picture2',
+  'trial9': 'picture3',
   // balance
-  'trial7': 'picture2',
-  'trial8': 'picture2picture3',
-  'trial9': 'picture2',
-  'trial10': 'picture2picture3',
+  'trial10': 'picture2',
   'trial11': 'picture2picture3',
   'trial12': 'picture2',
-  // filler
-  'trial13': 'picture2',
-  'trial14': 'picture3',
+  // practice balance
+  'trial13': 'picture2picture3',
+  'trial14': 'picture2picture3',
   'trial15': 'picture2',
+  // control physics
   'trial16': 'picture2',
-  'trial17': 'picture2',
-  'trial18': 'picture3'
-  // (practice)
-  // 'trial19': 'picture3',
-  // 'trial20': 'picture2',
-  // 'trial21': 'picture3',
-}
-
-PRACTICE_EXPECT = {
-  'practice-trial1': 'picture3',
-  'practice-trial2': 'picture2',
-  'practice-trial3': 'picture3'
+  'trial17': 'picture3',
+  'trial18': 'picture2',
+  // filler
+  'trial19': 'picture2',
+  'trial20': 'picture2',
+  'trial21': 'picture3',
+  // attention check
+  'trial22': 'picture2',
+  'trial23': 'picture3',
+  'trial24': 'picture2',
+  'trial25': 'picture3'
 }
 
 // position of antecedent-block in if2ssw/independent-trials wrt its base platform

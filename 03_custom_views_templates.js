@@ -181,32 +181,28 @@ const forced_choice_generator = {
          selected_pic: ""
        };
        $("#picture1").on("click", function() {
-           const RT = Date.now() - startingTime;
-           trial_data.RT = RT
            trial_data.response = config.data[CT].causes_id1
        });
        $("#picture2").on("click", function() {
-            const RT = Date.now() - startingTime;
-            trial_data.RT = RT
             trial_data.response = config.data[CT].causes_id2
        });
        $("#picture3").on("click", function() {
-            const RT = Date.now() - startingTime;
-            trial_data.RT = RT
             trial_data.response = config.data[CT].causes_id3
        });
 
-      $('#smallMarginNextButton').on("click", function(){
-        // save which images were selected when continuing
-        ["picture1", "picture2", "picture3"].forEach(function (id) {
-          if($('#' + id).hasClass('selected_img')) {
-            trial_data.selected_pic += id;
-          }
-        });
-        trial_data = magpieUtils.view.save_config_trial_data(config.data[CT], trial_data);
-        magpie.trial_data.push(trial_data);
-        magpie.findNextView();
-      })
+       $('#smallMarginNextButton').on("click", function(){
+        	// save which images were selected when continuing
+        	const RT = Date.now() - startingTime;
+        	trial_data.RT = RT;
+        	["picture1", "picture2", "picture3"].forEach(function (id) {
+          		if($('#' + id).hasClass('selected_img')) {
+            		trial_data.selected_pic += id;
+          		}
+        	});
+        	trial_data = magpieUtils.view.save_config_trial_data(config.data[CT], trial_data);
+        	magpie.trial_data.push(trial_data);
+        	magpie.findNextView();
+       })
    }
 }
 
