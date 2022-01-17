@@ -196,9 +196,10 @@ const forced_choice_generator = {
         	trial_data.RT = RT;
         	["picture1", "picture2", "picture3"].forEach(function (id) {
           		if($('#' + id).hasClass('selected_img')) {
-            		trial_data.selected_pic += id;
+            		trial_data.selected_pic += id + "_";
           		}
         	});
+        	trial_data.selected_pic = trial_data.selected_pic.slice(0, -1);
         	trial_data = magpieUtils.view.save_config_trial_data(config.data[CT], trial_data);
         	magpie.trial_data.push(trial_data);
         	magpie.findNextView();

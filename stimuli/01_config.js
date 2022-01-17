@@ -235,11 +235,11 @@ TEST_EXPECT = {
   'trial9': 'picture3',
   // balance
   'trial10': 'picture2',
-  'trial11': 'picture2picture3',
+  'trial11': 'picture2_picture3',
   'trial12': 'picture2',
   // practice balance
-  'trial13': 'picture2picture3',
-  'trial14': 'picture2picture3',
+  'trial13': 'picture2_picture3',
+  'trial14': 'picture2_picture3',
   'trial15': 'picture2',
   // control physics
   'trial16': 'picture2',
