@@ -160,7 +160,7 @@ ANSWERS = {
   yellow: 'The YELLOW block will fall.',
   yellow_cons: 'The YELLOW and the CONS block will fall.',
   not_yellow_cons: 'NEITHER the YELLOW NOR the CONS block will fall.',
-  attention_check: '<br/><small>ATTENTION CHECK TO BE ADDED</small>',
+  attention_check: '<br/><small>So, click on the picture SIDE.</small>',
   normal_check: '<br/><small>So, click on the picture(s) that you think Bob most likely describes.</small>'
 }
 
@@ -202,9 +202,9 @@ TEST_DATA = [
   {id: "trial21", id1: "if1_nh", id2: "if1_nn_ind", id3: "if2_nnn", id0: "ant_n", causes_id1: "exhaustive", causes_id2: "non-exhaustive", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.not_both, type: 'filler'},
 
   // attention check trials
-  {id: "trial22", id1: "if2_nnn", id2: "if1_un_ind", id3: "if1_nn", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.might_ant, type: 'attention-check'},
+  {id: "trial22", id1: "if2_nnn", id2: "if1_un_ind", id3: "if1_un", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.might_ant, type: 'attention-check'},
   {id: "trial23", id1: "ind_edge_hh", id2: "ind_edge_hnh", id3: "ind_edge_hnn", id0: "ant_ind_h", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.neutral, answer: ANSWERS.not_yellow_cons, type: 'attention-check'},
-  {id: "trial24", id1: "if1_un_v2", id2: "if2_nnh", id3: "if1_nn_ind", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.cons, answer: ANSWERS.conditional_yellow, type: 'attention-check'},
+  {id: "trial24", id1: "if1_un_v2", id2: "if2_nnh", id3: "if1_nn_ind", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.cons, answer: ANSWERS.yellow_cons, type: 'attention-check'},
   {id: "trial25", id1: "if2_unn", id2: "if1_uu", id3: "if1_un_ind", id0: "ant_u", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.if_ant, answer: ANSWERS.conditional_not, type: 'attention-check'}
 ];
 
