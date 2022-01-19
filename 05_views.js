@@ -70,28 +70,34 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   trials: 1,
   name: "instructions_test_img",
   title: "Instructions Testing Phase",
-  text: `Great -  we'll now proceed with the test phase of the experiment.
-  Ann and Bob play the following game: both see the same scene of block arrangements on two separate screens.
-  However, only Bob sees the entire scene since Ann's screen is partly occluded. Here is an example:
+  text: `Great -  we'll now proceed with the test phase of the experiment.<br/><br/>
+  In the test phase, you play a 3-player game with Ann and Bob: Bob sees a scene
+  of block arrangements similar to those you saw in the training phase, Ann sees
+  part of the same scene on a separate screen and you see the same partial scene
+  that Ann sees plus three complete scenes. Here is an example of how Ann's and
+  Bob's screen might look like:
   <br/><br/>
   <img src="./stimuli/img/screens-instruction/anns-bobs-screen.jpeg" style="max-width:80%">
-  <br/>
-  Ann asks Bob a question to find out what he sees. <b>You will only see Ann's screen and three further complete
-  scenes</b>. We will ask you to help Ann by selecting those scenes that you think Bob is likely to see based on Bob's response.
   <br/><br/>
-  If you are confident and select a single scene, and your choice is right, they will <b>win $1</b>. Example:<br/>
+  Together, you try to find out which scene Bob sees on his screen. All of you
+  have different roles in this game:<br/>
+  Ann has the chance to ask Bob a question that Bob will respond to. In the example above the dialog between Ann and Bob may look like so: <br/><br/>
+  <img src="./stimuli/img/screens-instruction/qud-response.png" style = "max-width:80%">
+  <br/><br/>
+
+  Based on Bob's response, your task is to select <b>one or two</b> among the three scenes that only you can see.<br/><br/>
+
+  If you are confident and select a single scene, and your choice is right, you will all <b>win $1</b>. Example:<br/>
   <img src="./stimuli/img/screens-instruction/select1-true.png" style="max-width:80%">
   <br/><br/>
-  However, if your choice is wrong, they will <b>loose $1</b>. Example: <br/>
+  However, if your choice is wrong, you will all <b>loose $1</b>, e.g., if you make the following choice in the example from above: <br/>
   <img src="./stimuli/img/screens-instruction/select1-false.png" style="max-width:80%">
   <br/><br/>
-  If you select multiple scenes, including the correct one, they will
-  <b>not loose, but won't win any money either</b>. Example: <br/>
+  But if you select two scenes, including the correct one, you will all <b>win 50 cent</b>. Example: <br/>
   <img src="./stimuli/img/screens-instruction/select2.png" style="max-width:80%">
   <br/><br/>
-  And if you select multiple scenes, <i>not</i> including the correct one, they will also
-  <b>loose $1</b>.<br/>
-  Ann and Bob's joint goal is to win as much money as possible.
+  And if you select two scenes, <i>not</i> including the correct one, you will all <b>loose $1</b>.<br/>
+  Ann and Bob and your joint goal is to win as much money as possible.
   `,
   buttonText: "continue"
 });
@@ -117,8 +123,8 @@ const instructions_practice = magpieViews.view_generator("instructions", {
   This helps us to make sure that the experiment was done carefully. Please note that if you fail to respond correctly in more than one of the attention-check trials,
   you will not get paid.
   </br></br>
-  Please click on START PRACTICE to start the practice phase.`,
-  buttonText: "start practice"
+  Please click on CONTINUE to <b>start</b> the <b>practice phase</b>.`,
+  buttonText: "continue"
 });
 
 const post_test = magpieViews.view_generator("post_test", {

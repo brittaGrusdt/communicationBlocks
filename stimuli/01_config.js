@@ -161,7 +161,7 @@ ANSWERS = {
   yellow_cons: 'The YELLOW and the CONS block will fall.',
   not_yellow_cons: 'NEITHER the YELLOW NOR the CONS block will fall.',
   attention_check: '<br/><small>So, click on the picture SIDE.</small>',
-  normal_check: '<br/><small>So, click on the picture(s) that you think Bob most likely describes.</small>'
+  normal_check: '<br/><small>So, click on the picture(s) that you think Bob is likely to have described.</small>'
 }
 
 TEST_DATA = [
