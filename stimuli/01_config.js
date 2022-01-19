@@ -184,7 +184,7 @@ TEST_DATA = [
 
   // balance trials
   {id: "trial10", id1: "if1_un_ind", id2: "if1_un", id3: "if2_unh_ind", id0: "ant_u", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'balance'},
-  {id: "trial11", id1: "if1_un_ind", id2: "if1_un", id3: "if1_un_v2", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'balance'},
+  {id: "trial11", id1: "if1_un_ind", id2: "if1_un", id3: "if1_un_up", id0: "cons_n", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'balance'},
   {id: "trial12", id1: "if2_unn_ind", id2: "if2_unn", id3: "if1_un_ind", id0: "ant_u", causes_id1: "", causes_id2: "", causes_id3: "", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'balance'},
   // practice-balance
   {id: "trial13", id1: "if2_unn_ind", id2: "if2_unn", id3: "if2_unn_up", id0: "cons_n", causes_id1: "exhaustive", causes_id2: "non-exhaustive", causes_id3: "", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'practice-balance'},
