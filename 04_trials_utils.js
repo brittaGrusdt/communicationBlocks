@@ -61,9 +61,11 @@ pseudoRandomTestIds = function(){
     return dat.type === "filler"
   }), 'id'));
 
+  // first attention check is for practice block always the same
   let attention_check_ids = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
-    return dat.type === "attention-check"
+    return dat.type === "attention-check" && dat.id != "trial25"
   }), 'id'));
+  attention_check_ids = ["trial25"].concat(attention_check_ids)
 
   // practice trials
   let practice_block_ids = _.flatten(_.zip(practice_ids, practice_balance_ids))

@@ -134,10 +134,10 @@ const forced_choice_generator = {
         let cols_group = COLS_GROUPS[config.data[CT].group]
         answer = answer.replace("CONS", cols_group.CONS);
         answer = answer.replace("ANT", cols_group.ANT);
-        let attention_side = $("#" + config.data[CT].expected).hasClass("isLeft") ? "to the left"
-        						: $("#" + config.data[CT].expected).hasClass("isRight") ? "to the right"
-        						: "in the middle";
-        answer = answer.replace("SIDE", attention_side)
+        let attention_side = $("#" + config.data[CT].expected).hasClass("isLeft") ? "leftmost picture"
+        						: $("#" + config.data[CT].expected).hasClass("isRight") ? "rightmost picture"
+        						: "picture in the middle";
+        answer = answer.replace("SIDE picture", attention_side)
 
         $("#answerBob").html(answer);
         $("#picture1").css("visibility", "visible");
