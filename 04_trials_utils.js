@@ -79,8 +79,10 @@ pseudoRandomTestIds = function(){
     let test_block_ids = control_ids[idx_block]
     // add critical trials at specific positions
     _.map([1, 3], function(i, idx_critical){
-      test_block_ids.splice(i, 0, critical_ids[idx_critical])
+      test_block_ids.splice(i, 0, critical_ids[idx_critical]);
     })
+    // delete first two critical ids to avoid repetition
+    critical_ids.splice(0, 2);
     // finally add attention check
     test_block_ids.splice(3, 0, attention_check_ids[idx_block+1])
     return test_block_ids
