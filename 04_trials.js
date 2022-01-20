@@ -23,9 +23,9 @@ TEST_DATA.forEach(function(dat) {
       id3: dat.id3,
       id0: dat.id0,
       type: dat.type,
-      causes_id1: dat.causes_id1,
-      causes_id2: dat.causes_id2,
-      causes_id3: dat.causes_id3
+      property_id1: dat.property_id1,
+      property_id2: dat.property_id2,
+      property_id3: dat.property_id3
     });
 });
 
@@ -65,8 +65,8 @@ let image_selection_practice = _.filter(image_selection_trials, function(obj){
 //   expected: "picture1",
 //   group: 'example',
 //   type: 'test-example',
-//   causes_id1: "",
-//   causes_id2: ""
+//   property_id1: "",
+//   prperty_id2: ""
 // }
 
 // ----- TRAINING TRIALS (Buttons) for exp1 + exp2 ---- //
