@@ -97,7 +97,7 @@ const forced_choice_generator = {
                    <div class="stimuli">
                    <div id="label_left_pic" class="bottom-left">${side[1]}</div>
                    <img src=${config.data[CT][side[1]]} id=${side[1]} class="stim_pic unclickable isLeft" style="max-width:30%;height:auto;visibility:hidden">
-                   <div id="label_middle_pic" class="bottom-left">${side[2]}</div>
+                   <div id="label_middle_pic" class="bottom-middle">${side[2]}</div>
                    <img src=${config.data[CT][side[2]]} id=${side[2]} class="stim_pic unclickable isMiddle" style="max-width:30%;height:auto;visibility:hidden">
                    <img src=${config.data[CT][side[3]]} id=${side[3]} class="stim_pic unclickable isRight" style="max-width:30%;height:auto;visibility:hidden">
                    <div id="label_right_pic" class="bottom-right">${side[3]}</div>

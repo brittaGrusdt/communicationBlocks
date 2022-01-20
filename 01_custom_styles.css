@@ -307,6 +307,11 @@ picture {
   right: 16px;
 }
 
+.bottom-middle {
+  position: absolute;
+  bottom: 8px;
+  right: 50%;
+}
 
 #answerBob {
   margin-top: 0;
