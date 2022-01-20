@@ -108,6 +108,13 @@ let shuffleTestTrials = function(trial_data){
 const TEST_TRIALS = shuffleTestTrials(image_selection_trials);
 //const TEST_TRIALS = image_selection_trials;
 const PRACTICE_TRIALS = TEST_TRIALS.slice(0, 7);
+
+_.map(TEST_TRIALS, function(obj, idx){
+  obj.block = idx <= 6 ? "practice" :
+              idx >= 7 && idx<=12 ? "test1" :
+              idx >= 13 && idx<=18 ? "test2" : "test3";
+  return(obj)
+})
 const TEST_TRIALS_01 = TEST_TRIALS.slice(7, 13);
 const TEST_TRIALS_02 = TEST_TRIALS.slice(13, 19);
 const TEST_TRIALS_03 = TEST_TRIALS.slice(19);

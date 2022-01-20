@@ -148,7 +148,6 @@ ANSWERS = {
   conditional: 'If the ANT block falls, the CONS block will fall.',
   conditional_yellow: 'If the YELLOW block falls, the CONS block will fall.',
   conditional_all: 'If the ANT or the YELLOW block falls, the CONS block will fall.',
-  conditional_only: 'Only if the ANT block falls, the CONS block will fall.',
   conditional_not: 'Even if the ANT block falls, the CONS block will NOT fall.',
   not_cons: 'The CONS block will NOT fall.',
   cons: 'The CONS block will fall.',
@@ -179,7 +178,7 @@ TEST_DATA = [
 
   // practice trials
   {id: "trial7", id1: "if2_unn_horiz", id2: "if1_un", id3: "if2_unu", id0: "cons_n", property_id1: "contrast", property_id2: "contrast", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.conditional_all, type: 'practice'},
-  {id: "trial8", id1: "if2_unu", id2: "if1_un", id3: "if1_uu", id0: "ant_u", property_id1: "contrast", property_id2: "literal", property_id3: "contrast", question: QUESTS.neutral, answer: ANSWERS.conditional_only, type: 'practice'},
+  {id: "trial8", id1: "if2_nnn_horiz", id2: "if2_nnh_right", id3: "if2_nnh", id0: "ant_n", property_id1: "contrast", property_id2: "pragmatic", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.yellow, type: 'practice'},
   {id: "trial9", id1: "if2_nnn_horiz", id2: "if2_unn_horiz", id3: "if2_unh", id0: "cons_n", property_id1: "contrast", property_id2: "contrast", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.yellow_cons, type: 'practice'},
 
   // balance trials
