@@ -180,7 +180,8 @@ const forced_choice_generator = {
          picture_left: $('#label_left_pic').html(),
          picture_middle: $('#label_middle_pic').html(),
          picture_right: $('#label_right_pic').html(),
-         selected_pic: ""
+         selected_pic: "",
+         block: config.data[CT].block
        };
        $("#picture1").on("click", function() {
            trial_data.response = config.data[CT].property_id1
