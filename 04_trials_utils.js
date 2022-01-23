@@ -104,7 +104,9 @@ let shuffleTestTrials = function(trial_data){
 }
 
 const TEST_TRIALS = shuffleTestTrials(image_selection_trials);
-//const TEST_TRIALS = image_selection_trials;
+// const TEST_TRIALS = _.filter(image_selection_trials, function(obj){
+//   return(obj.type === "control-physics")
+// });
 const PRACTICE_TRIALS = TEST_TRIALS.slice(0, 7);
 
 _.map(TEST_TRIALS, function(obj, idx){

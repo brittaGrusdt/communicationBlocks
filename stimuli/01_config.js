@@ -1,4 +1,4 @@
-const DEBUG = true;
+const DEBUG = false;
 // var MODE = "color-vision"
 // var MODE = "train"
 var MODE = "test"
@@ -158,6 +158,7 @@ ANSWERS = {
   might_ant: 'The ANT block MIGHT fall.',
   yellow: 'The YELLOW block will fall.',
   yellow_cons: 'The YELLOW and the CONS block will fall.',
+  all3: 'The YELLOW, the ANT and the CONS block will fall.',
   not_yellow_cons: 'NEITHER the YELLOW NOR the CONS block will fall.',
   attention_check: '<br/><small>So, click on the SIDE picture.</small>',
   normal_check: '<br/><small>So, click on the picture(s) that you think Bob is likely to have described.</small>'
@@ -168,44 +169,44 @@ TEST_DATA = [
   //{id: "trial_ex", id1: "ind_edge_hn", id2: "ind_edge_hh_v2", id3: "ind_edge_hh", id0: "ant_ind_h", property_id1: "control", property_id2: "exhaustive", property_id3: "non-exhaustive", question: QUESTS.neutral, answer: ANSWERS.both, type: 'example-instruction'},
 
   // critical trials
-  {id: "trial1", id1: "if1_un_ind", id2: "if1_un", id3: "if2_unu", id0: "ant_u", property_id1: "contrast", property_id2: "exhaustive", property_id3: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial2", id1: "if1_un_ind", id2: "if1_un", id3: "if2_unu", id0: "cons_n", property_id1: "contrast", property_id2: "exhaustive", property_id3: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial3", id1: "if1_un_ind", id2: "if2_unn_horiz", id3: "if1_uu", id0: "ant_u", property_id1: "contrast", property_id2: "exhaustive", property_id3: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial1", id1: "if1_un_ind", id2: "if1_un", id3: "if2_unu", id0: "ant_u", property_id1: "contrast", property_id2: "exhaustive", property_id3: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical', expect:''},
+  {id: "trial2", id1: "if1_un_ind", id2: "if1_un", id3: "if2_unu", id0: "cons_n", property_id1: "contrast", property_id2: "exhaustive", property_id3: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical', expect:''},
+  {id: "trial3", id1: "if1_un_ind", id2: "if2_unn_horiz", id3: "if1_uu", id0: "ant_u", property_id1: "contrast", property_id2: "exhaustive", property_id3: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical', expect:''},
 
-  {id: "trial4", id1: "if1_un_ind", id2: "if1_un", id3: "if1_uu", id0: "ant_u", property_id1: "contrast", property_id2: "exhaustive", property_id3: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial5", id1: "if1_un_ind", id2: "if2_unn_horiz", id3: "if2_unu", id0: "ant_u", property_id1: "contrast", property_id2: "exhaustive", property_id3: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical'},
-  {id: "trial6", id1: "if1_un_ind", id2: "if2_unn_horiz", id3: "if2_unu", id0: "cons_n", property_id1: "contrast", property_id2: "exhaustive", property_id3: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical'},
+  {id: "trial4", id1: "if1_un_ind", id2: "if1_un", id3: "if1_uu", id0: "ant_u", property_id1: "contrast", property_id2: "exhaustive", property_id3: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical', expect:''},
+  {id: "trial5", id1: "if1_un_ind", id2: "if2_unn_horiz", id3: "if2_unu", id0: "ant_u", property_id1: "contrast", property_id2: "exhaustive", property_id3: "non-exhaustive", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'critical', expect:''},
+  {id: "trial6", id1: "if1_un_ind", id2: "if2_unn_horiz", id3: "if2_unu", id0: "cons_n", property_id1: "contrast", property_id2: "exhaustive", property_id3: "non-exhaustive", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'critical', expect:''},
 
   // practice trials
-  {id: "trial7", id1: "if2_unn_horiz", id2: "if1_un", id3: "if2_unu", id0: "cons_n", property_id1: "contrast", property_id2: "contrast", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.conditional_all, type: 'practice'},
-  {id: "trial8", id1: "if2_nnn_horiz", id2: "if2_nnh_right", id3: "if2_nnh", id0: "ant_n", property_id1: "contrast", property_id2: "pragmatic", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.yellow, type: 'practice'},
-  {id: "trial9", id1: "if2_nnn_horiz", id2: "if2_unn_horiz", id3: "if2_unh", id0: "cons_n", property_id1: "contrast", property_id2: "contrast", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.yellow_cons, type: 'practice'},
+  {id: "trial7", id1: "if2_unn_horiz", id2: "if1_un", id3: "if2_unu", id0: "cons_n", property_id1: "contrast", property_id2: "contrast", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.conditional_all, type: 'practice', expect: 'picture3'},
+  {id: "trial8", id1: "if2_nnn_horiz", id2: "if2_nnh_right", id3: "if2_hnh", id0: "ant_n", property_id1: "contrast", property_id2: "contrast", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.all3, type: 'practice', expect:'picture3'},
+  {id: "trial9", id1: "if2_nnn_horiz", id2: "if2_unn", id3: "if2_nnh", id0: "cons_n", property_id1: "contrast", property_id2: "contrast", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.yellow_cons, type: 'practice', expect:'picture3'},
 
   // balance trials
-  {id: "trial10", id1: "if1_un_ind", id2: "if1_un", id3: "if2_unh_ind", id0: "ant_u", property_id1: "contrast", property_id2: "literal", property_id3: "contrast", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'balance'},
-  {id: "trial11", id1: "if1_un_ind", id2: "if1_un", id3: "if1_un_up", id0: "cons_n", property_id1: "contrast", property_id2: "literal", property_id3: "literal", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'balance'},
-  {id: "trial12", id1: "if2_unn_ind_horiz", id2: "if2_unn_horiz", id3: "if1_un_ind", id0: "ant_u", property_id1: "contrast", property_id2: "literal", property_id3: "contrast", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'balance'},
+  {id: "trial10", id1: "if1_un_ind", id2: "if1_un", id3: "if2_unh_ind", id0: "ant_u", property_id1: "contrast", property_id2: "literal", property_id3: "contrast", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'balance', expect:'picture2'},
+  {id: "trial11", id1: "if1_un_ind", id2: "if1_un", id3: "if1_un_up", id0: "cons_n", property_id1: "contrast", property_id2: "literal", property_id3: "literal", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'balance', expect:'picture2_picture3'},
+  {id: "trial12", id1: "if2_unn_ind_horiz", id2: "if2_unn_horiz", id3: "if1_un_ind", id0: "ant_u", property_id1: "contrast", property_id2: "literal", property_id3: "contrast", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'balance', expected: 'picture2'},
   // practice-balance
-  {id: "trial13", id1: "if2_unn_ind_horiz", id2: "if2_unn_horiz", id3: "if2_unn_up_horiz", id0: "cons_n", property_id1: "contrast", property_id2: "literal", property_id3: "literal", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'practice-balance'},
-  {id: "trial14", id1: "if2_unn_ind_horiz", id2: "if1_un", id3: "if2_unn_horiz", id0: "ant_u", property_id1: "contrast", property_id2: "pragmatic", property_id3: "literal", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'practice-balance'},
-  {id: "trial15", id1: "if1_un_ind", id2: "if2_unn_horiz", id3: "if2_unn_ind_horiz", id0: "cons_n", property_id1: "contrast", property_id2: "literal", property_id3: "contrast", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'practice-balance'},
+  {id: "trial13", id1: "if2_unn_ind_horiz", id2: "if2_unn_horiz", id3: "if2_unn_up_horiz", id0: "cons_n", property_id1: "contrast", property_id2: "literal", property_id3: "literal", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'practice-balance', expect:'picture2_picture3'},
+  {id: "trial14", id1: "if2_unn_ind_horiz", id2: "if1_un", id3: "if2_unn_horiz", id0: "ant_u", property_id1: "contrast", property_id2: "literal", property_id3: "literal", question: QUESTS.if_ant, answer: ANSWERS.conditional, type: 'practice-balance', expect:'picture2_picture3'},
+  {id: "trial15", id1: "if1_un_ind", id2: "if2_unn_horiz", id3: "if2_unn_ind_horiz", id0: "cons_n", property_id1: "contrast", property_id2: "literal", property_id3: "contrast", question: QUESTS.cons, answer: ANSWERS.conditional, type: 'practice-balance', expect:'picture2'},
 
   // control-physics trials
-  {id: "trial16", id1: "if1_hn", id2: "if1_nn", id3: "if2_nnh", id0: "cons_n", property_id1: "contrast", property_id2: "literal", property_id3: "contrast", question: QUESTS.neutral, answer: ANSWERS.not_both, type: 'control-physics'} ,
-  {id: "trial17", id1: "if1_nn_ind", id2: "if1_nn", id3: "if1_hn", id0: "cons_n", property_id1: "contrast", property_id2: "contrast", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.both, type: 'control-physics'},
-  {id: "trial18", id1: "if2_hnh", id2: "if2_nnn_horiz", id3: "if2_nnh", id0: "cons_n", property_id1: "contrast", property_id2: "literal", property_id3: "contrast", question: QUESTS.neutral, answer: ANSWERS.not_yellow_cons, type: 'control-physics'},
+  {id: "trial16", id1: "if1_hn", id2: "if1_nn", id3: "if2_nnh", id0: "cons_n", property_id1: "contrast", property_id2: "literal", property_id3: "contrast", question: QUESTS.neutral, answer: ANSWERS.not_both, type: 'control-physics', expect:'picture2'} ,
+  {id: "trial17", id1: "if1_hn_ind", id2: "if1_nn", id3: "if1_hn", id0: "cons_n", property_id1: "contrast", property_id2: "contrast", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.both, type: 'control-physics', expect:'picture3'},
+  {id: "trial18", id1: "if2_hnn_horiz", id2: "if2_nnh_right", id3: "if2_nnh", id0: "cons_n", property_id1: "contrast", property_id2: "literal", property_id3: "contrast", question: QUESTS.neutral, answer: ANSWERS.not_both, type: 'control-physics', expect:'picture2'},
 
   // filler-trials
-  {id: "trial19", id1: "ind_edge_hh", id2: "ind_edge_hnh", id3: "ind_edge_hnn_horiz", id0: "ant_ind_h", property_id1: "contrast", property_id2: "pragmatic", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.not_cons, type: 'filler'},
-  {id: "trial20", id1: "ind_edge_nn", id2: "ind_edge_nhn_horiz", id3: "ind_edge_nhh", id0: "ant_ind_n", property_id1: "contrast", property_id2: "pragmatic", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.cons, type: 'filler'},
-  {id: "trial21", id1: "if1_nh", id2: "if1_nn_ind", id3: "if2_nnn_horiz", id0: "ant_n", property_id1: "contrast", property_id2: "pragmatic", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.not_both, type: 'filler'},
+  {id: "trial19", id1: "ind_edge_hh", id2: "ind_edge_hnh", id3: "ind_edge_hnn_horiz", id0: "ant_ind_h", property_id1: "contrast", property_id2: "pragmatic", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.not_cons, type: 'filler', expect:''},
+  {id: "trial20", id1: "ind_edge_nn", id2: "ind_edge_nhn", id3: "ind_edge_nhh", id0: "ant_ind_n", property_id1: "contrast", property_id2: "pragmatic", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.cons, type: 'filler', expect:''},
+  {id: "trial21", id1: "if1_nh", id2: "if2_nnh_right_ind", id3: "if2_nnn_horiz", id0: "ant_n", property_id1: "contrast", property_id2: "pragmatic", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.not_both, type: 'filler', expect:''},
 
   // attention check trials
   //gibt es bei attention checks richtige contrast-pictures (oder macht das hier gar keinen sinn?)
-  {id: "trial22", id1: "if2_nnn_horiz", id2: "if1_un_ind", id3: "if1_un", id0: "cons_n", property_id1: "contrast", property_id2: "pragmatic", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.might_ant, type: 'attention-check'},
-  {id: "trial23", id1: "ind_edge_hh", id2: "ind_edge_hnh", id3: "ind_edge_hnn_horiz", id0: "ant_ind_h", property_id1: "contrast", property_id2: "contrast", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.not_yellow_cons, type: 'attention-check'},
-  {id: "trial24", id1: "if1_nn_ind", id2: "if2_nnh", id3: "if2_unh_right", id0: "cons_n", property_id1: "contrast", property_id2: "practical", property_id3: "literal", question: QUESTS.cons, answer: ANSWERS.yellow_cons, type: 'attention-check'},
-  {id: "trial25", id1: "if2_unn_horiz", id2: "if1_uu", id3: "if1_un_ind", id0: "ant_u", property_id1: "contrast", property_id2: "contrast", property_id3: "literal", question: QUESTS.if_ant, answer: ANSWERS.conditional_not, type: 'attention-check'}
+  {id: "trial22", id1: "if2_nnn_horiz", id2: "if1_un_ind", id3: "if1_un", id0: "cons_n", property_id1: "contrast", property_id2: "pragmatic", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.might_ant, type: 'attention-check', expect:'picture2'},
+  {id: "trial23", id1: "ind_edge_hh", id2: "ind_edge_nnn", id3: "ind_edge_hnn_horiz", id0: "ant_ind_h", property_id1: "contrast", property_id2: "literal", property_id3: "pragmatic", question: QUESTS.neutral, answer: ANSWERS.not_yellow_cons, type: 'attention-check', expect:'picture3'},
+  {id: "trial24", id1: "if1_nn_ind", id2: "if2_nnh", id3: "if2_hnh_right", id0: "cons_n", property_id1: "contrast", property_id2: "pragmatic", property_id3: "literal", question: QUESTS.cons, answer: ANSWERS.yellow_cons, type: 'attention-check', expect:'picture2'},
+  {id: "trial25", id1: "if2_unn_horiz", id2: "if1_uu", id3: "if1_un_ind", id0: "ant_u", property_id1: "contrast", property_id2: "contrast", property_id3: "literal", question: QUESTS.if_ant, answer: ANSWERS.conditional_not, type: 'attention-check', expect:'picture3'}
 ];
 
 PRACTICE_IDS = _.map(_.filter(TEST_DATA, function(obj){
