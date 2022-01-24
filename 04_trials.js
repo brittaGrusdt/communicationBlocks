@@ -27,7 +27,8 @@ TEST_DATA.forEach(function(dat) {
       property_id2: dat.property_id2,
       property_id3: dat.property_id3,
       bob: dat.bob,
-      money: 0
+      money: 0,
+      expected: dat.expected
     });
 });
 
@@ -41,35 +42,11 @@ _.map(image_selection_trials, function (trial) {
   trial.picture3 = trial.picture3.replace("group", group);
   trial.picture0 = trial.picture0.replace("group", group);
   trial.group = group;
-  trial.expected = trial.expected;
 });
 
 let image_selection_practice = _.filter(image_selection_trials, function(obj){
   return obj.type.includes('practice')
 })
-// _.map(image_selection_practice, function(dat) {
-//   dat.QUD = "PRACTICE TRIAL<br/><br/>" + dat.QUD;
-// });
-
-
-// EXAMPLE_TEST_TRIALS = {
-//   id: "example-test-trials",
-//   QUD: "EXAMPLE TRIAL<br/><br/>" + test_qud,
-//   picture1: "stimuli/img/example_test_trials1.png",
-//   picture2: "stimuli/img/example_test_trials2.png",
-//   id1: "example_test_trials1",
-//   id2: "example_test_trials2",
-//   id3: "",
-//   id0: "",
-//   answer: "<b>Bob</b>: " + ANSWERS.yellow + ANSWERS.normal_check,
-//   question_long: "<b>Ann</b>: " + QUESTS.neutral,
-//   question: "neutral",
-//   expected: "picture1",
-//   group: 'example',
-//   type: 'test-example',
-//   property_id1: "",
-//   prperty_id2: ""
-// }
 
 // ----- TRAINING TRIALS (Buttons) for exp1 + exp2 ---- //
 // the data of the training stimuli is always the same,

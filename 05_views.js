@@ -114,18 +114,10 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   And further, you will <b>loose 100 points</b> if:<br/>
   1. you select two scenes, <i>not</i> including the correct one OR if<br/>
   2. you select all three scenes.<br/>
-  Ann and Bob and your joint goal is to win as much money as possible.
+  Ann's, Bob's and your joint goal is to make as many points as possible.
   `,
   buttonText: "continue"
 });
-// If you select only one scene and your choice is right, Bob and Ann will both get $1.<br/>
-// If you select more than one scene, including the correct one, they will neither loose nor win any money.</br>
-// And if you select one or several scenes but your choice is wrong (with respect to Bob's utterance), both will loose $1.<br/>
-// <br/>
-// <br />
-// We includeded some simple attention check trials where you are explicitly told which picture to select.
-// Note that if you do not follow these instructions, you will not get paid.
-
 
 const instructions_practice = magpieViews.view_generator("instructions", {
   trials: 1,

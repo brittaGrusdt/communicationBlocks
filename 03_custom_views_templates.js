@@ -132,10 +132,16 @@ const forced_choice_generator = {
         let cols_group = COLS_GROUPS[config.data[CT].group]
         answer = answer.replace("CONS", cols_group.CONS);
         answer = answer.replace("ANT", cols_group.ANT);
-        let attention_side = $("#" + config.data[CT].expected).hasClass("isLeft") ? "leftmost picture"
-        						: $("#" + config.data[CT].expected).hasClass("isRight") ? "rightmost picture"
-        						: "picture in the middle";
-        answer = answer.replace("SIDE picture", attention_side)
+        if(DEBUG) {
+          console.log('expected (if any): ' + config.data[CT].expected);
+        }
+
+        if(config.data[CT].type === "attention-check"){
+          let attention_side = $("#" + config.data[CT].expected).hasClass("isLeft") ? "leftmost picture"
+          : $("#" + config.data[CT].expected).hasClass("isRight") ? "rightmost picture"
+          : "picture in the middle";
+          answer = answer.replace("SIDE picture", attention_side)
+        }
 
         $("#answerBob").html(answer);
         $("#picture1").css("visibility", "visible");
@@ -213,19 +219,19 @@ const forced_choice_generator = {
 
             //console.log('selected: ' + trial_data.selected_pic + ' bob: ' + trial_data.bob)
             let result = config.data[CT].bob === trial_data.selected_pic ?
-              {'money': 1, msg: 'Awesome - your choice was correct! You WIN $1!'} :
+              {'money': 100, msg: 'Awesome - your choice was correct! You GET 100 points!'} :
               // selection of all 3 -> loose
               trial_data.selected_pic.split("_").length == 3 ?
-              {money: -1, msg: 'Ups - you selected all 3 scenes... So, you LOOSE $1! Bob saw ' + pic_bob} :
+              {money: -100, msg: 'Ups - you selected all 3 scenes... So, you LOOSE 100 points! Bob saw ' + pic_bob} :
               // selection of 2 including correct -> 50 ct
               trial_data.selected_pic.includes(trial_data.bob) ?
-              {money: 0.5, msg: 'Congratulations! Bob saw ' + pic_bob + ' - you WIN 50ct!'} :
+              {money: 50, msg: 'Congratulations! Bob saw ' + pic_bob + ' - you GET 50 points!'} :
               //otherwise loose
-              {money: -1, msg: 'Ups. Bob saw ' + pic_bob + '. You LOOSE $1!'};
+              {money: -100, msg: 'Ups. Bob saw ' + pic_bob + '. You LOOSE 100 points!'};
 
               trial_data.money = result.money;
               SUMMED_MONEY += result.money;
-              alert(result.msg + "\r\n" + "Total amount of money you made so far: " + SUMMED_MONEY + "$.");
+              alert(result.msg + "\r\n" + "Total amount of points you made so far: " + SUMMED_MONEY + "$.");
           }
           magpie.trial_data.push(trial_data);
         	magpie.findNextView();
