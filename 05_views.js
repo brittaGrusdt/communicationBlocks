@@ -73,7 +73,8 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   name: "instructions_test_img",
   title: "Instructions Testing Phase",
   text: `Great -  we'll now proceed with the test phase of the experiment.<br/><br/>
-  You will play a 3-player game with Ann and Bob. <br/>
+  You will play a 3-player game with Ann and Bob in which you have to work together as a team 
+  to select the right image and gain points. <br/>
   This is an example of how the game may look like for each of you:
 
   <br/><br/>
@@ -81,18 +82,26 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
     <img src="./stimuli/img/screens-instruction/separate-you.png" style="max-width:90%">
   <br/><br/>
 
-  Ann's, Bob's and your task is to find out which scene Bob sees.
+  Ann's, Bob's, and your goal is to find out which scene Bob sees. <br/>
+  During the game, each of you cannot see the other players' monitors and you are only allowed a 
+  minimal amount of interaction. The way of interacting with each other always follows the same pattern: <br/>
+  <b>1)</b> The first player, Ann, only views an incomplete version of Bob's scene. However, she can ask Bob 
+  one question regarding that scene. <br/>
+  <b>2)</b> The second player, Bob, sees the whole scene but he can only tell you what he sees by answering 
+  Ann's question. Ann will not receive Bob's answer. <br/>
+  <b>3)</b> Based on the question from Ann and the answer from Bob, the third player 
+  (which is you) has to decide which of three different scenes is the one that Bob also sees. As additional information, 
+  you are also able to see Ann's screen. <br/><br/>
+
   Ann has no experience with the scenes of block arrangements that you saw in the
   training phase. Bob, however, is an expert concerning these block arrangements.<br/>
   Therefore, Bob will be the one who sees the complete scene of block arrangements and
-  replies to a question from Ann, who will be the one who only sees the partial scene.<br/><br/>
-
+  replies to a question from Ann, who will be the one who only sees the partial scene.<br/>
   Due to the training you just got, you will be the one who sees the partial
-  scene (you know it is the same that Ann sees) and three complete scenes. <br/><br/>
+  scene (that Ann also sees), the question and answer from Ann and Bob, and three complete scenes from 
+  which to select. <br/><br/>
 
-  Bob replies to Ann's question by sending you a message with his response
-  (only you get the message, not Ann). In the example above Ann's question and
-  Bob's response shown to you may look like so: <br/><br/>
+  In the example above Ann's question and Bob's response shown to you may look like so: <br/><br/>
   <img src="./stimuli/img/screens-instruction/qud-response.png" style = "max-width:80%">
   <br/><br/>
 
