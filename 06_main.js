@@ -21,7 +21,8 @@ $("document")
       intro,
       instructions_general,
       animation_view, // training phase
-      instructions_test_img,
+      instructions_test_img1,
+      instructions_test_img2,
       instructions_practice,
       practice_image_selection,
       divider_practice_complete,

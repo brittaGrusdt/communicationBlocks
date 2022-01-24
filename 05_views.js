@@ -68,65 +68,78 @@ const instructions_general = magpieViews.view_generator("instructions", {
 
 // Image choices: anns-bobs-screen.jpeg, all-one-row, separate-ann-bob, separate-you
 
-const instructions_test_img = magpieViews.view_generator("instructions", {
+const instructions_test_img1 = magpieViews.view_generator("instructions", {
   trials: 1,
-  name: "instructions_test_img",
+  name: "instructions_test_img1",
   title: "Instructions Testing Phase",
   text: `Great -  we'll now proceed with the test phase of the experiment.<br/><br/>
-  You will play a 3-player game with Ann and Bob in which you have to work together as a team 
-  to select the right image and gain points. <br/>
+  You will play a 3-player game with Ann and Bob in which you have to work together as a team.
   This is an example of how the game may look like for each of you:
 
-  <br/><br/>
+  <br/>
     <img src="./stimuli/img/screens-instruction/separate-ann-bob.png" style="max-width:90%">
     <img src="./stimuli/img/screens-instruction/separate-you.png" style="max-width:90%">
   <br/><br/>
 
-  Ann's, Bob's, and your goal is to find out which scene Bob sees. <br/>
-  During the game, each of you cannot see the other players' monitors and you are only allowed a 
-  minimal amount of interaction. The way of interacting with each other always follows the same pattern: <br/>
-  <b>1)</b> The first player, Ann, only views an incomplete version of Bob's scene. However, she can ask Bob 
-  one question regarding that scene. <br/>
-  <b>2)</b> The second player, Bob, sees the whole scene but he can only tell you what he sees by answering 
-  Ann's question. Ann will not receive Bob's answer. <br/>
-  <b>3)</b> Based on the question from Ann and the answer from Bob, the third player 
-  (which is you) has to decide which of three different scenes is the one that Bob also sees. As additional information, 
-  you are also able to see Ann's screen. <br/><br/>
+  Ann, Bob and you need to find out which scene Bob sees in order to get as many points as possible.
+  During the game, only a minimal amount of interaction is allowed. The way of interacting with each other always follows the same pattern: <br/><br/>
 
-  Ann has no experience with the scenes of block arrangements that you saw in the
-  training phase. Bob, however, is an expert concerning these block arrangements.<br/>
-  Therefore, Bob will be the one who sees the complete scene of block arrangements and
-  replies to a question from Ann, who will be the one who only sees the partial scene.<br/>
-  Due to the training you just got, you will be the one who sees the partial
-  scene (that Ann also sees), the question and answer from Ann and Bob, and three complete scenes from 
-  which to select. <br/><br/>
+  <b>1)</b> The first player, Ann, only views an incomplete version of Bob's scene.
+  Ann does not have any experience with these scenes of block arrangements, however, she can ask Bob
+  a question about the scene that he sees.<br/><br/>
 
-  In the example above Ann's question and Bob's response shown to you may look like so: <br/><br/>
-  <img src="./stimuli/img/screens-instruction/qud-response.png" style = "max-width:80%">
+  <b>2)</b> The second player, Bob, who is an expert concerning these scenes of block arrangements,
+  sees the complete scene, but he can only tell you what he sees by answering Ann's question. Ann will not receive Bob's answer. <br/><br/>
+
+  <b>3)</b> The third player (which is you) then has to decide which of three different scenes is the one that Bob sees.
+  For this, you will see Ann's screen, the question that she asked and Bob's answer.<br/><br/>
+
+
+  You may select <b>one or more</b> of the three scenes that only you can see.
+  Depending on your choice, Ann, Bob and you will get or loose points
+  (remember that you want to get as many points as possible). <br/><br/>
+
+  Click on CONTINUE to see how you get points.`,
+  buttonText: "continue"
+});
+
+const instructions_test_img2 = magpieViews.view_generator("instructions", {
+  trials: 1,
+  name: "instructions_test_img2",
+  title: "Instructions Testing Phase",
+  text:
+  //
+  //  In this example, Ann's question and Bob's response shown to you may be like so: <br/><br/>
+  //  <img src="./stimuli/img/screens-instruction/qud-response.png" style = "max-width:80%">
+  //  <br/><br/>
+` So, here is an example of how Ann's and Bob's screen might look like:
+  <br/><br/>
+    <img src="./stimuli/img/screens-instruction/anns-bobs-screen.jpeg" style="max-width:80%">
   <br/><br/>
 
-  Based on Bob's response, your task is to select <b>one or more</b> of the
-  three scenes that only you can see.<br/><br/>
+  Imagine them to say the following:<br/>
 
-  If you are confident and select a single scene, and your choice is correct, you will <b>get 100 points</b>.
-  Example (with respect to screens shown above):<br/>
+  <b>Ann</b>: Which blocks do you think will fall?<br/>
+  <b>Bob</b>: The BLUE and the GREEN block will fall.<br/><br/>
+
+  If you are confident and select a single scene, and your choice is correct, you will <b>get 100 points</b>:.
+  <br/>
   <img src="./stimuli/img/screens-instruction/select1-true.png" style="max-width:80%">
   <br/><br/>
-  However, if your choice is wrong, you will <b>loose 100 points</b>.<br/>
-  Example (with respect to screens shown above):<br/>
+  However, if your choice is wrong, you will <b>loose 100 points</b>:<br/>
   <img src="./stimuli/img/screens-instruction/select1-false.png" style="max-width:80%">
   <br/><br/>
-  But if you select two scenes, including the correct one, you will <b>win 50 points</b>.<br/>
-  Example (with respect to screens shown above):<br/>
+  But if you select two scenes, including the correct one, you will <b>win 50 points</b>:<br/>
   <img src="./stimuli/img/screens-instruction/select2.png" style="max-width:80%">
   <br/><br/>
   And further, you will <b>loose 100 points</b> if:<br/>
   1. you select two scenes, <i>not</i> including the correct one OR if<br/>
   2. you select all three scenes.<br/><br/>
-  Ann's, Bob's and your joint goal is to make as many points as possible.
+  Ann's, Bob's and your joint goal is to make as many points as possible.<br/><br/>
   `,
   buttonText: "continue"
 });
+// each of you cannot see the other players' monitors and
 
 const instructions_practice = magpieViews.view_generator("instructions", {
   trials: 1,
