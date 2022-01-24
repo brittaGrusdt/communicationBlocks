@@ -204,7 +204,8 @@ const divider_practice_complete = magpieViews.view_generator("instructions", {
   trials: 1,
   name: "divider_practice_complete",
   title: "Practice finished",
-  text: `When you are ready, please click on CONTINUE to start the first block of the
+  text: `Great - you are done with the practice trials. Note that in the following, you
+  will not get feedback anymore. When you are ready, please click on CONTINUE to start the first block of the
   experimental trials.`,
   buttonText: "continue"
 });
