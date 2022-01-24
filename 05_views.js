@@ -72,36 +72,46 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   title: "Instructions Testing Phase",
   text: `Great -  we'll now proceed with the test phase of the experiment.<br/><br/>
   In the test phase, you play a 3-player game with Ann and Bob: <br/>
-  Bob sees a scene of block arrangements similar to those you saw in the training phase.<br/>
-  Ann sees part of the same scene on a separate screen.<br/>
-  You see what Ann sees (a partial scene) plus three complete scenes. <br/>
-  Here is an example of how Ann's and Bob's screen might look like:
+  One of you will see a partial scene, one a complete scene and one a partial
+  scene (deliberately the same one) and three complete scenes. Ann's, Bob's and
+   your task will be to find out which is the complete scene that one of you
+   sees.<br/><br/>
+
+  Ann has no experience with the scene of block arrangements that you saw in the
+  training phase. Bob, however, is an expert concerning these block arrangements.<br/>
+  Therefore, Bob will be the one who sees the complete scene of block arrangements and
+  replies to a question from Ann, who will be the one who only sees the partial scene.<br/>
+
+  So, here is an example of how Ann's and Bob's screen might look like:
   <br/><br/>
-  <img src="./stimuli/img/screens-instruction/anns-bobs-screen.jpeg" style="max-width:80%">
+    <img src="./stimuli/img/screens-instruction/anns-bobs-screen.jpeg" style="max-width:80%">
   <br/><br/>
-  Together, you try to find out which scene Bob sees on his screen. All of you
-  have different roles in this game:<br/>
-  Ann has the chance to ask Bob a question. Bob replies to Ann's question by
-  sending you (only you, not Ann) a message with his response. 
-  In the example above Ann's question and Bob's response shown to you may look like so: <br/><br/>
+  Due to the training you just got, you will be the one who sees the partial
+  scene (you know it is the same that Ann sees), and you will additionally see
+  three complete scenes. <br/><br/>
+
+  Bob replies to Ann's question by sending you a message with his response
+  (only you get the message, not Ann). In the example above Ann's question and
+  Bob's response shown to you may look like so: <br/><br/>
   <img src="./stimuli/img/screens-instruction/qud-response.png" style = "max-width:80%">
   <br/><br/>
 
-  Based on Bob's response, your task is to select <b>one or two</b> among the three scenes that only you can see.<br/><br/>
+  Based on Bob's response, your task is to select <b>one or more</b> of the
+  three scenes that only you can see.<br/><br/>
 
-  If you are confident and select a single scene, and your choice is correct, you will all <b>win $1</b>.
+  If you are confident and select a single scene, and your choice is correct, you will <b>get 100 points</b>.
   Example (with respect to screens shown above):<br/>
   <img src="./stimuli/img/screens-instruction/select1-true.png" style="max-width:80%">
   <br/><br/>
-  However, if your choice is wrong, you will all <b>loose $1</b>.<br/>
+  However, if your choice is wrong, you will <b>loose 100 points</b>.<br/>
   Example (with respect to screens shown above):<br/>
   <img src="./stimuli/img/screens-instruction/select1-false.png" style="max-width:80%">
   <br/><br/>
-  But if you select two scenes, including the correct one, you will all <b>win 50 cent</b>.<br/>
+  But if you select two scenes, including the correct one, you will <b>win 50 points</b>.<br/>
   Example (with respect to screens shown above):<br/>
   <img src="./stimuli/img/screens-instruction/select2.png" style="max-width:80%">
   <br/><br/>
-  And further, you will all <b>loose $1</b> if:<br/>
+  And further, you will <b>loose 100 points</b> if:<br/>
   1. you select two scenes, <i>not</i> including the correct one OR if<br/>
   2. you select all three scenes.<br/>
   Ann and Bob and your joint goal is to win as much money as possible.
