@@ -18,7 +18,7 @@ pseudoRandomTrainTrials = function(){
 
   let indices = [];
   let ids = _.map(stimuli, 'id')
-  _.map(train_order, function(id){
+  _.map(TRAIN_ORDER, function(id){
     indices.push(ids.indexOf(id))
   });
   let stimuli_data = indices.map(i => stimuli[i]);

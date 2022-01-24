@@ -126,12 +126,25 @@ let train_expect_sth = []
 _.forEach(train_expectations_ids, function(id, i){
   train_expectations[id][0] === "none" ? train_expect_none.push(id) : train_expect_sth.push(id);
 });
-let train_order = _.filter(_.flatten(_.zip(_.shuffle(train_expect_sth),
-                                           _.shuffle(train_expect_none))),
+
+// order st. sth happens alternates with nothing happens and if1_hn followed by if1_ln
+let trials_fixed_order = ["if1_hn", "if1_ln"]
+train_expect_sth = _.filter(train_expect_sth, function(id){
+    return(trials_fixed_order.indexOf(id) == -1)
+});
+train_expect_none = _.filter(train_expect_none, function(id){
+  return(trials_fixed_order.indexOf(id) == -1)
+})
+// simple alternating between two types
+TRAIN_ORDER = _.filter(_.flatten(_.zip(_.shuffle(train_expect_sth),
+                                       _.shuffle(train_expect_none))),
                            function(id){ return id !== undefined});
+// add two trials that shall appear in fixed order:
+TRAIN_ORDER = trials_fixed_order.concat(TRAIN_ORDER);
+
 // console.log(train_expect_sth)
 // console.log(train_expect_none)
-// console.log(train_order)
+//console.log(TRAIN_ORDER)
 
 COLS_GROUPS = {group1: {ANT: "BLUE", CONS: "GREEN"},
                group2: {ANT: "GREEN", CONS: "BLUE"},
