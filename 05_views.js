@@ -73,21 +73,20 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   name: "instructions_test_img",
   title: "Instructions Testing Phase",
   text: `Great -  we'll now proceed with the test phase of the experiment.<br/><br/>
-  In the test phase, you play a 3-player game with Ann and Bob: <br/>
-  Player1 will see a partial scene, player2 a complete scene and Player3 a partial
-  scene (deliberately the same as player1) as well as three complete scenes. Ann's, Bob's and
-   your task will be to find out which is the complete scene that Player2 sees.<br/><br/>
+  You will play a 3-player game with Ann and Bob. <br/>
+  This is an example of how the game may look like for each of you:
 
+  <br/><br/>
+    <img src="./stimuli/img/screens-instruction/separate-ann-bob.png" style="max-width:90%">
+    <img src="./stimuli/img/screens-instruction/separate-you.png" style="max-width:90%">
+  <br/><br/>
+
+  Ann's, Bob's and your task is to find out which scene Bob sees.
   Ann has no experience with the scenes of block arrangements that you saw in the
   training phase. Bob, however, is an expert concerning these block arrangements.<br/>
   Therefore, Bob will be the one who sees the complete scene of block arrangements and
   replies to a question from Ann, who will be the one who only sees the partial scene.<br/><br/>
 
-  So, here is an example of how Ann's and Bob's screen might look like:
-  <br/><br/>
-    <img src="./stimuli/img/screens-instruction/separate-ann-bob.png" style="max-width:90%">
-    <img src="./stimuli/img/screens-instruction/separate-you.png" style="max-width:90%">
-  <br/><br/>
   Due to the training you just got, you will be the one who sees the partial
   scene (you know it is the same that Ann sees) and three complete scenes. <br/><br/>
 
