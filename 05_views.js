@@ -68,9 +68,9 @@ const instructions_general = magpieViews.view_generator("instructions", {
 
 // Image choices: anns-bobs-screen.jpeg, all-one-row, separate-ann-bob, separate-you
 
-const instructions_test_img1 = magpieViews.view_generator("instructions", {
+const instructions_test_img = magpieViews.view_generator("instructions", {
   trials: 1,
-  name: "instructions_test_img1",
+  name: "instructions_test_img",
   title: "Instructions Testing Phase",
   text: `Great -  we'll now proceed with the test phase of the experiment.<br/><br/>
   You will play a 3-player game with Ann and Bob in which you have to work together as a team.
@@ -99,20 +99,7 @@ const instructions_test_img1 = magpieViews.view_generator("instructions", {
   Depending on your choice, Ann, Bob and you will get or loose points
   (remember that you want to get as many points as possible). <br/><br/>
 
-  Click on CONTINUE to see how you get points.`,
-  buttonText: "continue"
-});
-
-const instructions_test_img2 = magpieViews.view_generator("instructions", {
-  trials: 1,
-  name: "instructions_test_img2",
-  title: "Instructions Testing Phase",
-  text:
-  //
-  //  In this example, Ann's question and Bob's response shown to you may be like so: <br/><br/>
-  //  <img src="./stimuli/img/screens-instruction/qud-response.png" style = "max-width:80%">
-  //  <br/><br/>
-` So, here is an example of how Ann's and Bob's screen might look like:
+  Here is again how Ann's and Bob's screen look like in the example from above:
   <br/><br/>
     <img src="./stimuli/img/screens-instruction/anns-bobs-screen.jpeg" style="max-width:80%">
   <br/><br/>
