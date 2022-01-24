@@ -25,7 +25,8 @@ TEST_DATA.forEach(function(dat) {
       type: dat.type,
       property_id1: dat.property_id1,
       property_id2: dat.property_id2,
-      property_id3: dat.property_id3
+      property_id3: dat.property_id3,
+      bob: dat.bob
     });
 });
 
@@ -39,7 +40,7 @@ _.map(image_selection_trials, function (trial) {
   trial.picture3 = trial.picture3.replace("group", group);
   trial.picture0 = trial.picture0.replace("group", group);
   trial.group = group;
-  trial.expected = TEST_EXPECT[trial.id]
+  trial.expected = trial.expected;
 });
 
 let image_selection_practice = _.filter(image_selection_trials, function(obj){

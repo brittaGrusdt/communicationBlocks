@@ -81,8 +81,6 @@ const forced_choice_generator = {
        let cols_group = COLS_GROUPS[config.data[CT].group];
        let question = config.data[CT].question.replace("ANT", cols_group.ANT);
        question = question.replace("CONS", cols_group.CONS)
-       // randomize image order for each trial
-       var rnd = _.sample([0, 1, 2, 3, 4, 5]);
        let side = ["picture0"].concat(_.shuffle(["picture1", "picture2", "picture3"]));
 
        return    `<div class='magpie-view-answer-container'>
@@ -183,6 +181,7 @@ const forced_choice_generator = {
          selected_pic: "",
          block: config.data[CT].block
        };
+
        $("#picture1").on("click", function() {
            trial_data.response = config.data[CT].property_id1
        });
@@ -206,6 +205,23 @@ const forced_choice_generator = {
         	trial_data.selected_pic = trial_data.selected_pic.slice(0, -1);
         	trial_data = magpieUtils.view.save_config_trial_data(config.data[CT], trial_data);
         	magpie.trial_data.push(trial_data);
+
+          if(trial_data.type.includes('practice')) {
+            let bob = $('#' + trial_data.bob)
+            let pic_bob = bob.hasClass('isMiddle') ? 'the picture in the middle' :
+            bob.hasClass('isLeft') ? 'the leftmost picture' :
+            'the rightmost picture';
+
+            //console.log('selected: ' + trial_data.selected_pic + ' bob: ' + trial_data.bob)
+            let msg = config.data[CT].bob === trial_data.selected_pic ?
+              'Awesome - your choice was correct! You WIN $1!' :
+              trial_data.selected_pic.includes(trial_data.bob) ?
+              'Congratulations! Bob saw ' + pic_bob + ' - <b>you WIN 50ct!' :
+              'Ups. Bob saw ' + pic_bob + '. You LOOSE $1!';
+
+            alert(msg);
+          }
+
         	magpie.findNextView();
        })
    }
