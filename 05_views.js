@@ -72,23 +72,21 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   title: "Instructions Testing Phase",
   text: `Great -  we'll now proceed with the test phase of the experiment.<br/><br/>
   In the test phase, you play a 3-player game with Ann and Bob: <br/>
-  One of you will see a partial scene, one a complete scene and one a partial
-  scene (deliberately the same one) and three complete scenes. Ann's, Bob's and
-   your task will be to find out which is the complete scene that one of you
-   sees.<br/><br/>
+  Player1 will see a partial scene, player2 a complete scene and Player3 a partial
+  scene (deliberately the same as player1) as well as three complete scenes. Ann's, Bob's and
+   your task will be to find out which is the complete scene that Player2 sees.<br/><br/>
 
   Ann has no experience with the scene of block arrangements that you saw in the
   training phase. Bob, however, is an expert concerning these block arrangements.<br/>
   Therefore, Bob will be the one who sees the complete scene of block arrangements and
-  replies to a question from Ann, who will be the one who only sees the partial scene.<br/>
+  replies to a question from Ann, who will be the one who only sees the partial scene.<br/><br/>
 
   So, here is an example of how Ann's and Bob's screen might look like:
   <br/><br/>
     <img src="./stimuli/img/screens-instruction/anns-bobs-screen.jpeg" style="max-width:80%">
   <br/><br/>
   Due to the training you just got, you will be the one who sees the partial
-  scene (you know it is the same that Ann sees), and you will additionally see
-  three complete scenes. <br/><br/>
+  scene (you know it is the same that Ann sees) and three complete scenes. <br/><br/>
 
   Bob replies to Ann's question by sending you a message with his response
   (only you get the message, not Ann). In the example above Ann's question and
