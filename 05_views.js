@@ -66,6 +66,8 @@ const instructions_general = magpieViews.view_generator("instructions", {
   buttonText: "Start Training"
 });
 
+// Image choices: anns-bobs-screen.jpeg, all-one-row, separate-ann-bob, separate-you
+
 const instructions_test_img = magpieViews.view_generator("instructions", {
   trials: 1,
   name: "instructions_test_img",
@@ -83,7 +85,8 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
 
   So, here is an example of how Ann's and Bob's screen might look like:
   <br/><br/>
-    <img src="./stimuli/img/screens-instruction/anns-bobs-screen.jpeg" style="max-width:80%">
+    <img src="./stimuli/img/screens-instruction/separate-ann-bob.png" style="max-width:90%">
+    <img src="./stimuli/img/screens-instruction/separate-you.png" style="max-width:90%">
   <br/><br/>
   Due to the training you just got, you will be the one who sees the partial
   scene (you know it is the same that Ann sees) and three complete scenes. <br/><br/>
