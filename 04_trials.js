@@ -26,7 +26,8 @@ TEST_DATA.forEach(function(dat) {
       property_id1: dat.property_id1,
       property_id2: dat.property_id2,
       property_id3: dat.property_id3,
-      bob: dat.bob
+      bob: dat.bob,
+      money: 0
     });
 });
 

@@ -204,24 +204,30 @@ const forced_choice_generator = {
           // remove last underscore in string
         	trial_data.selected_pic = trial_data.selected_pic.slice(0, -1);
         	trial_data = magpieUtils.view.save_config_trial_data(config.data[CT], trial_data);
-        	magpie.trial_data.push(trial_data);
 
-          if(trial_data.type.includes('practice')) {
+          if(trial_data.type.includes('practice') || trial_data.block === "practice") {
             let bob = $('#' + trial_data.bob)
             let pic_bob = bob.hasClass('isMiddle') ? 'the picture in the middle' :
             bob.hasClass('isLeft') ? 'the leftmost picture' :
             'the rightmost picture';
 
             //console.log('selected: ' + trial_data.selected_pic + ' bob: ' + trial_data.bob)
-            let msg = config.data[CT].bob === trial_data.selected_pic ?
-              'Awesome - your choice was correct! You WIN $1!' :
+            let result = config.data[CT].bob === trial_data.selected_pic ?
+              {'money': 1, msg: 'Awesome - your choice was correct! You WIN $1!'} :
+              // selection of all 3 -> loose
+              trial_data.selected_pic.split("_").length == 3 ?
+              {money: -1, msg: 'Ups - you selected all 3 scenes... So, you LOOSE $1! Bob saw ' + pic_bob} :
+              // selection of 2 including correct -> 50 ct
               trial_data.selected_pic.includes(trial_data.bob) ?
-              'Congratulations! Bob saw ' + pic_bob + ' - <b>you WIN 50ct!' :
-              'Ups. Bob saw ' + pic_bob + '. You LOOSE $1!';
+              {money: 0.5, msg: 'Congratulations! Bob saw ' + pic_bob + ' - you WIN 50ct!'} :
+              //otherwise loose
+              {money: -1, msg: 'Ups. Bob saw ' + pic_bob + '. You LOOSE $1!'};
 
-            alert(msg);
+              trial_data.money = result.money;
+              SUMMED_MONEY += result.money;
+              alert(result.msg + "\r\n" + "Total amount of money you made so far: " + SUMMED_MONEY + "$.");
           }
-
+          magpie.trial_data.push(trial_data);
         	magpie.findNextView();
        })
    }

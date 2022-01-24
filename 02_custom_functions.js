@@ -35,6 +35,7 @@ const time_limit = function (data, next) {
   next();
 };
 
+let SUMMED_MONEY = 0;
 // compares the chosen answer to the value of `option1`
 // check_response = function (data, next) {
 //   $("input[name=answer]")
@@ -62,15 +63,11 @@ const NB_TRAIN_TRIALS  = _.flatten(Object.values(TRAIN_IDS)).length
 // for training with yes-no-undecided buttons:
 const TRAIN_BTTN_IDS = ['buttonGreen', 'buttonBlue', 'buttonYellow', 'buttonNone']
 
-// const VAL_START_SLIDERS = 0
-const VAL_START_SLIDERS = 25
-
 //globally initialize
 const EVENT_MAP = {"rny": "the red block falls, but not the yellow",
                    "ynr": "the yellow block falls, but not the red",
                    "none": "none of the two blocks falls",
                    "both": "both blocks fall"}
-total_moves = VAL_START_SLIDERS === 0 ? 0 : 4;
 
 // custom functions:
 htmlButtonResponses = function () {
