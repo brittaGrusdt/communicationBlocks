@@ -76,7 +76,7 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   scene (deliberately the same as player1) as well as three complete scenes. Ann's, Bob's and
    your task will be to find out which is the complete scene that Player2 sees.<br/><br/>
 
-  Ann has no experience with the scene of block arrangements that you saw in the
+  Ann has no experience with the scenes of block arrangements that you saw in the
   training phase. Bob, however, is an expert concerning these block arrangements.<br/>
   Therefore, Bob will be the one who sees the complete scene of block arrangements and
   replies to a question from Ann, who will be the one who only sees the partial scene.<br/><br/>
@@ -111,7 +111,7 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   <br/><br/>
   And further, you will <b>loose 100 points</b> if:<br/>
   1. you select two scenes, <i>not</i> including the correct one OR if<br/>
-  2. you select all three scenes.<br/>
+  2. you select all three scenes.<br/><br/>
   Ann's, Bob's and your joint goal is to make as many points as possible.
   `,
   buttonText: "continue"
