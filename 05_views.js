@@ -62,7 +62,7 @@ const instructions_general = magpieViews.view_generator("instructions", {
          <br/>
          <b>Please note</b>:
          <br/>
-         We recommend to use <b>Full Screen Mode</b> throughout the experiment (usually switched on/off with F11).`,
+         We recommend to use <b>Full Screen Mode</b> throughout the experiment (usually switched on/off with F11, on a Mac press Command+Control+F).`,
   buttonText: "Start Training"
 });
 
@@ -81,7 +81,7 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
     <img src="./stimuli/img/screens-instruction/separate-you.png" style="max-width:90%">
   <br/><br/>
 
-  Ann, Bob and you need to find out which scene Bob sees in order to get as many points as possible.
+  Ann', Bob's and your task is to find out which scene Bob sees in order to get as many points as possible.
   During the game, only a minimal amount of interaction is allowed. The way of interacting with each other always follows the same pattern: <br/><br/>
 
   <b>1)</b> The first player, Ann, only views an incomplete version of Bob's scene.
@@ -99,31 +99,33 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   Depending on your choice, Ann, Bob and you will get or loose points
   (remember that you want to get as many points as possible). <br/><br/>
 
-  Here is again how Ann's and Bob's screen look like in the example from above:
+  To demonstrate this, we use the example from above again, where Ann's and Bob's screen look like this:
   <br/><br/>
-    <img src="./stimuli/img/screens-instruction/anns-bobs-screen.jpeg" style="max-width:80%">
+    <img src="./stimuli/img/screens-instruction/anns-bobs-screen.jpeg" style="max-width:90%">
   <br/><br/>
 
-  Imagine them to say the following:<br/>
+  And this is what they say:<br/>
 
   <b>Ann</b>: Which blocks do you think will fall?<br/>
   <b>Bob</b>: The BLUE and the GREEN block will fall.<br/><br/>
 
-  If you are confident and select a single scene, and your choice is correct, you will <b>get 100 points</b>:.
+  If you are confident and select a single scene, and your choice is correct,<br/>
+  you will <b>get 100 points</b>:.
   <br/>
-  <img src="./stimuli/img/screens-instruction/select1-true.png" style="max-width:80%">
+  <img src="./stimuli/img/screens-instruction/select1-true.png" style="max-width:90%">
   <br/><br/>
-  However, if your choice is wrong, you will <b>loose 100 points</b>:<br/>
-  <img src="./stimuli/img/screens-instruction/select1-false.png" style="max-width:80%">
+  However, if you select a single scene and your choice is wrong,<br/>
+  you will <b>loose 100 points</b>:<br/>
+  <img src="./stimuli/img/screens-instruction/select1-false.png" style="max-width:90%">
   <br/><br/>
   But if you select two scenes, including the correct one, you will <b>win 50 points</b>:<br/>
-  <img src="./stimuli/img/screens-instruction/select2.png" style="max-width:80%">
+  <img src="./stimuli/img/screens-instruction/select2.png" style="max-width:90%">
   <br/><br/>
-  And further, you will <b>loose 100 points</b> if:<br/>
+
+  And even though this is unlikely to happen, for completeness, note that you
+  will also <b>loose 100 points</b> if:<br/>
   1. you select two scenes, <i>not</i> including the correct one OR if<br/>
-  2. you select all three scenes.<br/><br/>
-  Ann's, Bob's and your joint goal is to make as many points as possible.<br/><br/>
-  `,
+  2. you select all three scenes.<br/><br/>`,
   buttonText: "continue"
 });
 // each of you cannot see the other players' monitors and

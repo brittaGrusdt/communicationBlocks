@@ -30,7 +30,7 @@ const animation_generator = function(config) {
             $('#' + id).toggleClass('selected');
             if($('#' + id).hasClass('selected')){
               toggleNextIfDone($('#runButton'), true);
-              $('#trainBttnSelect').html('<b>&emsp;Selected buttons are marked in blue.</b>')
+              $('#trainBttnSelect').html('<b>&emsp;Selected buttons are marked in purple.</b>')
             } else {
               var count = 0;
               bttns.forEach(function(id){
@@ -49,7 +49,7 @@ const animation_generator = function(config) {
           bttns.forEach(function(id){
             $('#' + id).removeClass('selected');
           })
-          $('#trainBttnSelect').html('<b>&emsp;Selected buttons are marked in blue.</b>')
+          $('#trainBttnSelect').html('<b>&emsp;Selected buttons are marked in purple.</b>')
           toggleNextIfDone($('#runButton'), true);
         } else {
           $('#runButton').addClass('grid-button');
