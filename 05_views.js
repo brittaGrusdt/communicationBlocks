@@ -96,7 +96,7 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
 
 
   You may select <b>one or more</b> of the three scenes that only you can see.
-  Depending on your choice, Ann, Bob and you will get or loose points
+  Depending on your choice, Ann, Bob and you will get or lose points
   (remember that you want to get as many points as possible). <br/><br/>
 
   To demonstrate this, we use the example from above again, where Ann's and Bob's screen look like this:
@@ -115,7 +115,7 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   <img src="./stimuli/img/screens-instruction/select1-true.png" style="max-width:90%">
   <br/><br/>
   However, if you select a single scene and your choice is wrong,<br/>
-  you will <b>loose 100 points</b>:<br/>
+  you will <b>lose 100 points</b>:<br/>
   <img src="./stimuli/img/screens-instruction/select1-false.png" style="max-width:90%">
   <br/><br/>
   But if you select two scenes, including the correct one, you will <b>win 50 points</b>:<br/>
@@ -123,7 +123,7 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   <br/><br/>
 
   And even though this is unlikely to happen, for completeness, note that you
-  will also <b>loose 100 points</b> if:<br/>
+  will also <b>lose 100 points</b> if:<br/>
   1. you select two scenes, <i>not</i> including the correct one OR if<br/>
   2. you select all three scenes.<br/><br/>`,
   buttonText: "continue"
