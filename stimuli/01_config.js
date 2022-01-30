@@ -173,6 +173,9 @@ ANSWERS = {
   yellow_cons: 'The YELLOW and the CONS block will fall.',
   all3: 'The YELLOW, the ANT and the CONS block will fall.',
   not_yellow_cons: 'NEITHER the YELLOW NOR the CONS block will fall.',
+}
+
+TEXT_BOBS_SCREENS = {
   attention_check: '<br/><small>So, click on the SIDE picture.</small>',
   normal_check: '<br/><small>So, click on the picture(s) that you think Bob is likely to have described.</small>'
 }
@@ -225,13 +228,6 @@ TEST_DATA = [
 PRACTICE_IDS = _.map(_.filter(TEST_DATA, function(obj){
   return obj.type == 'practice'
 }), 'id')
-
-
-TEST_DATA = _.map(TEST_DATA, function(data){
-  let answer2 = data.type == "attention-check" ? ANSWERS.attention_check : ANSWERS.normal_check;
-  data.answer = data.answer + answer2
-  return(data)
-});
 
 TEST_IDS = _.map(TEST_DATA, 'id')
 

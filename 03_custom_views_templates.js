@@ -83,25 +83,27 @@ const forced_choice_generator = {
        question = question.replace("CONS", cols_group.CONS)
        let side = ["picture0"].concat(_.shuffle(["picture1", "picture2", "picture3"]));
 
-       return    `<div class='magpie-view-answer-container'>
-                  <p id='pqud' class='magpie-view-question magpie-view-qud'>${config.data[CT].QUD}</p>
-                  <div id="label_obscured_pic" class="top-middle"></div>
-                  <img src=${config.data[CT][side[0]]} id="obscured_pic" style="max-width:30%;height:auto;">
-                  <img src=${config.data[CT]["picture_bob"]} id="picture_bob" style="max-width:30%;height:auto;">
-                  <p id='questionAnn' class='magpie-view-question magpie-view-qud'></p>
-                   <button id='bttnQuestionAnn' class='magpie-view-button'>See Ann's question</button>
-                   <button id='askBob' class='magpie-view-button grid-button'>See Bob's response</button>
-                   <p id='answerBob' class='magpie-view-question'></p>
-                   <div class="stimuli">
-                   <div id="label_left_pic" class="bottom-left">${side[1]}</div>
-                   <img src=${config.data[CT][side[1]]} id=${side[1]} class="stim_pic unclickable isLeft" style="max-width:30%;height:auto;visibility:hidden">
-                   <div id="label_middle_pic" class="bottom-middle">${side[2]}</div>
-                   <img src=${config.data[CT][side[2]]} id=${side[2]} class="stim_pic unclickable isMiddle" style="max-width:30%;height:auto;visibility:hidden">
-                   <img src=${config.data[CT][side[3]]} id=${side[3]} class="stim_pic unclickable isRight" style="max-width:30%;height:auto;visibility:hidden">
-                   <div id="label_right_pic" class="bottom-right">${side[3]}</div>
-                   </div>
-                   <button id='smallMarginNextButton' class='grid-button magpie-view-button' style="visibility:hidden">continue</button>
-                 </div>`;
+       return `<div class='magpie-view-answer-container'>
+          <p id='pqud' class='magpie-view-question magpie-view-qud'>${config.data[CT].QUD}</p>
+          <div id="label_obscured_pic" class="top-middle"></div>
+          <img src=${config.data[CT][side[0]]} id="obscured_pic" style="max-width:30%;height:auto;">
+          <img src=${config.data[CT]["picture_bob"]} id="picture_bob" style="max-width:30%;height:auto;">
+          <p id='questionAnn' class='magpie-view-question magpie-view-qud'></p>
+          <button id='bttnQuestionAnn' class='magpie-view-button'>See Ann's question</button>
+          <button id='bttnAnswerBob' class='magpie-view-button grid-button'>See Bob's response</button>
+          <p id='answerBob' class='magpie-view-question'></p>
+          <div class="stimuli">
+            <p id='textBobsScreens' class='magpie-view-question'></p>
+            <button id='bttnBobsScreens' class='magpie-view-button grid-button'>Show possible screens Bob might have seen</button>
+            <div id="label_left_pic" class="bottom-left">${side[1]}</div>
+            <img src=${config.data[CT][side[1]]} id=${side[1]} class="stim_pic unclickable isLeft" style="max-width:30%;height:auto;visibility:hidden">
+            <div id="label_middle_pic" class="bottom-middle">${side[2]}</div>
+            <img src=${config.data[CT][side[2]]} id=${side[2]} class="stim_pic unclickable isMiddle" style="max-width:30%;height:auto;visibility:hidden">
+            <img src=${config.data[CT][side[3]]} id=${side[3]} class="stim_pic unclickable isRight" style="max-width:30%;height:auto;visibility:hidden">
+            <div id="label_right_pic" class="bottom-right">${side[3]}</div>
+         </div>
+         <button id='smallMarginNextButton' class='grid-button magpie-view-button' style="visibility:hidden">continue</button>
+       </div>`;
    },
 
   handle_response_function: function(config, CT, magpie, answer_container_generator, startingTime) {
@@ -122,12 +124,12 @@ const forced_choice_generator = {
         question = question.replace("ANT", cols_group.ANT);
 
         $("#questionAnn").html(question);
-        toggleNextIfDone($("#askBob"), true)
+        toggleNextIfDone($("#bttnAnswerBob"), true)
        });
 
-       $("#askBob").on("click", function(){
+       $("#bttnAnswerBob").on("click", function(){
         this.remove();
-        $("#pqud").css("visibility", "visible");
+        //$("#pqud").css("visibility", "visible");
         let answer = config.data[CT].answer;
         let cols_group = COLS_GROUPS[config.data[CT].group]
         answer = answer.replace("CONS", cols_group.CONS);
@@ -135,23 +137,30 @@ const forced_choice_generator = {
         if(DEBUG) {
           console.log('expected (if any): ' + config.data[CT].expected);
         }
-
-        if(config.data[CT].type === "attention-check"){
-          let attention_side = $("#" + config.data[CT].expected).hasClass("isLeft") ? "leftmost picture"
-          : $("#" + config.data[CT].expected).hasClass("isRight") ? "rightmost picture"
-          : "picture in the middle";
-          answer = answer.replace("SIDE picture", attention_side)
-        }
-
         $("#answerBob").html(answer);
-        $("#picture1").css("visibility", "visible");
-        $("#picture2").css("visibility", "visible");
-        $("#picture3").css("visibility", "visible");
-        $("#smallMarginNextButton").css("visibility", "visible");
-        $("#picture1").removeClass('unclickable');
-        $("#picture2").removeClass('unclickable');
-        $("#picture3").removeClass('unclickable');
-       });
+        toggleNextIfDone($("#bttnBobsScreens"), true)
+      });
+
+        $("#bttnBobsScreens").on("click", function(){
+          let text = TEXT_BOBS_SCREENS.normal_check;
+          if(config.data[CT].type === "attention-check"){
+            text = TEXT_BOBS_SCREENS.attention_check;
+            let attention_side = $("#" + config.data[CT].expected).hasClass("isLeft") ? "leftmost picture"
+            : $("#" + config.data[CT].expected).hasClass("isRight") ? "rightmost picture"
+            : "picture in the middle";
+            text = text.replace("SIDE picture", attention_side)
+          }
+          this.remove();
+          $("#textBobsScreens").html(text);
+
+          $("#picture1").css("visibility", "visible");
+          $("#picture2").css("visibility", "visible");
+          $("#picture3").css("visibility", "visible");
+          $("#smallMarginNextButton").css("visibility", "visible");
+          $("#picture1").removeClass('unclickable');
+          $("#picture2").removeClass('unclickable');
+          $("#picture3").removeClass('unclickable');
+        });
 
        const pictures = ["picture1", "picture2", "picture3"];
        pictures.forEach(function (id) {
