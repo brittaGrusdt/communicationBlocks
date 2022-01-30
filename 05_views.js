@@ -56,6 +56,7 @@ const instructions_general = magpieViews.view_generator("instructions", {
          Your task will be to select all blocks that you think will fall (multiple selections possible!).
         <br/>
          After you have made your choice, click on RUN to see which blocks actually fall.
+         Note that in the lower left, you will see a little moving triangle, which is just there for you to see that the animation is running.
          <br/>
          By clicking on CONTINUE you'll proceed with the next training trial.
          <br/>
