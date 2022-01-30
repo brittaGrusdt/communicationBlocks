@@ -86,8 +86,8 @@ htmlButtonResponses = function () {
     </button>
     <div class="divider"/>
     <button id="buttonNone" class="styled-button">None</button>
-    <p id=trainBttnSelect style="font-size:14px;"><b>&emsp;Please make a selection!</b></p>
   </bttns>
+  <p id=trainBttnSelect align="center" style="font-size:14px;"><b>&emsp;Please make a selection!</b></p>
   `;
 }
 
@@ -144,6 +144,7 @@ showAnimationInTrial = function (CT, html_answers, progress_bar = true) {
   let engine = worldElems.engine;
   let render = worldElems.render;
   let add_bottom = stimulus.id === "uncertain_2" ? false : true;
+  stimulus.objs = stimulus.objs.concat(movingIrrelevantObj());
   addObjs2World(stimulus.objs, engine, add_bottom);
   show(engine, render);
   let startTime = Date.now();

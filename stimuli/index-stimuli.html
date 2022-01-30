@@ -83,7 +83,8 @@
       let render = worldElems.render
       let engine = worldElems.engine;
       let bottom = MODE==="color-vision" || stimulus.id==="uncertain_2" ? false : true;
-      addObjs2World(stimulus.objs, engine, bottom);
+      // stimulus.objs = stimulus.objs.concat(movingIrrelevantObj());
+      stimulus = addObjs2World(stimulus.objs, engine, bottom);
     </script>
 
     <!-- wrapper classes -->

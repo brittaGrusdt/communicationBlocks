@@ -103,7 +103,7 @@ wallsIf1 = function(side, horiz, prior, exhaustive){
   }
   let base_walls = [dat.w_up, ramp.wall_bottom].concat(wall_exhaustive);
   return {walls: base_walls.concat([ramp_top,
-    ramp.tilted, 
+    ramp.tilted,
     base_ssw, ssw.skeleton]),
           dynamic: [ramp.ball, ssw.plank, ssw.constraint]}
 }
@@ -176,4 +176,23 @@ Walls.train.ssw = function(){
     wall('wall_seesaw_right', x+pw/2+PROPS.seesaw.d_to_walls+bw/2, 240, bw)
   ].concat([objs.skeleton]);
   return {'walls': walls, 'dynamic': [objs.plank, objs.constraint]}
+}
+
+movingIrrelevantObj = function(){
+  var x = 120;
+  var y = 430;
+  var body = Bodies.polygon(x, y, 3, 20,
+    {render: {fillStyle: COLS.pink_red}});
+
+  var constraint = Constraint.create({
+      pointA: { x: x, y: y-30},
+      bodyB: body,
+      stiffness: 0.002,
+      render: {
+         strokeStyle: COLS.olive,
+         lineWidth: 3
+    }
+  });
+
+  return([body, constraint]);
 }
