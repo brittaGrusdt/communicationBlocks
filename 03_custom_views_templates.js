@@ -240,7 +240,7 @@ const forced_choice_generator = {
 
               trial_data.money = result.money;
               SUMMED_MONEY += result.money;
-              alert(result.msg + "\r\n" + "Total amount of points you made so far: " + SUMMED_MONEY + "$.");
+              alert(result.msg + "\r\n" + "Total amount of points you made so far: " + SUMMED_MONEY + ".");
           }
           magpie.trial_data.push(trial_data);
         	magpie.findNextView();
