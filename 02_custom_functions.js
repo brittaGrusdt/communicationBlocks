@@ -35,7 +35,9 @@ const time_limit = function (data, next) {
   next();
 };
 
-let SUMMED_MONEY = 0;
+let TOTAL_POINTS = 0;
+let POINTS_TEST_PHASE = 0;
+let POINTS_PRACTICE = 0;
 // compares the chosen answer to the value of `option1`
 // check_response = function (data, next) {
 //   $("input[name=answer]")

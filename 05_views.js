@@ -221,14 +221,14 @@ const test_image_selection_03 = magpieViews.view_generator(
   }
 );
 
-const divider_practice_complete = magpieViews.view_generator("instructions", {
+const divider_practice_complete = custom_text_scores({
+  name: "divider_practice_complete", title: "Practice finished",
+  text: {prescore: `Great - you are done with the practice trials. In the practice phase`,
+         postscore: `Note that in the following, you will not get feedback anymore.
+         But you will be told your final score in the end of the experiment.</br>When you are ready,
+         please click on CONTINUE to start the first block of the
+    experimental trials.`},
   trials: 1,
-  name: "divider_practice_complete",
-  title: "Practice finished",
-  text: `Great - you are done with the practice trials. Note that in the
-  following, you will not get feedback anymore.<br/>
-  When you are ready, please click on CONTINUE to start the first block of the
-  experimental trials.`,
   buttonText: "continue"
 });
 
@@ -254,6 +254,14 @@ const divider_second_break = magpieViews.view_generator("instructions", {
   		You can now take a short break if needed.
       As soon as you are ready to continue with the experiment, click on the button below.`,
   buttonText: "Continue with block 3"
+});
+
+const divider_finished = custom_text_scores({
+  name: "divider_finished", title: "Test Phase finished",
+  text: {prescore: `Awesome! For your interest: in the test phase`,
+         postscore: `Please click on NEXT to continue.`},
+  trials: 1,
+  buttonText: "next"
 });
 
 // captcha

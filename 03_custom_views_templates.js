@@ -70,6 +70,7 @@ const forced_choice_generator = {
   stimulus_container_gen: function (config, CT) {
         return `<div class='magpie-view'>
                     <h1 class='magpie-view-title'>${config.title}</h1>
+                    <h2 id='yourScore'></h2>
                     <div class='magpie-view-stimulus-container'>
                         <div class='magpie-view-stimulus magpie-nodisplay'></div>
                     </div>
@@ -77,6 +78,11 @@ const forced_choice_generator = {
     },
   answer_container_gen: function(config, CT){
        $(".magpie-view-stimulus-container").addClass("magpie-nodisplay");
+       if(config.data[CT].type.includes('practice') || config.data[CT].block === "practice") {
+         $('#yourScore').html(`Your points: ${POINTS_PRACTICE}`);
+       } else {
+         $('#yourScore').html("Your points: ?");
+       }
 
        let cols_group = COLS_GROUPS[config.data[CT].group];
        let question = config.data[CT].question.replace("ANT", cols_group.ANT);
@@ -220,27 +226,31 @@ const forced_choice_generator = {
         	trial_data.selected_pic = trial_data.selected_pic.slice(0, -1);
         	trial_data = magpieUtils.view.save_config_trial_data(config.data[CT], trial_data);
 
+          let bob = $('#' + trial_data.bob)
+          let pic_bob = bob.hasClass('isMiddle') ? 'the picture in the middle' :
+          bob.hasClass('isLeft') ? 'the leftmost picture' :
+          'the rightmost picture';
+
+          //console.log('selected: ' + trial_data.selected_pic + ' bob: ' + trial_data.bob)
+          let result = config.data[CT].bob === trial_data.selected_pic ?
+            {'money': 100, msg: 'Awesome - your choice was correct! You GET 100 points!'} :
+            // selection of all 3 -> loose
+            trial_data.selected_pic.split("_").length == 3 ?
+            {money: -100, msg: 'Ups - you selected all 3 scenes... So, you LOOSE 100 points! Bob saw ' + pic_bob} :
+            // selection of 2 including correct -> 50 ct
+            trial_data.selected_pic.includes(trial_data.bob) ?
+            {money: 50, msg: 'Congratulations! Bob saw ' + pic_bob + ' - you GET 50 points!'} :
+            //otherwise loose
+            {money: -100, msg: 'Ups. Bob saw ' + pic_bob + '. You LOOSE 100 points!'};
+
+            trial_data.money = result.money;
+            TOTAL_POINTS += result.money;
+
           if(trial_data.type.includes('practice') || trial_data.block === "practice") {
-            let bob = $('#' + trial_data.bob)
-            let pic_bob = bob.hasClass('isMiddle') ? 'the picture in the middle' :
-            bob.hasClass('isLeft') ? 'the leftmost picture' :
-            'the rightmost picture';
-
-            //console.log('selected: ' + trial_data.selected_pic + ' bob: ' + trial_data.bob)
-            let result = config.data[CT].bob === trial_data.selected_pic ?
-              {'money': 100, msg: 'Awesome - your choice was correct! You GET 100 points!'} :
-              // selection of all 3 -> loose
-              trial_data.selected_pic.split("_").length == 3 ?
-              {money: -100, msg: 'Ups - you selected all 3 scenes... So, you LOOSE 100 points! Bob saw ' + pic_bob} :
-              // selection of 2 including correct -> 50 ct
-              trial_data.selected_pic.includes(trial_data.bob) ?
-              {money: 50, msg: 'Congratulations! Bob saw ' + pic_bob + ' - you GET 50 points!'} :
-              //otherwise loose
-              {money: -100, msg: 'Ups. Bob saw ' + pic_bob + '. You LOOSE 100 points!'};
-
-              trial_data.money = result.money;
-              SUMMED_MONEY += result.money;
-              alert(result.msg + "\r\n" + "Total amount of points you made so far: " + SUMMED_MONEY + ".");
+              alert(result.msg + "\r\n" + "Total amount of points you made so far: " + TOTAL_POINTS + ".");
+              POINTS_PRACTICE = TOTAL_POINTS;
+          } else {
+            POINTS_TEST_PHASE = TOTAL_POINTS - POINTS_PRACTICE;
           }
           magpie.trial_data.push(trial_data);
         	magpie.findNextView();
@@ -248,6 +258,31 @@ const forced_choice_generator = {
    }
 }
 
+const custom_text_scores = function(config) {
+    const view = {
+        name: config.name,
+        CT: 0,
+        trials: config.trials,
+        render: function (CT, magpie) {
+          let points = config.name.includes("practice") ? POINTS_PRACTICE : POINTS_TEST_PHASE;
+          $("main").html(
+            `<div class='magpie-view'>
+              <h1 class='magpie-view-title'>${config.title}</h1>
+              <section class="magpie-text-container">
+                <p class="magpie-view-text">${config.text.prescore}
+                you got a total of <b>${points} points</b>.</br></br>
+                ${config.text.postscore}</p>
+              </section>
+              <button class="magpie-view-button" id='next'>${config.buttonText}</button>
+            </div>`
+          );
+          $("#next").on("click", function() {
+            magpie.findNextView();
+          });
+        }
+    };
+    return view;
+};
 // captcha view
 const custom_botcaptcha = function(config){
   const view = {

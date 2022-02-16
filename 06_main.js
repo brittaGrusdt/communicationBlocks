@@ -30,6 +30,7 @@ $("document")
       test_image_selection_02,
       divider_second_break,
       test_image_selection_03,
+      divider_finished,
       post_test,
       thanks
       ],
