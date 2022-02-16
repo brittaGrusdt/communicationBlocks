@@ -300,7 +300,7 @@ const custom_botcaptcha = function(config){
         <section class="magpie-text-container" align="center">
             <p class="magpie-text-container" id="quest-response" align="center">Who is ${config.speaker} talking to?</p>
             <section class="magpie-answer-container" align="center">
-                <p class="magpie-text-container" align="center">Please enter your answer in lower case.</p>
+                <p class="magpie-text-container" align="center">Please enter your answer in the box below.</p>
             </section
             <br />
             <section class="magpie-view-question" align="center">
