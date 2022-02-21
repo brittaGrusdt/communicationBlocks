@@ -45,47 +45,20 @@ pseudoRandomTestIds = function(){
     return dat.type === "practice"
   }), 'id'));
 
-  let practice_balance_ids = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
-    return dat.type === "practice-balance"
-  }), 'id'));
-
-  let balance_ids = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
-    return dat.type === "balance"
-  }), 'id'));
-
-  let control_physics_ids = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
-    return dat.type === "control-physics"
-  }), 'id'));
-
   let filler_ids = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
     return dat.type === "filler"
   }), 'id'));
 
   // first attention check is for practice block always the same
   let attention_check_ids = _.shuffle(_.map(_.filter(TEST_DATA, function(dat){
-    return dat.type === "attention-check" && dat.id != "trial25"
+    return dat.type === "attention-check"
   }), 'id'));
-  attention_check_ids = ["trial25"].concat(attention_check_ids)
-
-  // practice trials
-  let practice_block_ids = _.flatten(_.zip(practice_ids, practice_balance_ids))
-  practice_block_ids.splice(3, 0, attention_check_ids[0])
-
   // testing trials
-  let control_ids = _.zip(filler_ids, control_physics_ids, balance_ids);
-
-  // create all test ids based on 3 identical blocks
-  let test_block_ids = _.map([0, 1, 2], function(i_block){
-    let test_block_ids = control_ids[i_block]
-    // add critical trials at specific positions
-    _.map([1, 3], function(pos, i){
-      test_block_ids.splice(pos, 0, critical_ids[2*i_block + i]);
-    })
-    // finally add attention check
-    test_block_ids.splice(3, 0, attention_check_ids[i_block+1])
-    return test_block_ids
-  })
-  return(practice_block_ids.concat(_.flatten(test_block_ids)))
+  let test_ids = _.flatten(_.zip(filler_ids, critical_ids));
+  // just one attention-check trial in middle of test phase
+  test_ids.splice(test_ids.length/2, 0, attention_check_ids[0]);
+  let practice_and_test_ids = practice_ids.concat(test_ids)
+  return(practice_and_test_ids)
 }
 
 
@@ -107,14 +80,17 @@ const TEST_TRIALS = shuffleTestTrials(image_selection_trials);
 // const TEST_TRIALS = _.filter(image_selection_trials, function(obj){
 //   return(obj.type === "control-physics")
 // });
-const PRACTICE_TRIALS = TEST_TRIALS.slice(0, 7);
+//const PRACTICE_TRIALS = TEST_TRIALS.slice(0, 7);
+const PRACTICE_TRIALS = _.filter(TEST_TRIALS, function(obj){
+  return(obj.type === "practice")
+});
 
 _.map(TEST_TRIALS, function(obj, idx){
-  obj.block = idx <= 6 ? "practice" :
-              idx >= 7 && idx<=12 ? "test1" :
-              idx >= 13 && idx<=18 ? "test2" : "test3";
+  obj.block = idx <= 3 ? "practice" :
+              idx <= 7 ? "test1" :
+              idx <= 12 ? "test2" : "test3";
   return(obj)
 })
-const TEST_TRIALS_01 = TEST_TRIALS.slice(7, 13);
-const TEST_TRIALS_02 = TEST_TRIALS.slice(13, 19);
-const TEST_TRIALS_03 = TEST_TRIALS.slice(19);
+const TEST_TRIALS_01 = TEST_TRIALS.slice(4, 8);
+const TEST_TRIALS_02 = TEST_TRIALS.slice(8, 13);
+const TEST_TRIALS_03 = TEST_TRIALS.slice(13);
