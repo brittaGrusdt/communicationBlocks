@@ -218,7 +218,7 @@ TEST_DATA = [
 
   // attention check trials
   {id: "trial22", id1: "if2_nnn_horiz", id2: "if1_un_ind", id3: "if1_un", id0: "cons_n", property_id1: "contrast", property_id2: "pragmatic", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.might_ant, type: 'attention-check', expected:'picture2', bob:'picture2'},
-  {id: "trial23", id1: "ind_edge_hh", id2: "ind_edge_hnn", id3: "ind_edge_hnn_horiz", id0: "ant_ind_h", property_id1: "contrast", property_id2: "literal", property_id3: "pragmatic", question: QUESTS.neutral, answer: ANSWERS.not_yellow_cons, type: 'attention-check', expected:'picture3', bob:'picture3'},
+  {id: "trial23", id1: "ind_edge_hh", id2: "ind_edge_hnh", id3: "ind_edge_hnn_horiz", id0: "ant_ind_h", property_id1: "contrast", property_id2: "contrast", property_id3: "literal", question: QUESTS.neutral, answer: ANSWERS.not_yellow_cons, type: 'attention-check', expected:'picture3', bob:'picture3'},
   {id: "trial24", id1: "if1_nn_ind", id2: "if2_nnh", id3: "if2_hnh_right", id0: "cons_n", property_id1: "contrast", property_id2: "pragmatic", property_id3: "literal", question: QUESTS.cons, answer: ANSWERS.yellow_cons, type: 'attention-check', expected:'picture2', bob:'picture2'},
   {id: "trial25", id1: "if2_unn_horiz", id2: "if1_uu", id3: "if1_un_ind", id0: "ant_u", property_id1: "contrast", property_id2: "contrast", property_id3: "literal", question: QUESTS.if_ant, answer: ANSWERS.even_if_ant_not_cons, type: 'attention-check', expected:'picture3', bob:'picture3'}
 ];
