@@ -69,19 +69,16 @@ const animation_generator = function(config) {
 const forced_choice_generator = {
   stimulus_container_gen: function (config, CT) {
         return `<div class='magpie-view'>
-                    <h1 class='magpie-view-title'>${config.title}</h1>
-                    <h2 id='yourScore'></h2>
-                    <div class='magpie-view-stimulus-container'>
-                        <div class='magpie-view-stimulus magpie-nodisplay'></div>
-                    </div>
+                  <h2 class='magpie-view-title noMargin' id='yourScore'></h2>
+                  <div class='magpie-view-stimulus-container'></div>
                 </div>`;
     },
   answer_container_gen: function(config, CT){
        $(".magpie-view-stimulus-container").addClass("magpie-nodisplay");
        if(config.data[CT].type.includes('practice') || config.data[CT].block === "practice") {
-         $('#yourScore').html(`Your points: ${POINTS_PRACTICE}`);
+         $('#yourScore').html(`<small>Your points: ${POINTS_PRACTICE}</small>`);
        } else {
-         $('#yourScore').html("Your points: ?");
+         $('#yourScore').html("<small>Your points: ?</small>");
        }
 
        let cols_group = COLS_GROUPS[config.data[CT].group];
@@ -102,10 +99,10 @@ const forced_choice_generator = {
             <p id='textBobsScreens' class='magpie-view-question'></p>
             <button id='bttnBobsScreens' class='magpie-view-button grid-button'>Show possible screens Bob might have seen</button>
             <div id="label_left_pic" class="bottom-left">${side[1]}</div>
-            <img src=${config.data[CT][side[1]]} id=${side[1]} class="stim_pic unclickable isLeft" style="max-width:30%;height:auto;visibility:hidden">
+            <img src=${config.data[CT][side[1]]} id=${side[1]} class="stim_pic unclickable isLeft" style="max-width:32%;height:auto;visibility:hidden">
             <div id="label_middle_pic" class="bottom-middle">${side[2]}</div>
-            <img src=${config.data[CT][side[2]]} id=${side[2]} class="stim_pic unclickable isMiddle" style="max-width:30%;height:auto;visibility:hidden">
-            <img src=${config.data[CT][side[3]]} id=${side[3]} class="stim_pic unclickable isRight" style="max-width:30%;height:auto;visibility:hidden">
+            <img src=${config.data[CT][side[2]]} id=${side[2]} class="stim_pic unclickable isMiddle" style="max-width:32%;height:auto;visibility:hidden">
+            <img src=${config.data[CT][side[3]]} id=${side[3]} class="stim_pic unclickable isRight" style="max-width:32%;height:auto;visibility:hidden">
             <div id="label_right_pic" class="bottom-right">${side[3]}</div>
           </div>
           <button id='smallMarginNextButton' class='grid-button magpie-view-button' style="visibility:hidden">continue</button>
@@ -297,7 +294,7 @@ return `<div class='magpie-view magpie-post-test-view'>
         </div>
         <div>
           <input type="checkbox" name="several" value="several" id="several">
-          <label for="several">${replies.several}</label><br>
+          <label for="several">${replies.several}</label><br/><br/>
         </div>
         <div>
           <input type="checkbox" name="ignored" value="ignored" id="ignored">

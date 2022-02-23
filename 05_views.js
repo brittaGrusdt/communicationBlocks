@@ -82,7 +82,7 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
     <img src="./stimuli/img/screens-instruction/separate-you.png" style="max-width:90%">
   <br/><br/>
 
-  Ann', Bob's and your task is to find out which scene Bob sees in order to get as many points as possible.
+  Ann's, Bob's and your task is to find out which scene Bob sees in order to get as many points as possible.
   During the game, only a minimal amount of interaction is allowed. The way of interacting with each other always follows the same pattern: <br/><br/>
 
   <b>1)</b> The first player, Ann, only views an incomplete version of Bob's scene.
@@ -124,8 +124,7 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   <img src="./stimuli/img/screens-instruction/select2.png" style="max-width:90%">
   <br/><br/>
 
-  Even though this is unlikely to happen, for completeness, note that you
-  will also <b>lose 100 points</b> if:<br/>
+  Even though this is unlikely to happen, note that you will also <b>lose 100 points</b> if:<br/>
   1. you select two scenes, <i>not</i> including the correct one OR if<br/>
   2. you select all three scenes.<br/><br/>`,
   buttonText: "continue"
@@ -138,7 +137,7 @@ const instructions_practice = magpieViews.view_generator("instructions", {
   title: "Information Testing Phase",
   text: `The testing phase consists of <b>4 blocks</b>. <br/>
   The <b>1<sup>st</sup> block</b> is a <b>practice phase</b> with <b>4 trials</b> that should familiarize you with the task.<br/>
-  The <b>following 3 blocks</b> build the <b>experimental phase</b> with a total of <b>17 trials</b>.<br/><br/>
+  The <b>following 3 blocks</b> build the <b>experimental phase</b> with a total of <b>13 trials</b>.<br/><br/>
   After each block, you will have the possibility to take a break.<br/><br/>
 
   Note that in the experimental phase, there will be a straight-forward attention-check trial, in which you will be explicitly told which picture to select.
@@ -162,7 +161,7 @@ const post_test_question_ann = magpieViews.view_generator("post_test", {
   name: "post_test_question_ann",
   title: "Questions",
   text: `We have a few more questions concerning Ann's question during the experiment.</br>
-  Please select all true statements honestly.`
+  Please select all statements that you think are true.`
 },
   {stimulus_container_generator: post_questions_generator.stimulus_container_gen,
    answer_container_generator: post_questions_generator.answer_container_gen,
@@ -236,7 +235,7 @@ const test_image_selection_03 = magpieViews.view_generator(
 
 const divider_practice_complete = custom_text_scores({
   name: "divider_practice_complete", title: "Practice finished",
-  text: {prescore: `Great - you are done with the practice trials. In the practice phase`,
+  text: {prescore: `In the practice phase`,
          postscore: `Note that in the following, you will not get feedback anymore.
          But you will be told your final score in the end of the experiment.</br>When you are ready,
          please click on CONTINUE to start the first block of the
@@ -271,7 +270,7 @@ const divider_second_break = magpieViews.view_generator("instructions", {
 
 const divider_finished = custom_text_scores({
   name: "divider_finished", title: "Test Phase finished",
-  text: {prescore: `Awesome! For your interest: in the test phase`,
+  text: {prescore: `For your interest: in the test phase`,
          postscore: `Please click on NEXT to continue.`},
   trials: 1,
   buttonText: "next"
