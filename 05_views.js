@@ -105,10 +105,11 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
     <img src="./stimuli/img/screens-instruction/anns-bobs-screen.jpeg" style="max-width:90%">
   <br/><br/>
 
-  And this is what they say:<br/>
-
+  <u>And this is what they say</u>:<br/>
   <b>Ann</b>: Which blocks do you think will fall?<br/>
   <b>Bob</b>: The BLUE and the GREEN block will fall.<br/><br/>
+  <b>Note: Please read both, Ann's question and Bob's answer, carefully.</b><br/><br/>
+
 
   If you are confident and select a single scene, and your choice is correct,<br/>
   you will <b>get 100 points</b>:.
@@ -123,7 +124,7 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   <img src="./stimuli/img/screens-instruction/select2.png" style="max-width:90%">
   <br/><br/>
 
-  And even though this is unlikely to happen, for completeness, note that you
+  Even though this is unlikely to happen, for completeness, note that you
   will also <b>lose 100 points</b> if:<br/>
   1. you select two scenes, <i>not</i> including the correct one OR if<br/>
   2. you select all three scenes.<br/><br/>`,
@@ -134,17 +135,17 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
 const instructions_practice = magpieViews.view_generator("instructions", {
   trials: 1,
   name: "instructions_practice",
-  title: "Instructions Testing Phase",
+  title: "Information Testing Phase",
   text: `The testing phase consists of <b>4 blocks</b>. <br/>
-  The <b>first block</b> is a <b>practice phase</b> with <b>7 trials</b> that should familiarize you with the task.<br/>
-  The <b>following three blocks</b> comprise the actual <b>experimental phase</b>. Each of them consists of <b>6 trials</b>.<br/><br/>
-  <b>After each block</b>, you will have the possibility to <b>take a break</b>.<br/><br/>
-  <b>Attention-checks</b>:<br/>
-  In each of the four blocks, we added <b>one attention-check trial</b>, in which you will be <b>explicitly told which picture to select</b>.
-  This helps us to make sure that the experiment was done carefully. Please note that if you fail to respond correctly in more than one of the attention-check trials,
-  you will not get paid.
-  </br></br>
-  Please click on CONTINUE to <b>start</b> the <b>practice phase</b>.`,
+  The <b>1<sup>st</sup> block</b> is a <b>practice phase</b> with <b>4 trials</b> that should familiarize you with the task.<br/>
+  The <b>following 3 blocks</b> build the <b>experimental phase</b> with a total of <b>17 trials</b>.<br/><br/>
+  After each block, you will have the possibility to take a break.<br/><br/>
+
+  Note that in the experimental phase, there will be a straight-forward attention-check trial, in which you will be explicitly told which picture to select.
+  This helps us to make sure that the experiment was done carefully.
+  Please note that if you fail to respond correctly in the attention-check trial, we will not be able to pay you.</br></br>
+
+  When you're ready, please, click on CONTINUE to start the practice phase.`,
   buttonText: "continue"
 });
 
