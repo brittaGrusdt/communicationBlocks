@@ -91,6 +91,5 @@ _.map(TEST_TRIALS, function(obj, idx){
               idx <= 12 ? "test2" : "test3";
   return(obj)
 })
-const TEST_TRIALS_01 = TEST_TRIALS.slice(4, 8);
-const TEST_TRIALS_02 = TEST_TRIALS.slice(8, 13);
-const TEST_TRIALS_03 = TEST_TRIALS.slice(13);
+const TEST_TRIALS_01 = TEST_TRIALS.slice(4, 11);
+const TEST_TRIALS_02 = TEST_TRIALS.slice(11);

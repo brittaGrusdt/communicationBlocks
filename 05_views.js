@@ -135,9 +135,9 @@ const instructions_practice = magpieViews.view_generator("instructions", {
   trials: 1,
   name: "instructions_practice",
   title: "Information Testing Phase",
-  text: `The testing phase consists of <b>4 blocks</b>. <br/>
+  text: `The testing phase consists of <b>3 blocks</b>. <br/>
   The <b>1<sup>st</sup> block</b> is a <b>practice phase</b> with <b>4 trials</b> that should familiarize you with the task.<br/>
-  The <b>following 3 blocks</b> build the <b>experimental phase</b> with a total of <b>13 trials</b>.<br/><br/>
+  The <b>following 2 blocks</b> build the <b>experimental phase</b> with a total of <b>13 trials</b>.<br/><br/>
   After each block, you will have the possibility to take a break.<br/><br/>
 
   Note that in the experimental phase, there will be a straight-forward attention-check trial, in which you will be explicitly told which picture to select.
@@ -221,18 +221,6 @@ const test_image_selection_02 = magpieViews.view_generator(
   }
 );
 
-const test_image_selection_03 = magpieViews.view_generator(
-  "image_selection", {
-    data: TEST_TRIALS_03,
-    name: 'image_selection_03',
-    trials: TEST_TRIALS_03.length
-  }, {
-    stimulus_container_generator: forced_choice_generator.stimulus_container_gen,
-    answer_container_generator: forced_choice_generator.answer_container_gen,
-    handle_response_function: forced_choice_generator.handle_response_function
-  }
-);
-
 const divider_practice_complete = custom_text_scores({
   name: "divider_practice_complete", title: "Practice finished",
   text: {prescore: `In the practice phase`,
@@ -248,24 +236,9 @@ const divider_first_break = magpieViews.view_generator("instructions", {
   trials: 1,
   name: "divider_first_break",
   title: "Take a short break",
-  text: `Well done so far! - The first of three blocks is finished.
-  		<br/>
-  		<br/>
-  		You can now take a short break if needed.
-  		As soon as you are ready to continue with the experiment, click on the button below.`,
-  buttonText: "Continue with block 2"
-});
-
-const divider_second_break = magpieViews.view_generator("instructions", {
-  trials: 1,
-  name: "divider_second_break",
-  title: "Take a short break",
-  text: `Great! - You finished the second of three blocks and are nearly done with the experiment.
-  		<br/>
-  		<br/>
-  		You can now take a short break if needed.
-      As soon as you are ready to continue with the experiment, click on the button below.`,
-  buttonText: "Continue with block 3"
+  text: `Well done so far! You can now take a short break if needed. As soon as
+   you are ready to continue with the experiment, click on the button below.`,
+  buttonText: "Continue with next block"
 });
 
 const divider_finished = custom_text_scores({
@@ -277,7 +250,7 @@ const divider_finished = custom_text_scores({
 });
 
 // captcha
-// speaker and listeneers names to be sampled from for the botcaptcha
+// speaker and listeners names to be sampled from for the botcaptcha
 var speaker = _.sample(["James", "John", "Robert", "Michael", "William", "David", "Richard", "Joseph", "Thomas", "Charles"]);
 var listener = _.sample(["Mary", "Patricia", "Jennifer", "Linda", "Elizabeth", "Barbara", "Susan", "Jessica", "Sarah", "Margaret"]);
 

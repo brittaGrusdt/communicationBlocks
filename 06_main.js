@@ -28,8 +28,6 @@ $("document")
       test_image_selection_01,
       divider_first_break,
       test_image_selection_02,
-      divider_second_break,
-      test_image_selection_03,
       divider_finished,
       post_test_question_ann,
       post_test,
@@ -50,8 +48,7 @@ $("document")
       progress_bar: {
         // list the view-names of the views for which you want a progress bar
         in: [test_image_selection_01.name, test_image_selection_02.name,
-             test_image_selection_03.name, animation_view.name,
-             practice_image_selection.name],
+              animation_view.name, practice_image_selection.name],
       // Possible styles are "default", "separate" and "chunks"
         style: "default",
         width: 100
