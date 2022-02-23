@@ -156,6 +156,18 @@ const post_test = magpieViews.view_generator("post_test", {
   comments_question: 'Further comments'
 });
 
+const post_test_question_ann = magpieViews.view_generator("post_test", {
+  trials: 1,
+  name: "post_test_question_ann",
+  title: "Questions",
+  text: `We have a few more questions concerning Ann's question during the experiment.</br>
+  Please select all true statements honestly.`
+},
+  {stimulus_container_generator: post_questions_generator.stimulus_container_gen,
+   answer_container_generator: post_questions_generator.answer_container_gen,
+   handle_response_function: post_questions_generator.handle_response_fn
+  }
+);
 
 // The 'thanks' view is crucial; never delete it; it submits the results!
 const thanks = magpieViews.view_generator("thanks", {

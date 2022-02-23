@@ -107,8 +107,8 @@ const forced_choice_generator = {
             <img src=${config.data[CT][side[2]]} id=${side[2]} class="stim_pic unclickable isMiddle" style="max-width:30%;height:auto;visibility:hidden">
             <img src=${config.data[CT][side[3]]} id=${side[3]} class="stim_pic unclickable isRight" style="max-width:30%;height:auto;visibility:hidden">
             <div id="label_right_pic" class="bottom-right">${side[3]}</div>
-         </div>
-         <button id='smallMarginNextButton' class='grid-button magpie-view-button' style="visibility:hidden">continue</button>
+          </div>
+          <button id='smallMarginNextButton' class='grid-button magpie-view-button' style="visibility:hidden">continue</button>
        </div>`;
    },
 
@@ -228,8 +228,7 @@ const forced_choice_generator = {
 
           let bob = $('#' + trial_data.bob)
           let pic_bob = bob.hasClass('isMiddle') ? 'the picture in the middle' :
-          bob.hasClass('isLeft') ? 'the leftmost picture' :
-          'the rightmost picture';
+          bob.hasClass('isLeft') ? 'the leftmost picture' : 'the rightmost picture';
 
           //console.log('selected: ' + trial_data.selected_pic + ' bob: ' + trial_data.bob)
           let result = config.data[CT].bob === trial_data.selected_pic ?
@@ -243,8 +242,8 @@ const forced_choice_generator = {
             //otherwise loose
             {money: -100, msg: 'Ups. Bob saw ' + pic_bob + '. You LOOSE 100 points!'};
 
-            trial_data.money = result.money;
-            TOTAL_POINTS += result.money;
+          trial_data.money = result.money;
+          TOTAL_POINTS += result.money;
 
           if(trial_data.type.includes('practice') || trial_data.block === "practice") {
               alert(result.msg + "\r\n" + "Total amount of points you made so far: " + TOTAL_POINTS + ".");
@@ -252,10 +251,77 @@ const forced_choice_generator = {
           } else {
             POINTS_TEST_PHASE = TOTAL_POINTS - POINTS_PRACTICE;
           }
+
           magpie.trial_data.push(trial_data);
         	magpie.findNextView();
        })
    }
+}
+
+const post_questions_generator = {
+
+  stimulus_container_gen: function(config, CT) {
+return `<div class='magpie-view magpie-post-test-view'>
+          <h1 class='magpie-view-title'>${config.title}</h1>
+          <section class="magpie-text-container">
+            <p class="magpie-view-text">${config.text}</p>
+          </section>
+        </div>`
+  },
+  answer_container_gen: function(config, CT) {
+    let replies = {
+      same: "always the same.",
+      ifp: "sometimes about what happend if one block fell.",
+      willq: "sometimes about whether one block would fall.",
+      yellow: "sometimes about the yellow block.",
+      several: "sometimes about several blocks at a time.",
+      ignored: "I only read Bob's answer."
+    }
+        return `<form id="checkAnn">
+        <p>During the experiment, Ann's question was ... </p>
+        <div>
+          <input type="checkbox" name="same" value="same" id="same">
+          <label for="same">${replies.same}</label><br>
+        </div>
+        <div>
+          <input type="checkbox" name="ifp" value="ifp" id="ifp">
+          <label for="ifp">${replies.ifp}</label><br>
+        </div>
+        <div>
+          <input type="checkbox" name="yellow" value="yellow" id="yellow">
+          <label for="yellow">${replies.yellow}</label><br>
+        </div>
+        <div>
+          <input type="checkbox" name="willq" value="willq" id="willq">
+          <label for="willq">${replies.willq}</label><br>
+        </div>
+        <div>
+          <input type="checkbox" name="several" value="several" id="several">
+          <label for="several">${replies.several}</label><br>
+        </div>
+        <div>
+          <input type="checkbox" name="ignored" value="ignored" id="ignored">
+          <label for="ignored">${replies.ignored}</label><br>
+        </div>
+        <button id="next" class='magpie-view-button'>${config.button}</button>
+        </form>`
+    },
+
+    handle_response_fn:  function(config, CT, magpie, answer_container_generator, startingTime) {
+        $(".magpie-view").append(answer_container_generator(config, CT));
+        $("#next").on("click", function(e) {
+            // prevents the form from submitting
+            e.preventDefault();
+            let q1 = $("#same").is(":checked") ? "-same" : "";
+            let q2 = $("#ifp").is(":checked") ? "-ifp" : "";
+            let q3 = $("#willq").is(":checked") ? "-willq" : "";
+            let q4 = $("#yellow").is(":checked") ? "-yellow" : "";
+            let q5 = $("#several").is(":checked") ? "-several" : "";
+            let q6 = $("#ignored").is(":checked") ? "-ignored" : "";
+            magpie.global_data.post_question_ann = (q1 + q2 + q3 + q4 + q5 +q6).replace("-", "");
+            magpie.findNextView();
+        });
+    }
 }
 
 const custom_text_scores = function(config) {

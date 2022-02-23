@@ -31,6 +31,7 @@ $("document")
       divider_second_break,
       test_image_selection_03,
       divider_finished,
+      post_test_question_ann,
       post_test,
       thanks
       ],
