@@ -7,11 +7,14 @@ let TrainStimuli = {
 };
 TrainExpectations = {};
 
+// Train trials used in experiment, they are identical to test trials!
 trials_cp = function(){
   let prior_conditions = getConditions();
-  let stimuli = makeTestStimuli(prior_conditions, ['if1', 'if2', 'independent_edge'],
-                                {'if1': {}, 'if2': {}, 'independent_edge': {}});
-  let trials = Object.assign(stimuli["if1"], stimuli["if2"], stimuli['independent_edge'])
+  let stimuli = makeTestStimuli(prior_conditions, ['if1', 'if2', 'independent_edge', 'if1_ind'],
+                                {'if1': {}, 'if2': {}, 'independent_edge': {}, 'if1_ind': {}});
+  let trials = Object.assign(stimuli["if1"], stimuli["if2"],
+                             stimuli['independent_edge'], stimuli["if1_ind"]
+                            )
   return(trials)
 }
 
@@ -181,7 +184,7 @@ trials_ac = function(){
     let blocks = [b1, b2].concat(objs.dynamic);
     data[id] = {objs: blocks.concat(objs.walls), meta: priors[id], id}
     TrainExpectations[id] = expected[id];
-    });
+  });
     return data
 }
 
@@ -199,7 +202,7 @@ trials_ssw = function(){
   };
   let expected = {'ssw0': BLOCK_COLS_SHORT.train.join(""),
                   'ssw1': 'none'}
-  data = {};
+  let data = {};
 
   _.keys(prior).forEach(function(id, i){
     let objs = Walls.train.ssw();
@@ -223,35 +226,7 @@ trials_ssw = function(){
   return data
 }
 
-// pretestTrials = function(){
-//   let horiz = [true, false]
-//   let data = {};
-//   [0, 1].forEach(function(ci){
-//     let col_str = BLOCK_COLS.test[ci];
-//     let col = COLS_OBJS_HEX.test_blocks[ci];
-//     horiz.forEach(function(dir){
-//       PRETEST_ANGLES.forEach(function(angle) {
-//         let trial_id = [(dir ? "horiz" : "vert"), angle.toString(), col_str].join('-');
-//         let increase = _.sample([true, false])
-//         increase = true;
-//         let x = increase ? SCENE.w/3 : SCENE.w * (2/3)
-//         let walls = [wall('w_middle', x, SCENE.h/2)]
-//         let ramp = makeRamp(angle, increase, walls[0], "bottom");
-//         // block
-//         let w = dir ? PROPS.blocks.h : PROPS.blocks.w;
-//         let fct = increase ? -1 : 1;
-//         let b = blockOnBase(walls[0], fct * (w+DIST_EDGE)/w, col, "block", dir);
-//
-//         let objs_dyn = [b, ramp.ball];
-//         walls.push(ramp.tilted);
-//         walls.push(ramp.wall_top);
-//         data[trial_id] = {objs: objs_dyn.concat(walls), id: trial_id}
-//       });
-//     });
-//   })
-//   return data
-// }
-
+// Generate & save animations to load in experiment
 if(MODE == "train" || MODE == "experiment") {
   // generate all train stimuli
   TrainStimuli.map_category["ramp"] = trials_ramp();

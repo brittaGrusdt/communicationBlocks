@@ -57,7 +57,6 @@ let POINTS_PRACTICE = 0;
 const DURATION_ANIMATION = 7000; // in ms
 const KEY2SELECTANSWER = "y";
 
-//const NB_TRAIN_TRIALS = TrainStimuli.list_all.length; // WITH FRIDGE-EXPERIMENT -1 (FOR ONE FRIDGE EXAMPLE)
 const NB_TRAIN_TRIALS  = _.flatten(Object.values(TRAIN_IDS)).length
 // for training with one button for each of the 4 events:
 // const TRAIN_BTTN_IDS = [BLOCK_COLS_SHORT.train.join('')].concat(
@@ -126,7 +125,6 @@ showAnimationInTrial = function (CT, html_answers, progress_bar = true) {
        <div class='progress-bar'></div>
       </div>` : ``;
   const view_template = html_bar +
-    //`<div class='magpie-view-stimulus-grid'>
     `<div>
       <animationTitle class='stimulus'>
         <h2>${TRAIN_TRIALS[CT].QUD}</h2>

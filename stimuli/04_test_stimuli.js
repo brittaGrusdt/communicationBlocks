@@ -1,5 +1,6 @@
 let TestStimuli = {"independent": {}, "if1": {}, "if2ssw": {}, 'if2': {},
-                   "independent_edge": {}, "independent_edge3": {}};
+                   "independent_edge": {}, "independent_edge3": {},
+                   "if1_ind": {}};
 
 // IMPORTANT: DYNAMIC BLOCKS HAVE TO BE ADDED BEFORE STATIC OBJECTS, OTHERWISE
 // THEY WILL FALL VERY ODD (JITTERING)
@@ -58,7 +59,7 @@ testTrials_if2ssw = function(priors){
   return blocks.concat(xBlock).concat(objs);
 }
 
-testTrials_if = function(priors, nb_external_causes){
+testTrials_if = function(priors, nb_causes, with_ramp=true){
   let colors = assignColors();
   let p1 = priors[0];
   let p2 = priors[1];
@@ -69,8 +70,8 @@ testTrials_if = function(priors, nb_external_causes){
   {edge_blocks: -1, increase: true, idx_w: 0, moveBall: 1, side:"right"} :
   {edge_blocks: 1, increase: false, idx_w: 1, moveBall: -1, side:"left"};
 
-  let objs = Walls.test.if1(data.side, horiz[1], IF1_BASE_RAMP,
-                            nb_external_causes == 1 ? true : false)
+  let exhaustive = nb_causes == 1 ? true : false
+  let objs = Walls.test.if1(data.side, horiz[1], IF1_BASE_RAMP, exhaustive, with_ramp)
 
   let b1 = blockOnBase(objs.walls[0], PRIOR[horiz[0]][p1] * data.edge_blocks,
     COLS_OBJS_HEX.test_blocks[colors[0]], 'blockA', horiz[0] == 'horizontal');
@@ -78,7 +79,7 @@ testTrials_if = function(priors, nb_external_causes){
     COLS_OBJS_HEX.test_blocks[colors[1]], 'blockC', horiz[1] == 'horizontal');
 
   let extra_block = [];
-  if(nb_external_causes == 2){
+  if(nb_causes == 2){
     let pbx = priors[2]
     let bx = blockOnBase(objs.walls[2], PRIOR[horiz[0]][pbx] * (-1 * data.edge_blocks),
     COLS_OBJS_HEX.if2_xblock, 'blockX', horiz[0] == 'horizontal');
@@ -167,18 +168,15 @@ makeTestStimuli = function(conditions, relations, objStoredTo){
       let pb1 = _prior2ID(priors[0])
       let pb2 = _prior2ID(priors[1])
       let pb3 = rel === "if2" || rel=="independent_edge3" ? _prior2ID(priors[2]) : ''
-      // pb1 = (pb1.endsWith("L") || pb1.endsWith("H")) ?
-      //   (pb1[0] + "-" + pb1[pb1.length-1]) : pb1[0];
-      // let pb2 = priors[1]
-      // pb2 = (pb2.endsWith("L") || pb2.endsWith("H")) ?
-      //   (pb2[0] + "-" + pb2[pb2.length-1]) : pb2[0];
+
       let id = rel + '_' + pb1 + pb2 + pb3;
       let blocks = rel === "if2ssw" ? testTrials_if2ssw(priors) :
                    rel === "if1" ? testTrials_if(priors, 1) :
                    rel === "independent" ? testTrials_independent(priors) :
                    rel === "independent_edge" ? testTrials_independent_edge(priors) :
                    rel === "independent_edge3" ? testTrials_independent_edge(priors, 3) :
-                   rel === "if2" ? testTrials_if(priors, 2) : null;
+                   rel === "if2" ? testTrials_if(priors, 2) :
+                   rel === "if1_ind" ? testTrials_if(priors, 1, false): null;
 
       objStoredTo[rel][id] = {"objs": blocks, "meta": priors, "id": id};
     }

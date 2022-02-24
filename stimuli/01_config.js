@@ -1,9 +1,9 @@
-const DEBUG = false;
+const DEBUG = true;
 // var MODE = "color-vision"
 // var MODE = "train"
 var MODE = "test"
-// var MODE = "pretest"
 // var MODE = "experiment"
+
 var ANIM_ANSWERS = "sliders"
 // var ANIM_ANSWERS = "buttons"
 
@@ -30,7 +30,7 @@ OPTS = {
 }
 
 let TEST_TYPES = ['if1', 'if2ssw', 'independent', 'independent_edge', 'if2',
-                  'independent_edge3'];
+                  'independent_edge3', 'if1_ind'];
 
 // Proportion of block that's ON TOP of its base wall beneath
 let PRIOR = {
@@ -90,7 +90,8 @@ let TRAIN_IDS = {
          'if1_ln',
          'if2_nnh',
          'if2_hnh',
-         'if2_nnl'//,
+         'if2_nnl',
+         'if1_ind_hn'
          // 'independent_edge_nn',
          // 'if1_u-Ln',
          // 'if1_u-Hh',
@@ -106,6 +107,7 @@ let train_expectations = {
   'if2_nnh': ['CONS', 'yellow'],
   'if2_hnh': ['ANT', 'CONS', 'yellow'],
   'if2_nnl': ['none'],
+  'if1_ind_hn': ['ANT'],
 
   'independent_edge_nn': ['none'],
   'if1_u-Ln': ['none'],

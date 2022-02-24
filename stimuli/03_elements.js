@@ -70,7 +70,7 @@ seesaw = function(x, y_base_min=SCENE.h - PROPS.bottom.h, props={}){
 }
 
 // The first two list entries are respectively the bases for block1 and block2
-wallsIf1 = function(side, horiz, prior, exhaustive){
+wallsIf1 = function(side, horiz, prior, exhaustive, with_ramp=true){
   let x_up_r = 700
   let x_up_l = 100
   let base_ssw_y = SCENE.h - 215
@@ -102,9 +102,10 @@ wallsIf1 = function(side, horiz, prior, exhaustive){
     wall_exhaustive.push(w_ex);
   }
   let base_walls = [dat.w_up, ramp.wall_bottom].concat(wall_exhaustive);
-  return {walls: base_walls.concat([ramp_top,
-    ramp.tilted,
-    base_ssw, ssw.skeleton]),
+  let other_walls = with_ramp ? [ramp_top, ramp.tilted, base_ssw, ssw.skeleton]
+                              : [ramp_top, base_ssw, ssw.skeleton];
+
+  return {walls: base_walls.concat(other_walls),
           dynamic: [ramp.ball, ssw.plank, ssw.constraint]}
 }
 
@@ -178,6 +179,8 @@ Walls.train.ssw = function(){
   return {'walls': walls, 'dynamic': [objs.plank, objs.constraint]}
 }
 
+// moving triangle that appears in animations s.t. participants see that the
+// animation runs if nothing happens
 movingIrrelevantObj = function(){
   var x = 120;
   var y = 430;
