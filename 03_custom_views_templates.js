@@ -260,32 +260,47 @@ return `<div class='magpie-view magpie-post-test-view'>
       several: "sometimes about several blocks at a time.",
       ignored: "I only read Bob's answer."
     }
+    let behavior = {
+      risky: "only when I was very confident about my decision.",
+      cautious: "even though another picture wasn't unlikely either."
+    }
         return `<form id="checkAnn">
-        <p>During the experiment, Ann's question was ... </p>
+        <p>During the experiment, <b>Ann's question</b> was ... </p>
         <div>
           <input type="checkbox" name="same" value="same" id="same">
-          <label for="same">${replies.same}</label><br>
+          <label for="same">${replies.same}</label></br>
         </div>
         <div>
           <input type="checkbox" name="ifp" value="ifp" id="ifp">
-          <label for="ifp">${replies.ifp}</label><br>
+          <label for="ifp">${replies.ifp}</label></br>
         </div>
         <div>
           <input type="checkbox" name="yellow" value="yellow" id="yellow">
-          <label for="yellow">${replies.yellow}</label><br>
+          <label for="yellow">${replies.yellow}</label></br>
         </div>
         <div>
           <input type="checkbox" name="willq" value="willq" id="willq">
-          <label for="willq">${replies.willq}</label><br>
+          <label for="willq">${replies.willq}</label></br>
         </div>
         <div>
           <input type="checkbox" name="several" value="several" id="several">
-          <label for="several">${replies.several}</label><br/><br/>
+          <label for="several">${replies.several}</label><br/></br>
         </div>
         <div>
           <input type="checkbox" name="ignored" value="ignored" id="ignored">
-          <label for="ignored">${replies.ignored}</label><br>
+          <label for="ignored">${replies.ignored}</label></br></br>
         </div>
+
+        <p>Most of the time I selected a <b>single picture</b> ... </p>
+        <div>
+          <input type="checkbox" name="risky" value="risky" id="risky">
+          <label for="risky">${behavior.risky}</label></br></br>
+        </div>
+        <div>
+          <input type="checkbox" name="cautious" value="cautious" id="cautious">
+          <label for="cautious">${behavior.cautious}</label></br></br>
+        </div>
+
         <button id="next" class='magpie-view-button'>${config.button}</button>
         </form>`
     },
@@ -301,7 +316,12 @@ return `<div class='magpie-view magpie-post-test-view'>
             let q4 = $("#yellow").is(":checked") ? "-yellow" : "";
             let q5 = $("#several").is(":checked") ? "-several" : "";
             let q6 = $("#ignored").is(":checked") ? "-ignored" : "";
-            magpie.global_data.post_question_ann = (q1 + q2 + q3 + q4 + q5 +q6).replace("-", "");
+            magpie.global_data.check_ann = (q1 + q2 + q3 + q4 + q5 +q6).replace("-", "");
+
+            let q7 = $("#cautious").is(":checked") ? "-cautious" : "";
+            let q8 = $("#risky").is(":checked") ? "-risky" : "";
+            magpie.global_data.check_behavior = (q7 + q8).replace("-", "");
+
             magpie.findNextView();
         });
     }

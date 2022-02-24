@@ -29,7 +29,7 @@ $("document")
       divider_first_break,
       test_image_selection_02,
       divider_finished,
-      post_test_question_ann,
+      post_test_questions_experiment,
       post_test,
       thanks
       ],

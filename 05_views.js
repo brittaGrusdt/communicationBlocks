@@ -156,12 +156,12 @@ const post_test = magpieViews.view_generator("post_test", {
   comments_question: 'Further comments'
 });
 
-const post_test_question_ann = magpieViews.view_generator("post_test", {
+const post_test_questions_experiment = magpieViews.view_generator("post_test", {
   trials: 1,
   name: "post_test_question_ann",
   title: "Questions",
-  text: `We have a few more questions concerning Ann's question during the experiment.</br>
-  Please select all statements that you think are true.`
+  text: `We have a few more questions concerning the experiment.</br>
+  Please select all statements that you agree with.`
 },
   {stimulus_container_generator: post_questions_generator.stimulus_container_gen,
    answer_container_generator: post_questions_generator.answer_container_gen,
@@ -225,8 +225,8 @@ const divider_practice_complete = custom_text_scores({
   name: "divider_practice_complete", title: "Practice finished",
   text: {prescore: `In the practice phase`,
          postscore: `Note that in the following, you will not get feedback anymore.
-         But you will be told your final score in the end of the experiment.</br>When you are ready,
-         please click on CONTINUE to start the first block of the
+         But you will be told your final score in the end of the experiment.</br></br>
+         When you are ready, please click on CONTINUE to start the first block of the
     experimental trials.`},
   trials: 1,
   buttonText: "continue"
