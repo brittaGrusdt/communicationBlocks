@@ -1,47 +1,33 @@
 // In this file you can specify the trial data for your experiment
 
 // Test trials
-//var test_qud = "This is the partial scene that Ann sees:"
-var test_qud = ""
+// put data together defined in stimili/01_config.js
 var image_selection_trials = [];
 TEST_DATA.forEach(function(dat) {
   let idx_quest = Object.values(QUESTS).indexOf(dat.question)
     image_selection_trials.push({
       id: dat.id,
-      QUD: test_qud,
-      question: Object.keys(QUESTS)[idx_quest],
+      QUD: Object.keys(QUESTS)[idx_quest],
       question_long: "<b>Ann</b>: " + dat.question,
       answer: "<b>Bob</b>: " + dat.answer,
-      picture1: "stimuli/img/group/" + dat.id1 + ".png",
-      picture2: "stimuli/img/group/" + dat.id2 + ".png",
-      picture3: "stimuli/img/group/" + dat.id3 + ".png",
-      //picture0: "stimuli/img/group/" + dat.id0 + ".png",
-      picture0: "stimuli/img/group/" + dat.id0 + ".jpeg",
-      picture_bob: "stimuli/img/bobs-screen.jpeg",
-      id1: dat.id1,
-      id2: dat.id2,
-      id3: dat.id3,
-      id0: dat.id0,
+      pic1: dat.pic1 + ".png",
+      pic2: dat.pic2 + ".png",
+      pic3: dat.pic3 + ".png",
+      pic0: dat.pic0 + ".jpeg",
       type: dat.type,
-      property_id1: dat.property_id1,
-      property_id2: dat.property_id2,
-      property_id3: dat.property_id3,
+      property_pic1: dat.property_pic1,
+      property_pic2: dat.property_pic2,
+      property_pic3: dat.property_pic3,
       bob: dat.bob,
-      money: 0,
+      score: 0,
       expected: dat.expected
     });
 });
 
-// adapt path to pictures depending on colour group in each trial
-// add group and id separately
-// here I changed code to save changes into slider_rating_trials 22.5. Malin
+// add color group
 _.map(image_selection_trials, function (trial) {
   let group = _.sample(["group1", "group2"]);
-  trial.picture1 = trial.picture1.replace("group", group);
-  trial.picture2 = trial.picture2.replace("group", group);
-  trial.picture3 = trial.picture3.replace("group", group);
-  trial.picture0 = trial.picture0.replace("group", group);
-  trial.group = group;
+  trial.group = group
 });
 
 let image_selection_practice = _.filter(image_selection_trials, function(obj){

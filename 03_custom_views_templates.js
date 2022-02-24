@@ -80,17 +80,12 @@ const forced_choice_generator = {
        } else {
          $('#yourScore').html("<small>Your points: ?</small>");
        }
-
-       let cols_group = COLS_GROUPS[config.data[CT].group];
-       let question = config.data[CT].question.replace("ANT", cols_group.ANT);
-       question = question.replace("CONS", cols_group.CONS)
-       let side = ["picture0"].concat(_.shuffle(["picture1", "picture2", "picture3"]));
+       let pics = ["pic0"].concat(_.shuffle(["pic1", "pic2", "pic3"]));
 
        return `<div class='magpie-view-answer-container'>
-          <p id='pqud' class='magpie-view-question magpie-view-qud'>${config.data[CT].QUD}</p>
           <div id="label_obscured_pic" class="top-middle"></div>
-          <img src=${config.data[CT][side[0]]} id="obscured_pic" style="max-width:30%;height:auto;">
-          <img src=${config.data[CT]["picture_bob"]} id="picture_bob" style="max-width:30%;height:auto;">
+          <img src=${PATH_PICTURES.replace("group", config.data[CT].group) + "/" + config.data[CT][pics[0]]} id="obscured_pic" style="max-width:30%;height:auto;">
+          <img src=${PATH_BOBS_SCREEN} id="pic_bob" style="max-width:30%;height:auto;">
           <p id='questionAnn' class='magpie-view-question magpie-view-qud'></p>
           <button id='bttnQuestionAnn' class='magpie-view-button'>See Ann's question</button>
           <button id='bttnAnswerBob' class='magpie-view-button grid-button'>See Bob's response</button>
@@ -98,12 +93,12 @@ const forced_choice_generator = {
           <div class="stimuli">
             <p id='textBobsScreens' class='magpie-view-question'></p>
             <button id='bttnBobsScreens' class='magpie-view-button grid-button'>Show possible screens Bob might have seen</button>
-            <div id="label_left_pic" class="bottom-left">${side[1]}</div>
-            <img src=${config.data[CT][side[1]]} id=${side[1]} class="stim_pic unclickable isLeft" style="max-width:32%;height:auto;visibility:hidden">
-            <div id="label_middle_pic" class="bottom-middle">${side[2]}</div>
-            <img src=${config.data[CT][side[2]]} id=${side[2]} class="stim_pic unclickable isMiddle" style="max-width:32%;height:auto;visibility:hidden">
-            <img src=${config.data[CT][side[3]]} id=${side[3]} class="stim_pic unclickable isRight" style="max-width:32%;height:auto;visibility:hidden">
-            <div id="label_right_pic" class="bottom-right">${side[3]}</div>
+            <div id="label_left_pic" class="bottom-left">${pics[1]}</div>
+            <img src=${PATH_PICTURES.replace("group", config.data[CT].group) + "/" + config.data[CT][pics[1]]} id=${pics[1]} class="stim_pic unclickable isLeft" style="max-width:30%;height:auto;visibility:hidden">
+            <div id="label_middle_pic" class="bottom-middle">${pics[2]}</div>
+            <img src=${PATH_PICTURES.replace("group", config.data[CT].group) + "/" + config.data[CT][pics[2]]} id=${pics[2]} class="stim_pic unclickable isMiddle" style="max-width:30%;height:auto;visibility:hidden">
+            <img src=${PATH_PICTURES.replace("group", config.data[CT].group) + "/" + config.data[CT][pics[3]]} id=${pics[3]} class="stim_pic unclickable isRight" style="max-width:30%;height:auto;visibility:hidden">
+            <div id="label_right_pic" class="bottom-right">${pics[3]}</div>
           </div>
           <button id='smallMarginNextButton' class='grid-button magpie-view-button' style="visibility:hidden">continue</button>
        </div>`;
@@ -132,7 +127,6 @@ const forced_choice_generator = {
 
        $("#bttnAnswerBob").on("click", function(){
         this.remove();
-        //$("#pqud").css("visibility", "visible");
         let answer = config.data[CT].answer;
         let cols_group = COLS_GROUPS[config.data[CT].group]
         answer = answer.replace("CONS", cols_group.CONS);
@@ -156,91 +150,83 @@ const forced_choice_generator = {
           this.remove();
           $("#textBobsScreens").html(text);
 
-          $("#picture1").css("visibility", "visible");
-          $("#picture2").css("visibility", "visible");
-          $("#picture3").css("visibility", "visible");
+          $("#pic1").css("visibility", "visible");
+          $("#pic2").css("visibility", "visible");
+          $("#pic3").css("visibility", "visible");
           $("#smallMarginNextButton").css("visibility", "visible");
-          $("#picture1").removeClass('unclickable');
-          $("#picture2").removeClass('unclickable');
-          $("#picture3").removeClass('unclickable');
+          $("#pic1").removeClass('unclickable');
+          $("#pic2").removeClass('unclickable');
+          $("#pic3").removeClass('unclickable');
         });
 
-       const pictures = ["picture1", "picture2", "picture3"];
-       pictures.forEach(function (id) {
-      // remove image selection with second click
-        $('#' + id).on('click', function (e) {
-          if($('#' + id).hasClass('selected_img')) {
-            $('#' + id).removeClass('selected_img');
-          } else {
-            $('#' + id).addClass('selected_img');
-          };
-          // continue button is clickable if at least one image is selected
-          if($('#' + id).hasClass('selected_img')){
-            toggleNextIfDone($('#smallMarginNextButton'), true);
-          } else {
-            var count = 0;
-            pictures.forEach(function(id){
-              count = $('#' + id).hasClass('selected_img') ? count + 1 : count;
-            });
-            if(count == 0){
-              $('#smallMarginNextButton').addClass('grid-button');
+        let trial_data = {
+          trial_name: config.name,
+          trial_number: CT + 1,
+          type: config.data[CT].type,
+          picture_left: $('#label_left_pic').html(),
+          picture_middle: $('#label_middle_pic').html(),
+          picture_right: $('#label_right_pic').html(),
+          selected_pic: "",
+          block: config.data[CT].block,
+          response: ""
+        };
+        const pictures = ["pic1", "pic2", "pic3"];
+        pictures.forEach(function (id) {
+          // remove image selection with second click
+          $('#' + id).on('click', function (e) {
+            if($('#' + id).hasClass('selected_img')) {
+              $('#' + id).removeClass('selected_img');
+            } else {
+              $('#' + id).addClass('selected_img');
+            };
+            // continue button is clickable if at least one image is selected
+            if($('#' + id).hasClass('selected_img')){
+              toggleNextIfDone($('#smallMarginNextButton'), true);
+            } else {
+              var count = 0;
+              pictures.forEach(function(id){
+                count = $('#' + id).hasClass('selected_img') ? count + 1 : count;
+              });
+              if(count == 0){
+                $('#smallMarginNextButton').addClass('grid-button');
+              }
             }
-          }
+          });
         });
-      });
-
-      let trial_data = {
-         trial_name: config.name,
-         trial_number: CT + 1,
-         type: config.data[CT].type,
-         picture_left: $('#label_left_pic').html(),
-         picture_middle: $('#label_middle_pic').html(),
-         picture_right: $('#label_right_pic').html(),
-         selected_pic: "",
-         block: config.data[CT].block
-       };
-
-       $("#picture1").on("click", function() {
-           trial_data.response = config.data[CT].property_id1
-       });
-       $("#picture2").on("click", function() {
-            trial_data.response = config.data[CT].property_id2
-       });
-       $("#picture3").on("click", function() {
-            trial_data.response = config.data[CT].property_id3
-       });
 
        $('#smallMarginNextButton').on("click", function(){
         	// save which images were selected when continuing
         	const RT = Date.now() - startingTime;
         	trial_data.RT = RT;
-        	["picture1", "picture2", "picture3"].forEach(function (id) {
-          		if($('#' + id).hasClass('selected_img')) {
-            		trial_data.selected_pic += id + "_";
-          		}
-        	});
+
+          ["pic1", "pic2", "pic3"].forEach(function (id) {
+            if($('#' + id).hasClass('selected_img')) {
+              trial_data.selected_pic += id + "_";
+              trial_data.response += config.data[CT]["property_" + id] + "_"
+            }
+          });
           // remove last underscore in string
-        	trial_data.selected_pic = trial_data.selected_pic.slice(0, -1);
+          trial_data.selected_pic = trial_data.selected_pic.slice(0, -1);
+          trial_data.response = trial_data.response.slice(0, -1);
         	trial_data = magpieUtils.view.save_config_trial_data(config.data[CT], trial_data);
 
           let bob = $('#' + trial_data.bob)
           let pic_bob = bob.hasClass('isMiddle') ? 'the picture in the middle' :
           bob.hasClass('isLeft') ? 'the leftmost picture' : 'the rightmost picture';
 
-          //console.log('selected: ' + trial_data.selected_pic + ' bob: ' + trial_data.bob)
           let result = config.data[CT].bob === trial_data.selected_pic ?
-            {'money': 100, msg: 'Awesome - your choice was correct! You GET 100 points!'} :
+            {score: 100, msg: 'Awesome - your choice was correct! You GET 100 points!'} :
             // selection of all 3 -> loose
             trial_data.selected_pic.split("_").length == 3 ?
-            {money: -100, msg: 'Ups - you selected all 3 scenes... So, you LOOSE 100 points! Bob saw ' + pic_bob} :
+            {score: -100, msg: 'Ups - you selected all 3 scenes... So, you LOOSE 100 points! Bob saw ' + pic_bob} :
             // selection of 2 including correct -> 50 ct
             trial_data.selected_pic.includes(trial_data.bob) ?
-            {money: 50, msg: 'Congratulations! Bob saw ' + pic_bob + ' - you GET 50 points!'} :
+            {score: 50, msg: 'Congratulations! Bob saw ' + pic_bob + ' - you GET 50 points!'} :
             //otherwise loose
-            {money: -100, msg: 'Ups. Bob saw ' + pic_bob + '. You LOOSE 100 points!'};
+            {score: -100, msg: 'Ups. Bob saw ' + pic_bob + '. You LOOSE 100 points!'};
 
-          trial_data.money = result.money;
-          TOTAL_POINTS += result.money;
+          trial_data.score = result.score;
+          TOTAL_POINTS += result.score;
 
           if(trial_data.type.includes('practice') || trial_data.block === "practice") {
               alert(result.msg + "\r\n" + "Total amount of points you made so far: " + TOTAL_POINTS + ".");
