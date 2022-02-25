@@ -190,7 +190,7 @@ TEST_DATA = [
   {id: "trial6", pic1: "if1_un_ind", pic2: "if2_unn_horiz", pic3: "if2_unu", pic0: "cons_n", property_pic1: "contrast", property_pic2: "exhaustive", property_pic3: "non-exhaustive", question: QUESTS.willq, answer: ANSWERS.if_pq, type: 'critical', expected:'', bob:  _.sample(["pic2", "pic3"])},
 
   // practice trials
-  {id: "trial7", pic1: "if2_unn_horiz", pic2: "if1_un", pic3: "if2_unu", pic0: "cons_n", property_pic1: "contrast", property_pic2: "contrast", property_pic3: "literal", question: QUESTS.neutral, answer: ANSWERS.if_p_or_yellow_q, type: 'practice', expected: 'pic3', bob:'pic3'},
+  {id: "trial7", pic1: "if1_un", pic2: "if2_unn_horiz", pic3: "if2_unu", pic0: "cons_n", property_pic1: "contrast", property_pic2: "literal", property_pic3: "pragmatic", question: QUESTS.neutral, answer: ANSWERS.if_p_or_yellow_q, type: 'practice', expected: 'pic3', bob:'pic3'},
   {id: "trial8", pic1: "if2_nnn_horiz", pic2: "if2_nnh_right", pic3: "if2_nnh", pic0: "ant_n", property_pic1: "contrast", property_pic2: "pragmatic", property_pic3: "literal", question: QUESTS.neutral, answer: ANSWERS.yellow, type: 'practice', expected:'', bob:'pic2'},
   // {id: "trial9", pic1: "if2_nnn_horiz", pic2: "if2_unn", pic3: "if2_nnh", pic0: "cons_n", property_pic1: "contrast", property_pic2: "contrast", property_pic3: "literal", question: QUESTS.neutral, answer: ANSWERS.yellow_and_q, type: 'practice', expected:'pic3', bob:'pic3'},
 
