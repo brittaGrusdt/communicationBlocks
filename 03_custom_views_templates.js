@@ -261,8 +261,9 @@ return `<div class='magpie-view magpie-post-test-view'>
       ignored: "I only read Bob's answer."
     }
     let behavior = {
-      risky: "only when I was very confident about my decision.",
-      cautious: "even though another picture wasn't unlikely either."
+      question: `Most of the time I selected a <b>single picture</b> ...`,
+      cautious: "only when I was very confident about my decision.",
+      risky: "even though another picture wasn't unlikely either."
     }
         return `<form id="checkAnn">
         <p>During the experiment, <b>Ann's question</b> was ... </p>
@@ -291,7 +292,7 @@ return `<div class='magpie-view magpie-post-test-view'>
           <label for="ignored">${replies.ignored}</label></br></br>
         </div>
 
-        <p>Most of the time I selected a <b>single picture</b> ... </p>
+        <p>${behavior.question}</p>
         <div>
           <input type="checkbox" name="risky" value="risky" id="risky">
           <label for="risky">${behavior.risky}</label></br></br>
