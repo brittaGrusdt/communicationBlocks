@@ -196,6 +196,7 @@ TEST_DATA = [
 
   // balance trials
   {id: "trial10", pic1: "if1_un_ind", pic2: "if1_un", pic3: "if2_unh_ind", pic0: "ant_u", property_pic1: "contrast", property_pic2: "literal", property_pic3: "contrast", question: QUESTS.ifp, answer: ANSWERS.if_pq, type: 'filler', expected:'pic2', bob: 'pic2'},
+  // trial11: special practice trial, where participants will always loose if they only select a single scene!
   {id: "trial11", pic1: "if1_un_ind", pic2: "if1_un", pic3: "if1_un_up", pic0: "cons_n", property_pic1: "contrast", property_pic2: "literal", property_pic3: "literal", question: QUESTS.willq, answer: ANSWERS.if_pq, type: 'practice', expected:'pic2_pic3', bob: _.sample(["pic2", "pic3"])},
   // {id: "trial12", pic1: "if2_unn_ind_horiz", pic2: "if2_unn_horiz", pic3: "if1_un_ind", pic0: "ant_u", property_pic1: "contrast", property_pic2: "literal", property_pic3: "contrast", question: QUESTS.ifp, answer: ANSWERS.if_pq, type: 'balance', expected: 'pic2', bob:'pic2'},
   // practice-balance
@@ -225,6 +226,18 @@ PRACTICE_IDS = _.map(_.filter(TEST_DATA, function(obj){
 }), 'id')
 
 TEST_IDS = _.map(TEST_DATA, 'id')
+
+// feedback messages
+const FEEDBACK = {
+  scores: {fail: -100, all: -100, success: 100, win: 50},
+  msg: {
+    fail: 'You LOOSE 100 points!',
+    all: 'Ups - you selected all 3 scenes... So, you LOOSE 100 points! ',
+    success: 'Awesome - your choice was correct! You GET 100 points!',
+    win: 'So you GET 50 points!'
+  }
+}
+
 
 // position of antecedent-block in if2ssw/independent-trials wrt its base platform
 // (here probability to fall depends on width of ramp as ball is moving on its own)

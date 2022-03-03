@@ -215,22 +215,46 @@ const forced_choice_generator = {
           bob.hasClass('isLeft') ? 'the leftmost picture' : 'the rightmost picture';
 
           let result = config.data[CT].bob === trial_data.selected_pic ?
-            {score: 100, msg: 'Awesome - your choice was correct! You GET 100 points!'} :
+            {score: FEEDBACK.scores.success, msg: FEEDBACK.msg.success} :
             // selection of all 3 -> loose
             trial_data.selected_pic.split("_").length == 3 ?
-            {score: -100, msg: 'Ups - you selected all 3 scenes... So, you LOOSE 100 points! Bob saw ' + pic_bob} :
+            {score: FEEDBACK.scores.all, msg: FEEDBACK.msg.all + 'Bob saw ' + pic_bob + '. '} :
             // selection of 2 including correct -> 50 ct
             trial_data.selected_pic.includes(trial_data.bob) ?
-            {score: 50, msg: 'Congratulations! Bob saw ' + pic_bob + ' - you GET 50 points!'} :
+            {score: FEEDBACK.scores.win, msg:
+              'Congratulations! Bob saw ' + pic_bob + '. ' + FEEDBACK.msg.win} :
             //otherwise loose
-            {score: -100, msg: 'Ups. Bob saw ' + pic_bob + '. You LOOSE 100 points!'};
+            {score: FEEDBACK.scores.fail, msg: 'Ups. Bob saw ' + pic_bob + '. ' + FEEDBACK.msg.fail};
 
           trial_data.score = result.score;
           TOTAL_POINTS += result.score;
 
           if(trial_data.type.includes('practice') || trial_data.block === "practice") {
-              alert(result.msg + "\r\n" + "Total amount of points you made so far: " + TOTAL_POINTS + ".");
-              POINTS_PRACTICE = TOTAL_POINTS;
+
+            if(config.data[CT].id === "trial11") {
+              // In this practice trial, if participants only selected a single scene,
+              // Bob always sees the scene that participants did NOT select
+              if (trial_data.selected_pic.split("_").length == 1) {
+                TOTAL_POINTS -= result.score; // reset
+                result.score = FEEDBACK.scores.fail;
+                TOTAL_POINTS += result.score; // set to updated value
+
+                let literal_pics = _.filter(['pic1', 'pic2', 'pic3'], function(pic){
+                  return config.data[CT]['property_' + pic] === 'literal'
+                });
+                let id_pic_bob = _.filter(literal_pics, function(pic){
+                  return pic !== trial_data.selected_pic
+                })[0];
+                console.log(id_pic_bob)
+                bob = $('#' + id_pic_bob)
+                pic_bob = bob.hasClass('isMiddle') ? 'the picture in the middle' :
+                  bob.hasClass('isLeft') ? 'the leftmost picture' : 'the rightmost picture';
+
+                result.msg = 'Ups. Bob saw ' + pic_bob + '. ' + FEEDBACK.msg.fail;
+              }
+            }
+            alert(result.msg + "\r\n" + "Total amount of points you made so far: " + TOTAL_POINTS + ".");
+            POINTS_PRACTICE = TOTAL_POINTS;
           } else {
             POINTS_TEST_PHASE = TOTAL_POINTS - POINTS_PRACTICE;
           }
