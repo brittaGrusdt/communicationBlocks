@@ -230,7 +230,6 @@ const forced_choice_generator = {
           TOTAL_POINTS += result.score;
 
           if(trial_data.type.includes('practice') || trial_data.block === "practice") {
-
             if(config.data[CT].id === "trial11") {
               // In this practice trial, if participants only selected a single scene,
               // Bob always sees the scene that participants did NOT select
@@ -242,10 +241,10 @@ const forced_choice_generator = {
                 let literal_pics = _.filter(['pic1', 'pic2', 'pic3'], function(pic){
                   return config.data[CT]['property_' + pic] === 'literal'
                 });
+                // target is the literal picture that participants did not select
                 let id_pic_bob = _.filter(literal_pics, function(pic){
                   return pic !== trial_data.selected_pic
                 })[0];
-                console.log(id_pic_bob)
                 bob = $('#' + id_pic_bob)
                 pic_bob = bob.hasClass('isMiddle') ? 'the picture in the middle' :
                   bob.hasClass('isLeft') ? 'the leftmost picture' : 'the rightmost picture';
