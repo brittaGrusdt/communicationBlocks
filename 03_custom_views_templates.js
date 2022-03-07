@@ -92,7 +92,7 @@ const forced_choice_generator = {
           <p id='answerBob' class='magpie-view-question'></p>
           <div class="stimuli">
             <p id='textBobsScreens' class='magpie-view-question'></p>
-            <button id='bttnBobsScreens' class='magpie-view-button grid-button'>Show possible screens Bob might have seen</button>
+            <button id='bttnBobsScreens' class='magpie-view-button grid-button'>Show possible screens Bob might see</button>
             <div id="label_left_pic" class="bottom-left">${pics[1]}</div>
             <img src=${PATH_PICTURES.replace("group", config.data[CT].group) + "/" + config.data[CT][pics[1]]} id=${pics[1]} class="stim_pic unclickable isLeft" style="max-width:30%;height:auto;visibility:hidden">
             <div id="label_middle_pic" class="bottom-middle">${pics[2]}</div>

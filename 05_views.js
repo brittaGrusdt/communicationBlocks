@@ -52,15 +52,12 @@ const instructions_general = magpieViews.view_generator("instructions", {
          In total, you will need approximately <b>10 minutes</b> to finish.
          <br/>
          <br/>
-         We will start with the <b>training phase</b> which consists of <b>8 trials</b> in which you will see scenes of block arrangements.<br/>
-         Your task will be to select all blocks that you think will fall (multiple selections possible!).
+         We will start with the <b>training phase</b> which consists of <b>8 trials</b> in which you will see scenes of block arrangements.
+         Your task is to select all blocks that you think will fall.
         <br/>
-         After you have made your choice, click on RUN to see which blocks actually fall.
+         After you made your selection, click on RUN to see which blocks actually fall.
          Note that in the lower left, you will see a little moving triangle, which is just there for you to see that the animation is running.
-         <br/>
-         By clicking on CONTINUE you'll proceed with the next training trial.
-         <br/>
-         <br/>
+         Then, click on CONTINUE to proceed with the next training trial.<br/><br/>
          <b>Please note</b>:
          <br/>
          We recommend to use <b>Full Screen Mode</b> throughout the experiment (usually switched on/off with F11, on a Mac press Command+Control+F).`,
@@ -94,7 +91,7 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   Based on this information, your task will be to decide which of three shown scenes is the one that Bob sees.<br/><br/>
 
   You may select <b>one or more</b> of the three scenes shown to you.
-  Depending on your choice, Ann, Bob and you will get or lose points.<br/><br/>
+  Depending on your choice, Ann, Bob and you will get or lose points.<br/>
 
   To demonstrate this, we use the example from above again:
   <br/><br/>
@@ -106,7 +103,7 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   <b>Bob</b>: The BLUE and the GREEN block will fall.<br/><br/>
   <b>Note: Please read both, Ann's question and Bob's answer, carefully!</b><br/><br/>
 
-
+  <u>Number of points you get depending on your selection</u>:<br/>
   If you are confident and select a single scene, and your choice is correct,<br/>
   you will <b>get 100 points</b>:.
   <br/>
