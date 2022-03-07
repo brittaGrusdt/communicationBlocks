@@ -74,7 +74,7 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   name: "instructions_test_img",
   title: "Instructions Testing Phase",
   text: `Great -  we'll now proceed with the test phase of the experiment.<br/><br/>
-  You will play a 3-player game with Ann and Bob in which you have to work together as a team.
+  You will play a simple 3-player game with Ann and Bob in which you have to work together as a team.
   This is an example of how the game may look like for each of you:
 
   <br/>
@@ -82,33 +82,29 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
     <img src="./stimuli/img/screens-instruction/separate-you.png" style="max-width:90%">
   <br/><br/>
 
-  Ann's, Bob's and your task is to find out which scene Bob sees in order to get as many points as possible.
-  During the game, only a minimal amount of interaction is allowed. The way of interacting with each other always follows the same pattern: <br/><br/>
+  Ann's, Bob's and your joint goal is to make as many points as possible.
+  During the game, only a minimal amount of interaction is allowed: <br/><br/>
 
-  <b>1)</b> The first player, Ann, only views an incomplete version of Bob's scene.
-  Ann does not have any experience with these scenes of block arrangements, however, she can ask Bob
-  a question about the scene that he sees.<br/><br/>
+  <b>1.</b> Ann, who does not have any experience with these scenes of block arrangements, sees part of the scene that Bob sees,
+  but she can ask Bob a question about it.<br/><br/>
 
-  <b>2)</b> The second player, Bob, who is an expert concerning these scenes of block arrangements,
-  sees the complete scene, but he can only tell you what he sees by answering Ann's question. Ann will not receive Bob's answer. <br/><br/>
+  <b>2.</b> Bob, who is an expert concerning these scenes of block arrangements, can only reply to Ann's question to inform <i>you</i> about the scene that he sees.<br/><br/>
 
-  <b>3)</b> The third player (which is you) then has to decide which of three different scenes is the one that Bob sees.
-  For this, you will see Ann's screen, the question that she asked and Bob's answer.<br/><br/>
+  <b>3.</b> You will see the partial scene that Ann sees, the question she asked and Bob's response.
+  Based on this information, your task will be to decide which of three shown scenes is the one that Bob sees.<br/><br/>
 
+  You may select <b>one or more</b> of the three scenes shown to you.
+  Depending on your choice, Ann, Bob and you will get or lose points.<br/><br/>
 
-  You may select <b>one or more</b> of the three scenes that only you can see.
-  Depending on your choice, Ann, Bob and you will get or lose points
-  (remember that you want to get as many points as possible). <br/><br/>
-
-  To demonstrate this, we use the example from above again, where Ann's and Bob's screen look like this:
+  To demonstrate this, we use the example from above again:
   <br/><br/>
     <img src="./stimuli/img/screens-instruction/anns-bobs-screen.jpeg" style="max-width:90%">
   <br/><br/>
 
-  <u>And this is what they say</u>:<br/>
+  <u>This is what they say</u>:<br/>
   <b>Ann</b>: Which blocks do you think will fall?<br/>
   <b>Bob</b>: The BLUE and the GREEN block will fall.<br/><br/>
-  <b>Note: Please read both, Ann's question and Bob's answer, carefully.</b><br/><br/>
+  <b>Note: Please read both, Ann's question and Bob's answer, carefully!</b><br/><br/>
 
 
   If you are confident and select a single scene, and your choice is correct,<br/>
@@ -123,6 +119,8 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   But if you select two scenes, including the correct one, you will <b>win 50 points</b>:<br/>
   <img src="./stimuli/img/screens-instruction/select2.png" style="max-width:90%">
   <br/><br/>
+
+  Therefore, in order to avoid loosing points, it will be better for you to select two scenes when you are undecided.<br/>
 
   Even though this is unlikely to happen, note that you will also <b>lose 100 points</b> if:<br/>
   1. you select two scenes, <i>not</i> including the correct one OR if<br/>
