@@ -49,7 +49,7 @@ const instructions_general = magpieViews.view_generator("instructions", {
   name: "instructions_general",
   title: "General Instructions",
   text: `This experiment consists of two phases, a training and a testing phase.
-         In total, you will need about <b>10-15 minutes</b> to finish.
+         In total, you will need approximately <b>10 minutes</b> to finish.
          <br/>
          <br/>
          We will start with the <b>training phase</b> which consists of <b>8 trials</b> in which you will see scenes of block arrangements.<br/>
