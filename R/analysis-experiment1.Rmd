@@ -12,6 +12,8 @@ library(here)
 library(brms)
 source(here("R", "utils.R"))
 theme_set(theme_minimal(base_size=12) + theme(legend.position = "top"))
+
+save_plots = FALSE
 ```
 
 ```{r, message=FALSE}
@@ -108,7 +110,7 @@ With 95%-bootstrap confidence intervals
 
 ```{r, boostrap-samples, echo = FALSE}
 N = 1000
-n = data.critical$submissionID %>% unique() %>% length()
+n_participants = data.critical$submissionID %>% unique() %>% length()
 df.all = data.critical %>% 
   dplyr::select(submissionID, picPair, picPair.long, question, response) %>% 
   group_by(picPair, question)
@@ -116,7 +118,7 @@ df.all = data.critical %>%
 bootstrap_samples = group_map(df.all, function(df, df.group){
   bootstrap = map(seq(1, N), function(i){
     tibble(rate_exhaustive =
-             sum(sample(df$response, n, replace=T) == "exhaustive")/n)
+             sum(sample(df$response, n_participants, replace=T) == "exhaustive")/n_participants)
   }) %>% bind_rows() %>% 
     add_column(picPair = df.group$picPair, question = df.group$question) %>% 
     arrange(rate_exhaustive)
@@ -209,7 +211,7 @@ p = data.critical.rate.picPair %>%
   #facet_wrap(~picPair.long) + 
   labs(x="selection rate exhaustive situation", y = "QUD")
 p
-ggsave(here("results", "figs", "selection-rates.pdf"), p, width=7, height=4)
+if(save_plots) ggsave(here("results", "figs", "selection-rates.pdf"), p, width=7, height=4)
 ```
 
 Goodness-of-fit 
@@ -298,8 +300,8 @@ p.mainquestion = coeffs %>% rowid_to_column() %>%
   labs(x = "estimated coefficient", y = "posterior samples") +
   scale_x_discrete(labels = c(questionifp = parse(text=TeX("$\\hat{\\beta}_{if-p}$")), 
                               questionwillq = parse(text=TeX("$\\hat{\\beta}_{will-q}$"))))
-ggsave(here("results", "figs", "main-effect-question.pdf"), p.mainquestion,
-       width=7, height=4)
+if(save_plots) ggsave(here("results", "figs", "main-effect-question.pdf"), 
+                      p.mainquestion, width=7, height=4)
 ```
 
 Analysis with 3x2x2 design
@@ -351,7 +353,7 @@ plot_empirical = function(data, exclude_neutral = TRUE) {
 }
 p <- plot_empirical(data.critical)
 p
-ggsave(here("results", "figs", "empirical-responses.pdf"), p, width=7, height=4)
+if(save_plots) ggsave(here("results", "figs", "empirical-responses.pdf"), p, width=7, height=4)
 ```
 
 Score participants: for each of the 4 critical stimuli, participants receive 1 point if they differentiate the QUDs ifp_willq, i.e. when they choose the exhaustive picture for one qud and the non-exhaustive for the other (independent of direction).
@@ -444,7 +446,7 @@ p <- df %>% ggplot(aes(x=exh_situation, y=rate_exhaustive,
   annotate("text", x="w/oDistractor", y=0.87, label="B", hjust=-.8)
 
 p
-ggsave(here("results", "figs", "empirical-responses-rates.pdf"), p, width=7, height=4)
+if(save_plots) ggsave(here("results", "figs", "empirical-responses-rates.pdf"), p, width=7, height=4)
 ```
 
 
@@ -550,8 +552,8 @@ p.mainquestion = coeffs %>% rowid_to_column() %>%
     questionwillq = parse(text=TeX("$\\hat{\\beta}_{will-q}$")))
   )
 p.mainquestion
-ggsave(here("results", "figs", "main-effect-question.pdf"), p.mainquestion,
-       width=7, height=4)
+if(save_plots) ggsave(here("results", "figs", "main-effect-question.pdf"),
+                      p.mainquestion, width=7, height=4)
 ```
 
 Estimated main effect of the exhaustive and the non-exhaustive situation 
@@ -598,8 +600,7 @@ p.exh = coeffs.exh %>% rowid_to_column() %>%
     )
   )
 p.exh
-ggsave(here("results", "figs", "main-effect-exhaustive.pdf"), p.exh,
-       width=7, height=4)
+if(save_plots) ggsave(here("results", "figs", "main-effect-exhaustive.pdf"), p.exh, width=7, height=4)
 ```
 
 1. non-exhaustive kept as external (1) and as internal (2): 
@@ -659,8 +660,8 @@ p.nonExh = coeffs.nonExh %>% rowid_to_column() %>%
     )
   )
 p.nonExh
-ggsave(here("results", "figs", "main-effect-nonExhaustive.pdf"), p.exh,
-       width=7, height=4)
+if(save_plots) ggsave(here("results", "figs", "main-effect-nonExhaustive.pdf"),
+                      p.exh, width=7, height=4)
 ```
 
 1. exhaustive:noDistr is very likely to yield a higher selection rate of the 
@@ -722,8 +723,8 @@ p.picPair = coeffs.picPair %>% rowid_to_column() %>%
     )
   )
 p.picPair
-ggsave(here("results", "figs", "main-effect-picPair.pdf"), p.picPair,
-       width=7, height=4)
+if(save_plots) ggsave(here("results", "figs", "main-effect-picPair.pdf"), 
+                      p.picPair, width=7, height=4)
 ```
 
 # Reaction times
@@ -742,10 +743,10 @@ critical.RT_means = critical.RT %>%
 
 bootstrap_RTs = group_map(critical.RT, function(df, df.group){
   bootstrap = map(seq(1, N), function(i){
-    tibble(mean_RT = mean(sample(df$RT, n, replace=T)))
+    tibble(mean_RT = mean(sample(df$RT, n_participants, replace=T)))
   }) %>% bind_rows() %>% 
     add_column(picPair = df.group$picPair, question = df.group$question) %>% 
-    arrange(mean_RT)
+    arrange(mean_RT) # important!
   
   CI.bounds = bootstrap_bounds(bootstrap)
   ci.low = bootstrap[CI.bounds[["low"]], ]$mean_RT
@@ -768,9 +769,11 @@ p.rt = critical.RT %>%
   ggplot(aes(x=log(RT), color=picPair)) + geom_density() 
 p.rt
 p.rt + facet_wrap(~question)
-ggsave(here("results", "figs", "empiric-rts.pdf"), p.rt,
-       width=7, height=4)
+if(save_plots) ggsave(here("results", "figs", "empiric-rts.pdf"), p.rt, width=7, height=4)
 ```
+Plot means of reaction times differently 
+concise plot without errorbars: (too large, if directly added into this plot, 
+it becomes confusing)
 
 ```{r}
 df.rt = critical.RT %>% 
@@ -780,12 +783,10 @@ df.rt = critical.RT %>%
   mutate(exh_situation = str_sub(exh_situation, start=4),
          exh_situation = factor(exh_situation, 
                                 levels = c("withDistractor", "w/oDistractor")))
-
 df.rt_means = df.rt %>% 
   group_by(question, exh_situation, nonExh_situation, picPair.short) %>% 
   summarize(mean_rt = mean(RT), .groups = "drop_last") %>% 
   rename(QUD=question)
-
 p <- df.rt_means %>% ggplot(aes(x=exh_situation, y=mean_rt, color=nonExh_situation)) +
   geom_point(aes(shape = QUD)) +
   geom_line(aes(group=interaction(QUD, nonExh_situation))) +
@@ -798,7 +799,30 @@ p <- df.rt_means %>% ggplot(aes(x=exh_situation, y=mean_rt, color=nonExh_situati
   annotate("text", x=rep("w/oDistractor", 2), y=c(13500, 15500), 
                 label=c("A", "B"), hjust=-2)
 p 
-ggsave(here("results", "figs", "reaction-times-233.pdf"), p, width=7, height=4)
+if(save_plots) ggsave(here("results", "figs", "reaction-times-233.pdf"), p, width=7, height=4)
+```
+
+```{r}
+bootstrap_CIs = bootstrap_RTs.CI.question_pic %>% 
+  separate(picPair, into=c("picPair.short", "tmp"), sep = ". ") %>% 
+  dplyr::select(-tmp) %>% rename(QUD=question)
+
+df.rt_means_with_CIs =left_join(df.rt_means, bootstrap_CIs) %>% 
+  mutate(exh_situation = paste("exhaustive:", exh_situation))
+
+p <- df.rt_means_with_CIs %>% 
+  ggplot(aes(x=QUD, y=mean_rt, color=nonExh_situation)) +
+  geom_point(position = position_dodge(width=.5)) + #shape = QUD)) +
+  #geom_line(aes(group=interaction(QUD, nonExh_situation))) +
+  geom_errorbar(position = position_dodge(width=.5),
+                aes(ymin=ci.low, ymax=ci.up)) +
+  labs(y = "average reaction time") + #, #x = "exhaustive situation") +
+  scale_color_brewer(name = "non-exhaustive situation", palette = "Set2") +
+  guides(color = guide_legend(title.position="top"), 
+         shape = guide_legend(title.position="top")) +
+  facet_wrap(~exh_situation)
+p 
+if(save_plots) ggsave(here("results", "figs", "reaction-times-233-with-errorbars.pdf"), p, width=7, height=4)
 
 ```
 
@@ -808,7 +832,7 @@ question=ifp or question=willq.
 
 ```{r}
 model_path = here("results", "brms-model-rts233.rds")
-model_path = here("results", "brms-model-rts.rds")
+#model_path = here("results", "brms-model-rts.rds")
 if(file.exists(model_path)) {
   fit_rt <- readRDS(model_path)
 } else {
@@ -816,8 +840,8 @@ if(file.exists(model_path)) {
     data = df.rt %>% 
       rename(exh=exh_situation, nonExh=nonExh_situation, picPair=picPair.short),
     family = lognormal(),
-    # RT ~ 1 + exh * nonExh * question + (1 + exh + nonExh + question|submissionID),
-    RT ~ 1 + picPair * question + (1 + picPair + question | submissionID),
+    RT ~ 1 + exh * nonExh * question + (1 + exh + nonExh + question|submissionID),
+    #RT ~ 1 + picPair * question + (1 + picPair + question | submissionID),
     seed = 1, control = list(adapt_delta = 0.99), iter = 4000
   )
   saveRDS(fit_rt, file=model_path)
@@ -830,23 +854,115 @@ pp_check(fit_rt, type = "stat", stat = 'mean', nsamples = 100)
 
 ```
 
-Reaction time is longer when at least one external picture is shown
+# Reaction times: 2x3x3 model 
+
+1.-4. Reaction time is shorter for non-exhaustive internal than for nonExhaustive external when QUD=ifp or QUD=willq. 
+
+```{r}
+model_path = here("results", "brms-model-rts233.rds")
+fit_rt_233 <- readRDS(model_path)
+# 1. exhaustive:without Distractor
+# 1.a QUD: ifp
+hypothesis(fit_rt, "nonExhinternal + exhwDoDistractor:nonExhinternal + nonExhinternal:questionifp + exhwDoDistractor:nonExhinternal:questionifp < 0")
+
+# 1.b QUD: willq
+hypothesis(fit_rt, "nonExhinternal + exhwDoDistractor:nonExhinternal + nonExhinternal:questionwillq + exhwDoDistractor:nonExhinternal:questionwillq < 0")
+# 3.c QUD: neutral
+hypothesis(fit_rt, "nonExhinternal + exhwDoDistractor:nonExhinternal + exhwDoDistractor:nonExhinternal < 0")
+
+
+# 2. exhaustive: with Distractor
+# 2.a QUD: ifp
+hypothesis(fit_rt, "nonExhinternal + nonExhinternal:questionifp + nonExhinternal:questionifp < 0")
+# 2.b QUD: willq
+hypothesis(fit_rt, "nonExhinternal + nonExhinternal:questionwillq + nonExhinternal:questionwillq < 0")
+# 3.c QUD: neutral
+hypothesis(fit_rt, "nonExhinternal < Intercept")
+
+```
+
+
+Estimated main effect of non-exhaustive across QUDs
+
+```{r}
+posterior_draws = tidy_draws(fit_rt_233)
+
+samples = posterior_draws %>% 
+  mutate(
+    external_neutral_withD = b_Intercept,
+    external_neutral_woD = b_Intercept + b_exhwDoDistractor,
+    external_ifp_withD = b_Intercept + b_questionifp,
+    external_ifp_woD = b_Intercept + b_questionifp + b_exhwDoDistractor + 
+      `b_exhwDoDistractor:questionifp`, 
+    external_willq_withD = b_Intercept + b_questionwillq,
+    external_willq_woD = b_Intercept + b_questionwillq + b_exhwDoDistractor + 
+      `b_exhwDoDistractor:questionwillq`,   
+      
+    internal_neutral_withD = b_Intercept + b_nonExhinternal,
+    internal_neutral_woD = b_Intercept + b_nonExhinternal + b_exhwDoDistractor + 
+      `b_exhwDoDistractor:nonExhinternal`,
+    
+    internal_ifp_withD = b_Intercept + b_nonExhinternal + b_questionifp + `b_nonExhinternal:questionifp`,
+    internal_ifp_woD = b_Intercept + b_nonExhinternal + b_questionifp + b_exhwDoDistractor + 
+      `b_exhwDoDistractor:questionifp` + `b_exhwDoDistractor:nonExhinternal` +`b_nonExhinternal:questionifp` + 
+      `b_exhwDoDistractor:nonExhinternal:questionifp`,
+    
+    internal_willq_withD = b_Intercept + b_nonExhinternal + b_questionwillq + `b_nonExhinternal:questionwillq`,
+    internal_willq_woD = b_Intercept + b_nonExhinternal + b_questionwillq + b_exhwDoDistractor + 
+      `b_exhwDoDistractor:questionwillq` + `b_exhwDoDistractor:nonExhinternal` +`b_nonExhinternal:questionwillq` + `b_exhwDoDistractor:nonExhinternal:questionwillq`
+    )
+
+coeffs = samples %>% 
+  transmute(nonExhinternal = (internal_neutral_withD + internal_neutral_woD +
+                              internal_ifp_withD + internal_ifp_woD + 
+                              internal_willq_withD + internal_willq_woD)/6,
+            nonExhexternal = (external_neutral_withD + external_neutral_woD +
+                              external_ifp_withD + external_ifp_woD + 
+                              external_willq_withD + external_willq_woD)/6) %>% 
+  mutate(internal_smaller = nonExhinternal < nonExhexternal)
+
+# posterior probability
+mean(coeffs$internal_smaller)
+
+means = coeffs %>% summarize(mean_neutral = mean(questionneutral),
+                             mean_ifp = mean(questionifp),
+                             mean_willq = mean(questionwillq))
+
+# cohen.d(coeffs$questionifp, coeffs$questionwillq)
+p.main_nonExh = coeffs %>% rowid_to_column() %>% 
+  pivot_longer(cols=c(nonExhinternal, nonExhexternal)) %>%
+  ggplot(aes(x=name, y=value)) + 
+  geom_boxplot() +
+  labs(x = "estimated coefficient", y = "posterior samples") +
+  scale_x_discrete(labels = c(
+    nonExhinternal = parse(text=TeX("$\\hat{\\beta}_{nonExhinternal}$")),
+    nonExhexternal = parse(text=TeX("$\\hat{\\beta}_{nonExhexternal}$"))
+  ))
+p.main_nonExh
+```
+
+# Analysis with 3x4 design
+Reaction time is longer when at least one external picture is shown, that is
+in picPair A responses are quickest
 
 ```{r, include=FALSE}
+model_path = here("results", "brms-model-rts.rds")
+fit_rt <- readRDS(model_path)
+
 # question: neutral
-hypothesis(fit_rt, "picPairB > 0")
-hypothesis(fit_rt, "picPairC > 0")
-hypothesis(fit_rt, "picPairD > 0")
+hypothesis(fit_rt, "picPairIE > 0") # B
+hypothesis(fit_rt, "picPairEI > 0") # C
+hypothesis(fit_rt, "picPairEE > 0") # D
 
 # question: ifp
-hypothesis(fit_rt, "picPairB + picPairB:questionifp > 0")
-hypothesis(fit_rt, "picPairC + picPairC:questionifp > 0")
-hypothesis(fit_rt, "picPairD + picPairD:questionifp > 0")
+hypothesis(fit_rt, "picPairIE + picPairIE:questionifp > 0")
+hypothesis(fit_rt, "picPairEI + picPairEI:questionifp > 0") # posterior 0.44
+hypothesis(fit_rt, "picPairEE + picPairEE:questionifp > 0")
 
 # question: willq
-hypothesis(fit_rt, "picPairB + picPairB:questionwillq > 0")
-hypothesis(fit_rt, "picPairC + picPairC:questionwillq > 0")
-hypothesis(fit_rt, "picPairD + picPairD:questionwillq > 0")
+hypothesis(fit_rt, "picPairIE + picPairIE:questionwillq > 0")
+hypothesis(fit_rt, "picPairEI + picPairEI:questionwillq > 0") # posterior 0.65
+hypothesis(fit_rt, "picPairEE + picPairEE:questionwillq > 0")
 ```
 
 
@@ -898,8 +1014,8 @@ p.mainpicpair = coeffs_rt_picPair %>%
                               C = parse(text=TeX("$\\hat{\\beta}_{C}$")), 
                               A = parse(text=TeX("$\\hat{\\beta}_{A}$"))))
 p.mainpicpair
-ggsave(here("results", "figs", "main-effect-picPair-rts.pdf"), p.mainpicpair,
-       width=7, height=4)
+if(save_plots) ggsave(here("results", "figs", "main-effect-picPair-rts.pdf"),
+                      p.mainpicpair, width=7, height=4)
 
 ```
 
