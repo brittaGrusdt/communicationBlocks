@@ -14,6 +14,9 @@ source(here("R", "utils.R"))
 theme_set(theme_minimal(base_size=12) + theme(legend.position = "top"))
 
 save_plots = FALSE
+target_dir = here("results", "experiment1")
+plot_dir = file.path(target_dir, "figs")
+if(!file.exists(plot_dir)) dir.create(plot_dir, recursive = TRUE)
 ```
 
 ```{r, message=FALSE}
@@ -174,7 +177,7 @@ data.critical.rate.picPair <- left_join(
 picture combinations
 
 ```{r}
-conditions = configure(c("conditions"))
+conditions = configure(c("QUDs"))
 data.critical %>%
   ggplot(aes(fill=response, y=question)) + 
   geom_bar(position=position_dodge(preserve = 'single')) +
@@ -211,7 +214,7 @@ p = data.critical.rate.picPair %>%
   #facet_wrap(~picPair.long) + 
   labs(x="selection rate exhaustive situation", y = "QUD")
 p
-if(save_plots) ggsave(here("results", "figs", "selection-rates.pdf"), p, width=7, height=4)
+if(save_plots) ggsave(file.path(plot_dir, "selection-rates.pdf"), p, width=7, height=4)
 ```
 
 Goodness-of-fit 
@@ -300,7 +303,7 @@ p.mainquestion = coeffs %>% rowid_to_column() %>%
   labs(x = "estimated coefficient", y = "posterior samples") +
   scale_x_discrete(labels = c(questionifp = parse(text=TeX("$\\hat{\\beta}_{if-p}$")), 
                               questionwillq = parse(text=TeX("$\\hat{\\beta}_{will-q}$"))))
-if(save_plots) ggsave(here("results", "figs", "main-effect-question.pdf"), 
+if(save_plots) ggsave(file.path(plot_dir, "main-effect-question.pdf"), 
                       p.mainquestion, width=7, height=4)
 ```
 
@@ -353,7 +356,7 @@ plot_empirical = function(data, exclude_neutral = TRUE) {
 }
 p <- plot_empirical(data.critical)
 p
-if(save_plots) ggsave(here("results", "figs", "empirical-responses.pdf"), p, width=7, height=4)
+if(save_plots) ggsave(file.path(plot_dir, "empirical-responses.pdf"), p, width=7, height=4)
 ```
 
 Score participants: for each of the 4 critical stimuli, participants receive 1 point if they differentiate the QUDs ifp_willq, i.e. when they choose the exhaustive picture for one qud and the non-exhaustive for the other (independent of direction).
@@ -446,7 +449,7 @@ p <- df %>% ggplot(aes(x=exh_situation, y=rate_exhaustive,
   annotate("text", x="w/oDistractor", y=0.87, label="B", hjust=-.8)
 
 p
-if(save_plots) ggsave(here("results", "figs", "empirical-responses-rates.pdf"), p, width=7, height=4)
+if(save_plots) ggsave(file.path(plot_dir, "empirical-responses-rates.pdf"), p, width=7, height=4)
 ```
 
 
@@ -552,7 +555,7 @@ p.mainquestion = coeffs %>% rowid_to_column() %>%
     questionwillq = parse(text=TeX("$\\hat{\\beta}_{will-q}$")))
   )
 p.mainquestion
-if(save_plots) ggsave(here("results", "figs", "main-effect-question.pdf"),
+if(save_plots) ggsave(file.path(plot_dir, "main-effect-question.pdf"),
                       p.mainquestion, width=7, height=4)
 ```
 
@@ -584,11 +587,14 @@ coeffs.exh = samples.exh %>%
                       `exhDistr_Ineutral` + exhDistr_Iifp + exhDistr_Iwillq)/6,
             exhNoDistr = (`exhNoDistr_Eneutral` + `exhNoDistr_Eifp` + `exhNoDistr_Ewillq` + 
                       `exhNoDistr_Ineutral` + `exhNoDistr_Iifp` + `exhNoDistr_Iwillq`)/6)
-means = coeffs.exh %>% summarize(mean_exhDistr = mean(exhDistr), `mean_exhNoDistr` = mean(`exhNoDistr`))
+means = coeffs.exh %>% 
+  summarize(mean_exhDistr = mean(exhDistr), 
+            `mean_exhNoDistr` = mean(`exhNoDistr`))
 
 mean(coeffs.exh$exhDistr > 0)
 coeffs.exh %>% pivot_longer(cols=everything()) %>% 
-  ggplot(aes(x=value, color=name)) + geom_density()
+  ggplot(aes(x=value, color=name)) + geom_density() +
+  labs(x="estimated coefficient")
 p.exh = coeffs.exh %>% rowid_to_column() %>% 
   pivot_longer(cols=c(exhDistr, `exhNoDistr`)) %>%
   ggplot(aes(x=name, y=value)) + 
@@ -600,7 +606,7 @@ p.exh = coeffs.exh %>% rowid_to_column() %>%
     )
   )
 p.exh
-if(save_plots) ggsave(here("results", "figs", "main-effect-exhaustive.pdf"), p.exh, width=7, height=4)
+if(save_plots) ggsave(file.path(plot_dir, "main-effect-exhaustive.pdf"), p.exh, width=7, height=4)
 ```
 
 1. non-exhaustive kept as external (1) and as internal (2): 
@@ -660,7 +666,7 @@ p.nonExh = coeffs.nonExh %>% rowid_to_column() %>%
     )
   )
 p.nonExh
-if(save_plots) ggsave(here("results", "figs", "main-effect-nonExhaustive.pdf"),
+if(save_plots) ggsave(file.path(plot_dir, "main-effect-nonExhaustive.pdf"),
                       p.exh, width=7, height=4)
 ```
 
@@ -723,7 +729,7 @@ p.picPair = coeffs.picPair %>% rowid_to_column() %>%
     )
   )
 p.picPair
-if(save_plots) ggsave(here("results", "figs", "main-effect-picPair.pdf"), 
+if(save_plots) ggsave(file.path(plot_dir, "main-effect-picPair.pdf"), 
                       p.picPair, width=7, height=4)
 ```
 
@@ -769,21 +775,21 @@ p.rt = critical.RT %>%
   ggplot(aes(x=log(RT), color=picPair)) + geom_density() 
 p.rt
 p.rt + facet_wrap(~question)
-if(save_plots) ggsave(here("results", "figs", "empiric-rts.pdf"), p.rt, width=7, height=4)
+if(save_plots) ggsave(file.path(plot_dir, "empiric-rts.pdf"), p.rt, width=7, height=4)
 ```
 Plot means of reaction times differently 
 concise plot without errorbars: (too large, if directly added into this plot, 
 it becomes confusing)
 
 ```{r}
-df.rt = critical.RT %>% 
+data.RT = critical.RT %>% 
   dplyr::select(submissionID, question, RT, picPair, picPair.short) %>% 
   #filter(!submissionID %in% ids.scores) %>% 
   separate(col = picPair, into = c("exh_situation", "nonExh_situation"), sep="-") %>% 
   mutate(exh_situation = str_sub(exh_situation, start=4),
          exh_situation = factor(exh_situation, 
                                 levels = c("withDistractor", "w/oDistractor")))
-df.rt_means = df.rt %>% 
+df.rt_means = data.RT %>% 
   group_by(question, exh_situation, nonExh_situation, picPair.short) %>% 
   summarize(mean_rt = mean(RT), .groups = "drop_last") %>% 
   rename(QUD=question)
@@ -799,7 +805,7 @@ p <- df.rt_means %>% ggplot(aes(x=exh_situation, y=mean_rt, color=nonExh_situati
   annotate("text", x=rep("w/oDistractor", 2), y=c(13500, 15500), 
                 label=c("A", "B"), hjust=-2)
 p 
-if(save_plots) ggsave(here("results", "figs", "reaction-times-233.pdf"), p, width=7, height=4)
+if(save_plots) ggsave(file.path(plot_dir, "reaction-times-233.pdf"), p, width=7, height=4)
 ```
 
 ```{r}
@@ -809,6 +815,8 @@ bootstrap_CIs = bootstrap_RTs.CI.question_pic %>%
 
 df.rt_means_with_CIs =left_join(df.rt_means, bootstrap_CIs) %>% 
   mutate(exh_situation = paste("exhaustive:", exh_situation))
+levels(df.rt_means_with_CIs$QUD) = c(neutral = "neutral", ifp = "if-p",
+                                     willq = "will-q")
 
 p <- df.rt_means_with_CIs %>% 
   ggplot(aes(x=QUD, y=mean_rt, color=nonExh_situation)) +
@@ -822,26 +830,27 @@ p <- df.rt_means_with_CIs %>%
          shape = guide_legend(title.position="top")) +
   facet_wrap(~exh_situation)
 p 
-if(save_plots) ggsave(here("results", "figs", "reaction-times-233-with-errorbars.pdf"), p, width=7, height=4)
+if(save_plots) ggsave(file.path(plot_dir, "reaction-times-233-with-errorbars-plain.pdf"), p, width=7, height=4)
 
 ```
 
-When the non-exhaustive picture is external (B + D) participants seem to respond 
-more slowly than when the non-exhaustive picture is internal (A + C), when 
-question=ifp or question=willq.
+When the non-exhaustive picture is external (B + D, green) participants seem to 
+respond more slowly than when the non-exhaustive picture is internal 
+(A + C, orange), when question=ifp or question=willq.
+
+# Reaction Times model 3x4 Design (QUD x picPair)
 
 ```{r}
-model_path = here("results", "brms-model-rts233.rds")
-#model_path = here("results", "brms-model-rts.rds")
+model_path = here("results", "brms-model-rts.rds")
+df <- data.RT %>% 
+      rename(exh=exh_situation, nonExh=nonExh_situation, picPair=picPair.short)
 if(file.exists(model_path)) {
   fit_rt <- readRDS(model_path)
 } else {
   fit_rt <- brm(
-    data = df.rt %>% 
-      rename(exh=exh_situation, nonExh=nonExh_situation, picPair=picPair.short),
+    data = df,
     family = lognormal(),
-    RT ~ 1 + exh * nonExh * question + (1 + exh + nonExh + question|submissionID),
-    #RT ~ 1 + picPair * question + (1 + picPair + question | submissionID),
+    RT ~ 1 + picPair * question + (1 + picPair + question | submissionID),
     seed = 1, control = list(adapt_delta = 0.99), iter = 4000
   )
   saveRDS(fit_rt, file=model_path)
@@ -854,115 +863,25 @@ pp_check(fit_rt, type = "stat", stat = 'mean', nsamples = 100)
 
 ```
 
-# Reaction times: 2x3x3 model 
-
-1.-4. Reaction time is shorter for non-exhaustive internal than for nonExhaustive external when QUD=ifp or QUD=willq. 
-
-```{r}
-model_path = here("results", "brms-model-rts233.rds")
-fit_rt_233 <- readRDS(model_path)
-# 1. exhaustive:without Distractor
-# 1.a QUD: ifp
-hypothesis(fit_rt, "nonExhinternal + exhwDoDistractor:nonExhinternal + nonExhinternal:questionifp + exhwDoDistractor:nonExhinternal:questionifp < 0")
-
-# 1.b QUD: willq
-hypothesis(fit_rt, "nonExhinternal + exhwDoDistractor:nonExhinternal + nonExhinternal:questionwillq + exhwDoDistractor:nonExhinternal:questionwillq < 0")
-# 3.c QUD: neutral
-hypothesis(fit_rt, "nonExhinternal + exhwDoDistractor:nonExhinternal + exhwDoDistractor:nonExhinternal < 0")
-
-
-# 2. exhaustive: with Distractor
-# 2.a QUD: ifp
-hypothesis(fit_rt, "nonExhinternal + nonExhinternal:questionifp + nonExhinternal:questionifp < 0")
-# 2.b QUD: willq
-hypothesis(fit_rt, "nonExhinternal + nonExhinternal:questionwillq + nonExhinternal:questionwillq < 0")
-# 3.c QUD: neutral
-hypothesis(fit_rt, "nonExhinternal < Intercept")
-
-```
-
-
-Estimated main effect of non-exhaustive across QUDs
-
-```{r}
-posterior_draws = tidy_draws(fit_rt_233)
-
-samples = posterior_draws %>% 
-  mutate(
-    external_neutral_withD = b_Intercept,
-    external_neutral_woD = b_Intercept + b_exhwDoDistractor,
-    external_ifp_withD = b_Intercept + b_questionifp,
-    external_ifp_woD = b_Intercept + b_questionifp + b_exhwDoDistractor + 
-      `b_exhwDoDistractor:questionifp`, 
-    external_willq_withD = b_Intercept + b_questionwillq,
-    external_willq_woD = b_Intercept + b_questionwillq + b_exhwDoDistractor + 
-      `b_exhwDoDistractor:questionwillq`,   
-      
-    internal_neutral_withD = b_Intercept + b_nonExhinternal,
-    internal_neutral_woD = b_Intercept + b_nonExhinternal + b_exhwDoDistractor + 
-      `b_exhwDoDistractor:nonExhinternal`,
-    
-    internal_ifp_withD = b_Intercept + b_nonExhinternal + b_questionifp + `b_nonExhinternal:questionifp`,
-    internal_ifp_woD = b_Intercept + b_nonExhinternal + b_questionifp + b_exhwDoDistractor + 
-      `b_exhwDoDistractor:questionifp` + `b_exhwDoDistractor:nonExhinternal` +`b_nonExhinternal:questionifp` + 
-      `b_exhwDoDistractor:nonExhinternal:questionifp`,
-    
-    internal_willq_withD = b_Intercept + b_nonExhinternal + b_questionwillq + `b_nonExhinternal:questionwillq`,
-    internal_willq_woD = b_Intercept + b_nonExhinternal + b_questionwillq + b_exhwDoDistractor + 
-      `b_exhwDoDistractor:questionwillq` + `b_exhwDoDistractor:nonExhinternal` +`b_nonExhinternal:questionwillq` + `b_exhwDoDistractor:nonExhinternal:questionwillq`
-    )
-
-coeffs = samples %>% 
-  transmute(nonExhinternal = (internal_neutral_withD + internal_neutral_woD +
-                              internal_ifp_withD + internal_ifp_woD + 
-                              internal_willq_withD + internal_willq_woD)/6,
-            nonExhexternal = (external_neutral_withD + external_neutral_woD +
-                              external_ifp_withD + external_ifp_woD + 
-                              external_willq_withD + external_willq_woD)/6) %>% 
-  mutate(internal_smaller = nonExhinternal < nonExhexternal)
-
-# posterior probability
-mean(coeffs$internal_smaller)
-
-means = coeffs %>% summarize(mean_neutral = mean(questionneutral),
-                             mean_ifp = mean(questionifp),
-                             mean_willq = mean(questionwillq))
-
-# cohen.d(coeffs$questionifp, coeffs$questionwillq)
-p.main_nonExh = coeffs %>% rowid_to_column() %>% 
-  pivot_longer(cols=c(nonExhinternal, nonExhexternal)) %>%
-  ggplot(aes(x=name, y=value)) + 
-  geom_boxplot() +
-  labs(x = "estimated coefficient", y = "posterior samples") +
-  scale_x_discrete(labels = c(
-    nonExhinternal = parse(text=TeX("$\\hat{\\beta}_{nonExhinternal}$")),
-    nonExhexternal = parse(text=TeX("$\\hat{\\beta}_{nonExhexternal}$"))
-  ))
-p.main_nonExh
-```
-
 # Analysis with 3x4 design
 Reaction time is longer when at least one external picture is shown, that is
 in picPair A responses are quickest
 
 ```{r, include=FALSE}
-model_path = here("results", "brms-model-rts.rds")
-fit_rt <- readRDS(model_path)
-
 # question: neutral
-hypothesis(fit_rt, "picPairIE > 0") # B
-hypothesis(fit_rt, "picPairEI > 0") # C
-hypothesis(fit_rt, "picPairEE > 0") # D
+hypothesis(fit_rt, "picPairB > 0") # IE
+hypothesis(fit_rt, "picPairC > 0") # EI
+hypothesis(fit_rt, "picPairD > 0") # EE
 
 # question: ifp
-hypothesis(fit_rt, "picPairIE + picPairIE:questionifp > 0")
-hypothesis(fit_rt, "picPairEI + picPairEI:questionifp > 0") # posterior 0.44
-hypothesis(fit_rt, "picPairEE + picPairEE:questionifp > 0")
+hypothesis(fit_rt, "picPairB + picPairB:questionifp > 0")
+hypothesis(fit_rt, "picPairC + picPairC:questionifp > 0") # posterior 0.44
+hypothesis(fit_rt, "picPairD + picPairD:questionifp > 0")
 
 # question: willq
-hypothesis(fit_rt, "picPairIE + picPairIE:questionwillq > 0")
-hypothesis(fit_rt, "picPairEI + picPairEI:questionwillq > 0") # posterior 0.65
-hypothesis(fit_rt, "picPairEE + picPairEE:questionwillq > 0")
+hypothesis(fit_rt, "picPairB + picPairB:questionwillq > 0")
+hypothesis(fit_rt, "picPairC + picPairC:questionwillq > 0") # posterior 0.65
+hypothesis(fit_rt, "picPairD + picPairD:questionwillq > 0")
 ```
 
 
@@ -1014,7 +933,7 @@ p.mainpicpair = coeffs_rt_picPair %>%
                               C = parse(text=TeX("$\\hat{\\beta}_{C}$")), 
                               A = parse(text=TeX("$\\hat{\\beta}_{A}$"))))
 p.mainpicpair
-if(save_plots) ggsave(here("results", "figs", "main-effect-picPair-rts.pdf"),
+if(save_plots) ggsave(file.path(plot_dir, "main-effect-picPair-rts.pdf"),
                       p.mainpicpair, width=7, height=4)
 
 ```
@@ -1041,6 +960,131 @@ We speculated that pairs where only one of both pictures shows the third block (
 ```{r}
 # add model data
 ```
+
+
+# Reaction times: 2x3x3 model 
+
+1.-4. Reaction time is shorter for non-exhaustive internal than for nonExhaustive external when QUD=ifp or QUD=willq,  when QUD=neutral??
+Intercept: exh=withDistractor, nonExh=external, question=neutral
+
+```{r}
+model_path = here("results", "brms-model-rts233.rds")
+if(file.exists(model_path)) {
+  fit_rt_233 <- readRDS(model_path)
+} else {
+  fit_rt_233 <- brm(
+    data = data.RT %>% 
+      rename(exh=exh_situation, nonExh=nonExh_situation, picPair=picPair.short),
+    family = lognormal(),
+    RT ~ 1 + exh * nonExh * question + (1 + exh + nonExh + question|submissionID),
+    seed = 1, control = list(adapt_delta = 0.99), iter = 4000
+  )
+  saveRDS(fit_rt_233, file=model_path)
+}
+
+# 1. exhaustive:without Distractor
+# 1.a QUD: ifp
+hypothesis(fit_rt_233, "nonExhinternal + exhwDoDistractor:nonExhinternal + nonExhinternal:questionifp + exhwDoDistractor:nonExhinternal:questionifp < 0")
+# 1.b QUD: willq
+hypothesis(fit_rt_233, "nonExhinternal + exhwDoDistractor:nonExhinternal + nonExhinternal:questionwillq + exhwDoDistractor:nonExhinternal:questionwillq < 0")
+# 1.c QUD: neutral
+hypothesis(fit_rt_233, "nonExhinternal + exhwDoDistractor:nonExhinternal + exhwDoDistractor:nonExhinternal < 0")
+
+
+# 2. exhaustive: with Distractor
+# 2.a QUD: ifp
+hypothesis(fit_rt_233, "nonExhinternal + nonExhinternal:questionifp + nonExhinternal:questionifp < 0")
+# 2.b QUD: willq
+hypothesis(fit_rt_233, "nonExhinternal + nonExhinternal:questionwillq + nonExhinternal:questionwillq < 0")
+# 2.c QUD: neutral
+hypothesis(fit_rt_233, "nonExhinternal < 0")
+
+
+```
+
+
+Estimated main effect of non-exhaustive across QUDs
+
+```{r}
+posterior_draws = tidy_draws(fit_rt_233)
+
+samples = posterior_draws %>% 
+  mutate(
+    external_neutral_withD = b_Intercept,
+    external_neutral_woD = b_Intercept + b_exhwDoDistractor,
+    external_ifp_withD = b_Intercept + b_questionifp,
+    external_ifp_woD = b_Intercept + b_questionifp + b_exhwDoDistractor + 
+      `b_exhwDoDistractor:questionifp`, 
+    external_willq_withD = b_Intercept + b_questionwillq,
+    external_willq_woD = b_Intercept + b_questionwillq + b_exhwDoDistractor + 
+      `b_exhwDoDistractor:questionwillq`,   
+      
+    internal_neutral_withD = b_Intercept + b_nonExhinternal,
+    internal_neutral_woD = b_Intercept + b_nonExhinternal + b_exhwDoDistractor + 
+      `b_exhwDoDistractor:nonExhinternal`,
+    
+    internal_ifp_withD = b_Intercept + b_nonExhinternal + b_questionifp + `b_nonExhinternal:questionifp`,
+    internal_ifp_woD = b_Intercept + b_nonExhinternal + b_questionifp + b_exhwDoDistractor + 
+      `b_exhwDoDistractor:questionifp` + `b_exhwDoDistractor:nonExhinternal` +
+      `b_nonExhinternal:questionifp` + `b_exhwDoDistractor:nonExhinternal:questionifp`,
+    
+    internal_willq_withD = b_Intercept + b_nonExhinternal + b_questionwillq + `b_nonExhinternal:questionwillq`,
+    internal_willq_woD = b_Intercept + b_nonExhinternal + b_questionwillq + b_exhwDoDistractor + 
+      `b_exhwDoDistractor:questionwillq` + `b_exhwDoDistractor:nonExhinternal` +`b_nonExhinternal:questionwillq` + `b_exhwDoDistractor:nonExhinternal:questionwillq`
+    )
+
+samples %>% 
+  transmute(internal_wDist_neutral = internal_neutral_withD < external_neutral_withD,
+            internal_woD_neutral = internal_neutral_woD < external_neutral_woD
+            ) %>% 
+  summarize(internal_wDist_neutral.mean = mean(internal_wDist_neutral),
+            internal_woD_neutral.mean = mean(internal_woD_neutral))
+  
+coeffs_QUD = samples %>% 
+  transmute(nonExhinternal_neutral = (internal_neutral_withD + internal_neutral_woD)/2, 
+            nonExhinternal_ifp = (internal_ifp_withD + internal_ifp_woD)/2,
+            nonExhinternal_willq = (internal_willq_withD + internal_willq_woD)/2,
+            
+            nonExhexternal_neutral = (external_neutral_withD + external_neutral_woD)/2, 
+            nonExhexternal_ifp = (external_ifp_withD + external_ifp_woD)/2,
+            nonExhexternal_willq = (external_willq_withD + external_willq_woD)/2
+            ) %>% 
+  mutate(internal_smaller_neutral = nonExhinternal_neutral < nonExhexternal_neutral,
+         internal_smaller_ifp = nonExhinternal_ifp < nonExhexternal_ifp,
+         internal_smaller_willq = nonExhinternal_willq < nonExhexternal_willq)
+
+mean(coeffs_QUD$internal_smaller_ifp)
+mean(coeffs_QUD$internal_smaller_willq)
+mean(coeffs_QUD$internal_smaller_neutral)
+
+coeffs = samples %>% 
+  transmute(nonExhinternal = (internal_neutral_withD + internal_neutral_woD +
+                              internal_ifp_withD + internal_ifp_woD + 
+                              internal_willq_withD + internal_willq_woD)/6,
+            nonExhexternal = (external_neutral_withD + external_neutral_woD +
+                              external_ifp_withD + external_ifp_woD + 
+                              external_willq_withD + external_willq_woD)/6) %>% 
+  mutate(internal_smaller = nonExhinternal < nonExhexternal)
+
+# posterior probability
+mean(coeffs$internal_smaller)
+
+means = coeffs %>% summarize(mean_nonExhexternal = mean(nonExhexternal),
+                             mean_nonExhinternal = mean(nonExhinternal))
+
+# cohen.d(coeffs$questionifp, coeffs$questionwillq)
+p.main_nonExh = coeffs %>% rowid_to_column() %>% 
+  pivot_longer(cols=c(nonExhinternal, nonExhexternal)) %>%
+  ggplot(aes(x=name, y=value)) + 
+  geom_boxplot() +
+  labs(x = "estimated coefficient", y = "posterior samples") +
+  scale_x_discrete(labels = c(
+    nonExhinternal = parse(text=TeX("$\\hat{\\beta}_{nonExhinternal}$")),
+    nonExhexternal = parse(text=TeX("$\\hat{\\beta}_{nonExhexternal}$"))
+  ))
+p.main_nonExh
+```
+
 
 ## Training data
 

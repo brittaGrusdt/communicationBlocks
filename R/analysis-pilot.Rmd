@@ -310,7 +310,7 @@ data.critical.rate.pic_combi <- left_join(
 picture combinations
 
 ```{r}
-conditions = configure(c("conditions"))
+conditions = configure(c("QUDs"))
 data.critical %>%
   ggplot(aes(fill=response, y=question)) + 
   geom_bar(position=position_dodge(preserve = 'single')) +

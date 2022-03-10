@@ -1,4 +1,4 @@
-conditions:
+QUDs:
   neutral: "Which blocks do you think will fall?"
   ifp: "What happens if the 'antecedent-block' falls?"
   willq: "Will the 'consequent-block' fall?"
