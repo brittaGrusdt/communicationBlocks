@@ -69,8 +69,9 @@ df.ids.contrast
 3. Look at participants' responses to questions shown in the end
 
 ```{r}
-data %>% select(submission_id, check_ann) %>% distinct()
-data %>% select(submission_id, check_behavior) %>% distinct()
+data %>% dplyr::select(submission_id, check_ann) %>% 
+  distinct() %>% group_by(check_ann) %>% dplyr::count()
+data %>% dplyr::select(submission_id, check_behavior) %>% distinct()
 ```
 
 4. Participants' comments
