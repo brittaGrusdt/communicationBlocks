@@ -227,7 +227,11 @@ const forced_choice_generator = {
             {score: FEEDBACK.scores.fail, msg: 'Ups. Bob saw ' + pic_bob + '. ' + FEEDBACK.msg.fail};
 
           trial_data.score = result.score;
-          TOTAL_POINTS += result.score;
+          //for the final score do not count critical trials, just filler + attention check
+          // (has no influence whatsoever)
+          if(trial_data.type != "critical"){
+            TOTAL_POINTS += result.score;
+          }
 
           if(trial_data.type.includes('practice') || trial_data.block === "practice") {
             if(config.data[CT].id === "trial11") {

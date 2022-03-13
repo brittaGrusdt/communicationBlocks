@@ -232,7 +232,7 @@ chisq.test(x$n, p=c(0.5, 0.5))
 ## Bayesian regression model
 
 ```{r, results='hide'}
-model_path = here("results", "brms-model-newlabels.rds")
+model_path = here(target_dir, "brms-model-newlabels.rds")
 data.critical.model = data.critical %>% rename(picPair.full = picPair,
                                                picPair = picPair.short)
 if(file.exists(model_path)) {
