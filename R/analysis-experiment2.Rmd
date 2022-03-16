@@ -8,6 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(brms)
 library(here)
 library(latex2exp)
+library(scales)
 library(tidybayes)
 library(tidyverse)
 source(here("R", "utils.R"))
@@ -21,7 +22,7 @@ if(!file.exists(plot_dir)) dir.create(plot_dir, recursive = TRUE)
 Load experimental data
 
 ```{r}
-fn <- file.path(target_dir, "results_82_CommunicationBlocks2_BG-6.csv")
+fn <- file.path(target_dir, "results_82_CommunicationBlocks2_BG-10.csv")
 data <- read.csv(fn, sep=",") %>% as_tibble() %>% group_by(submission_id)
 ```
 
@@ -71,7 +72,8 @@ df.ids.contrast
 ```{r}
 data %>% dplyr::select(submission_id, check_ann) %>% 
   distinct() %>% group_by(check_ann) %>% dplyr::count()
-data %>% dplyr::select(submission_id, check_behavior) %>% distinct()
+data %>% dplyr::select(submission_id, check_behavior) %>% 
+  distinct() %>% group_by(check_behavior) %>% dplyr::count()
 ```
 
 4. Participants' comments
@@ -94,13 +96,14 @@ Trials where a pragmatic and a literal selection is possible
 
 ```{r}
 trials_lit_prag = c("trial7", "trial8", "trial19", "trial20", "trial21", "trial24")
-df <- data %>% filter(id %in% trials_lit_prag) %>% 
-  dplyr::select(submission_id, response, type, id, response)
+data.lit_prag <- data %>% filter(id %in% trials_lit_prag) %>% 
+  dplyr::select(submission_id, response, type, id, response) %>% group_by(id)
 
 # by trials
-df %>% group_by(id) %>% 
+data.lit_prag %>% 
   ggplot(aes(x=id, fill=response)) + 
-  geom_bar(stat="count", position=position_dodge())
+  geom_bar(stat="count", position=position_dodge()) +
+  scale_y_continuous(breaks = pretty_breaks())
 
 pic_props = data.test %>% ungroup() %>% 
   select(starts_with("property_"), type, id) %>% 
@@ -110,6 +113,28 @@ pic_props = data.test %>% ungroup() %>%
 pic_props %>% filter(id %in% trials_lit_prag)
 ```
 
+Scores for participants how pragmatic their responses were. 
+1: pragmatic picture selected (pragmatic)
+0.5: pragmatic + literal picture selected (literal2)
+0: literal picture selected (literal1)
+
+Max score:6
+Min score:0
+
+```{r}
+data.pragmatic_score = data.lit_prag %>% 
+  mutate(score = case_when(response == "pragmatic" ~ 1,
+                           response == "literal" ~ 0, 
+                           T ~ 0.5)) %>% 
+  group_by(submission_id) %>% summarize(score = sum(score), .groups = "drop") %>% 
+  mutate(relative_score = round(score / 6, 2))
+
+data.pragmatic_score %>% 
+  ggplot(aes(x=score)) + geom_bar() + 
+  labs(x = "pragmatic score", y = "nb participants") +
+  scale_x_continuous(breaks = pretty_breaks())
+```
+
 Practice trials
 
 ```{r}
@@ -117,7 +142,8 @@ data.practice = data.test %>% filter(type == "practice") %>%
    dplyr::select(submission_id, response, id)
 
 data.practice %>% ggplot(aes(x=id, fill=response)) + 
-  geom_bar(stat="count", position=position_dodge())
+  geom_bar(stat="count", position=position_dodge()) +
+  scale_y_continuous(breaks = pretty_breaks())
 
 pic_props %>% filter(type == "practice")
 ```
@@ -131,7 +157,9 @@ data.risk <- data %>% filter(id %in% risk_trials) %>%
   dplyr::select(submission_id, response, id, type)
 
 data.risk %>% ggplot(aes(x=id, fill=response)) + 
-  geom_bar(stat="count", position=position_dodge())
+  geom_bar(stat="count", position=position_dodge()) +
+  scale_y_continuous(breaks= pretty_breaks())
+
 pic_props %>% filter(id %in% risk_trials)
 ```
 
@@ -149,6 +177,63 @@ data.meta$age %>% summary()
 print("timeSpent:")
 data.meta$timeSpent %>% summary()
 ```
+
+## Participants' scores
+
+```{r}
+data.test_scores = data %>% filter(type != "training") %>% 
+  dplyr::select(prolific_id, submission_id, score, type, id) %>%
+  group_by(type, prolific_id) %>%
+  mutate(prolific_id = as.factor(prolific_id))
+
+df.max = data.test_scores %>% group_by(type) %>% dplyr::select(type, id) %>% 
+  distinct() %>% summarize(n=n()) %>% 
+  mutate(max = case_when(type == "practice" ~ n*100-50, 
+                         T ~ n * 100))
+data.test_scores %>% 
+  summarize(score = sum(score), .groups = "drop_last") %>% 
+  ggplot(aes(x=prolific_id, y=score, fill=type)) + 
+  geom_hline(data = df.max, aes(yintercept = max, color = type)) +
+  geom_bar(stat="identity", position = position_dodge())
+```
+
+## Training data
+
+Sanity check: does ratio of correct answers increase with increasing trial numbers?
+
+```{r}
+data.train = data %>% filter(type=="training") %>%
+  mutate(correct=case_when(expected == response ~ T, T ~ F))
+
+# ratio correct by participants
+data.train %>% dplyr::select(submission_id, id, correct) %>% 
+  summarize(nb_trials = n(), nb_correct = sum(correct)) %>% 
+  mutate(ratio_correct = nb_correct / nb_trials, 
+         submission_id = as.character(submission_id)) %>% 
+  ggplot(aes(x=submission_id, y=ratio_correct)) + geom_bar(stat="identity") +
+  geom_hline(aes(yintercept = 0.5))
+
+
+# ratio correct per trial number (different order per participant)
+train.correct.nb = data.train %>% group_by(trial_number) %>% 
+  summarize(mean_correct = mean(correct))
+train.correct.nb %>% 
+  ggplot(aes(x=trial_number, y=mean_correct)) + 
+  geom_bar(stat="identity") + 
+  scale_x_continuous(breaks = scales::pretty_breaks(8)) +
+  geom_hline(aes(yintercept = 0.5))
+
+
+# ratio correct per trial id
+train.correct.id = data.train %>% group_by(id) %>% 
+  summarize(mean_correct = mean(correct))
+train.correct.id %>% 
+  ggplot(aes(x=id, y=mean_correct)) + 
+  geom_bar(stat="identity") +
+  theme(axis.text.x=element_text(angle=90)) + 
+  geom_hline(aes(yintercept = 0.5))
+```
+
 
 ## Plot critical trials
 
@@ -191,44 +276,49 @@ data.critical %>% group_by(picPair.long, QUD, response) %>%
 
 Results with 95%-bootstrap confidence intervals
 
-```{r, boostrap-samples, echo = FALSE}
+```{r}
 N = 1000
 n_participants = data.critical$submission_id %>% unique() %>% length()
 CI_bounds = c(low = ceiling(0.025 * N), up = ceiling(0.975 * N))
 
-responses = c("exhaustive", "non-exhaustive", "exhaustive_non-exhaustive")
-df.critical = data.critical %>% 
+df.critical <- data.critical %>% 
+  group_by(picPair.long, picPair.short, QUD) %>% 
   dplyr::select(submission_id, picPair.long, picPair.short, QUD, response) %>% 
-  group_by(picPair.long, QUD)
+  mutate(response = case_when(response == "exhaustive_non-exhaustive" ~ "both",
+                              T ~ response))
+df.crit.exh = df.critical %>% 
+  mutate(response = case_when(response == "exhaustive" ~ 1, T ~ 0))
+df.crit.nonExh = df.critical %>% 
+  mutate(response = case_when(response == "non-exhaustive" ~ 1, T ~ 0))
+df.crit.both = df.critical %>% 
+  mutate(response = case_when(response == "both" ~ 1, T ~ 0))
 
-res.not_occurring = tibble(response = responses, n=0)
+get_mean_selection_rate <- function(dat, indices) {
+  return(dat[indices, ] %>% pull(response) %>% mean())
+}
+get_bootstrap_samples = function(dat, response) {
+  bootstrap_samples <- group_map(dat, function(df, df.group) {
+    samples = boot(df, statistic = get_mean_selection_rate, R=N)$t
+    return(tibble(rate = samples[,1]) %>% 
+      add_column(picPair.long = df.group$picPair.long, 
+                 picPair.short = df.group$picPair.short,
+                 QUD = df.group$QUD) %>% arrange(rate) %>% rowid_to_column("idx"))
+  }) %>% bind_rows() %>% add_column(response = response)
+  return(bootstrap_samples)
+}
 
-bootstrap_samples = group_map(df.critical, function(df, df.group) {
-  bootstrap = map(seq(1, N), function(i){
-    samples = tibble(response = sample(df$response, n_participants, replace=T)) %>%
-      group_by(response) %>% summarize(n=n()) %>%
-      mutate(n = n/sum(n))
-    bind_rows(samples, res.not_occurring) %>% 
-      distinct_at(vars(c(response)), .keep_all = T) %>%
-      rename(ratio = n)
-    }) %>% bind_rows() %>% 
-    add_column(picPair.long = df.group$picPair.long, QUD = df.group$QUD) %>% 
-    group_by(picPair.long, QUD, response) %>% arrange(ratio) %>% 
-    mutate(idx = row_number())
-  
-  bootstrap %>% mutate(ci_low = case_when(idx == CI_bounds[["low"]] ~ T, 
-                                          T ~ F), 
-                       ci_up = case_when(idx == CI_bounds[["up"]] ~ T, 
-                                         T ~ F)) 
-}) %>% bind_rows() %>% group_by(picPair.long, QUD)
+bootstrap_samples = bind_rows(
+  get_bootstrap_samples(df.crit.both, "both"),
+  get_bootstrap_samples(df.crit.exh, "exhaustive"),
+  get_bootstrap_samples(df.crit.nonExh, "non-exhaustive")
+) %>% group_by(picPair.long, picPair.short, QUD, response)
 
-CI.low = bootstrap_samples %>% filter(ci_low) %>% select(-idx, -ci_low, -ci_up) %>% 
-  rename(ci.low = ratio)
-CI.up = bootstrap_samples %>% filter(ci_up) %>% select(-idx, -ci_low, -ci_up) %>% 
-  rename(ci.up = ratio)
-CIs = left_join(CI.low, CI.up)
-
-# TODO: save bootstrapped data (use built-in bootstrap function?)
+CIs <- bootstrap_samples %>% 
+  mutate(CI = case_when(idx == CI_bounds[["low"]] ~ "ci.low",
+                        idx == CI_bounds[["up"]] ~ "ci.up")) %>% 
+  filter(!is.na(CI)) %>% dplyr::select(-idx) %>% 
+  pivot_wider(names_from = "CI", values_from = "rate") %>% 
+  arrange(picPair.short)
 ```
 
 ```{r, critical-data-rates, echo = FALSE}
@@ -240,7 +330,7 @@ data.critical.rate = df.critical %>%
 data.critical.rate = left_join(
   data.critical.rate,
   CIs, 
-  by=c("QUD", "picPair.long", "response")
+  by=c("QUD", "picPair.long", "picPair.short", "response")
 )
 ```
 
@@ -291,83 +381,6 @@ p
 ggsave(here(plot_dir, "selection-rates.pdf"), p, width=7, height=4)
 ```
 
-## Bayesian regression model
-
-```{r, results='hide'}
-# model_path = here(target_dir, "brms-model.rds")
-# data.critical.model = data.critical %>% rename(picPair.full = picPair,
-#                                                picPair = picPair.short)
-# if(file.exists(model_path)) {
-#   fit <- readRDS(model_path)
-# } else {
-#   fit <-
-#     brm(data = data.critical.model,
-#         family = bernoulli,
-#         y ~ 1 + picPair * question + (1 + picPair + question|submission_id),
-#         seed = 1)
-#   saveRDS(fit, file=model_path)
-# }
-# fixef(fit)
-# pp_check(fit)
-# mcmc_plot(fit)
-# 
-# pp_check(fit, type = "stat", stat = 'mean', nsamples = 100)
-```
-
-Testing our hypotheses
-
-1. separately for each picture pair
-
-```{r, regression-hypotheses}
-# h1 = hypothesis(fit, "questionifp < questionwillq", class = "b")
-# h2 = hypothesis(fit, "questionifp + picPairB:questionifp < questionwillq + picPairB:questionwillq", class = "b")
-# h3 = hypothesis(fit, "questionifp + picPairC:questionifp < questionwillq + picPairC:questionwillq", class = "b")
-# h4 = hypothesis(fit, "questionifp + picPairD:questionifp < questionwillq + picPairD:questionwillq", class = "b")
-# 
-# h1$hypothesis
-# h2$hypothesis
-# h3$hypothesis
-# h4$hypothesis
-```
-
-2. Across picture pairs
-
-```{r}
-# samples = tidy_draws(fit) %>% 
-#   mutate(
-#     ifp_A = b_Intercept + b_questionifp,
-#     ifp_B = b_Intercept + b_questionifp + b_picPairB + `b_picPairB:questionifp`,
-#     ifp_C = b_Intercept + b_questionifp + b_picPairC + `b_picPairC:questionifp`,
-#     ifp_D = b_Intercept + b_questionifp + b_picPairD + `b_picPairD:questionifp`,
-#     willq_A = b_Intercept + b_questionwillq,
-#     willq_B = b_Intercept + b_questionwillq + b_picPairB + `b_picPairB:questionwillq`,
-#     willq_C = b_Intercept + b_questionwillq + b_picPairC + `b_picPairC:questionwillq`,
-#     willq_D = b_Intercept + b_questionwillq + b_picPairD + `b_picPairD:questionwillq`)
-# 
-# coeffs = samples %>% 
-#   transmute(questionifp = (ifp_A + ifp_B + ifp_C + ifp_D)/4,
-#             questionwillq = (willq_A + willq_B + willq_C + willq_D)/4) %>% 
-#   mutate(ifpsmaller = questionifp < questionwillq)
-# 
-# mean(coeffs$ifpsmaller)
-# 
-# means = coeffs %>% summarize(mean_ifp = mean(questionifp),
-#                              mean_willq = mean(questionwillq))
-# 
-# 
-# # cohen.d(coeffs$questionifp, coeffs$questionwillq)
-# p.mainquestion = coeffs %>% rowid_to_column() %>% 
-#   pivot_longer(cols=c(questionifp, questionwillq)) %>%
-#   ggplot(aes(x=name, y=value)) + 
-#   geom_boxplot() +
-#   # geom_point(aes(group=rowid), alpha=0.1, width=0.2, height=0) +
-#   # geom_line(aes(group=rowid), alpha=0.1) + 
-#   labs(x = "estimated coefficient", y = "posterior samples") +
-#   scale_x_discrete(labels = c(questionifp = parse(text=TeX("$\\hat{\\beta}_{if-p}$")), 
-#                               questionwillq = parse(text=TeX("$\\hat{\\beta}_{will-q}$"))))
-# ggsave(file.path(plot_dir, "main-effect-question.pdf"), p.mainquestion, width=7, height=4)
-```
-
 Analysis with 3x2x2 design
 
 ```{r}
@@ -386,9 +399,10 @@ get_responses_all_QUDs = function(dat){
                                          "exh_nonExh/-", #if-p: exh and nonExh
                                          "exh/exh", # if-p and will-q: exh
                                          "exh_nonExh/exh_nonExh", # ...
-                                         "exh_nonExh/exh"),
+                                         "exh_nonExh/exh", 
+                                         "exh/exh_nonExh"),
                               labels = c("e/-", "n/-", "e_n/-", "e/e", 
-                                         "e_n/e_n", "e_n/e")),
+                                         "e_n/e_n", "e_n/e", "e/e_n")),
            stimulus = picPair.long) %>% 
     separate(picPair.long, into = c("exh", "nonExh"), sep = "-") %>%
     separate(exh, into = c("tmp", "exh"), sep=". ") %>% select(-tmp) %>% 
@@ -406,9 +420,9 @@ plot_responses_all_QUDs = function(dat) {
     geom_bar(stat="identity", position=position_dodge()) +
     geom_label(aes(label=n)) +
     scale_fill_brewer(palette='Set2', name="response ifp_willq") +
-    facet_wrap(~stimulus, nrow = 2) +
+    facet_wrap(~stimulus, nrow = 2, scales = "free") +
     theme(legend.position = "none") +
-    labs(y = "number participants", x=xlab)
+    labs(y = "ratio participants", x=xlab)
   return(p)
 }
 p <- plot_responses_all_QUDs(data.critical)
@@ -432,15 +446,19 @@ responses.all_quds = get_responses_all_QUDs(data.critical) %>%
 df.scores = responses.all_quds %>% group_by(submission_id) %>%
   summarize(score.total=sum(score))
 df.scores %>% ggplot(aes(x=score.total)) + geom_bar() +
-  labs(x="nb times participants gave different answers for different QUDs")
+  labs(x="nb times participants gave different answers for different QUDs", 
+       y = "nb participants")
 
 ids.scores12 <- df.scores %>% filter(score.total <= 2 & score.total >= 1) %>% 
   pull(submission_id)
-plot_empirical(data.critical %>% filter(submission_id %in% ids.scores12)) +
+plot_responses_all_QUDs(data.critical %>% filter(submission_id %in% ids.scores12)) +
   ggtitle("Participants with 0 or 1 ignorance of QUD")
+```
 
-# those who never take QUD into account, do they switch between exh-exh and nonExh-nonExh
-# or always give the same (identical) answer?
+Those who never take QUD into account, do they switch between exh-exh and 
+nonExh-nonExh or always give the same (identical) answer?
+
+```{r}
 ids.score0 = df.scores %>% filter(score.total == 0) %>% pull(submission_id)
 df.ignored_qud = responses.all_quds %>% filter(submission_id %in% ids.score0) %>% 
   group_by(submission_id, ifp, willq) %>% 
@@ -448,7 +466,12 @@ df.ignored_qud = responses.all_quds %>% filter(submission_id %in% ids.score0) %>
   arrange(submission_id) %>% 
   rename(selection = ifp) %>% ungroup() %>% dplyr::select(-willq)
 
-df.ignored_qud
+# pair with participants pragmatic scores
+left_join(df.ignored_qud, 
+          data.pragmatic_score %>% 
+            dplyr::select(submission_id, relative_score) %>% 
+            rename(score_pragmatic = relative_score), 
+          by="submission_id")
 ```
 
 Plot empirical selection rates
@@ -497,6 +520,87 @@ p
 ggsave(file.path(plot_dir, "empirical-responses-rates-233.pdf"), p, width=7, height=4)
 
 ```
+
+
+## Bayesian regression model
+
+```{r, results='hide'}
+model_path = here(target_dir, "brms-model.rds")
+data.critical.model = data.critical %>% 
+  rename(picPair.full = picPair, picPair = picPair.short) %>% 
+  mutate(selected_pic = str_replace_all(selected_pic, "_", ""))
+         
+if(file.exists(model_path)) {
+  fit <- readRDS(model_path)
+} else {
+  fit <-
+    brm(data = data.critical.model,
+        family = categorical(link="logit"),
+        selected_pic ~ 1 + picPair * QUD + (1 + picPair + QUD|submission_id),
+        seed = 1)
+  saveRDS(fit, file=model_path)
+}
+fixef(fit)
+pp_check(fit)
+mcmc_plot(fit)
+
+pp_check(fit, type = "stat", stat = 'mean', nsamples = 100)
+```
+
+Testing our hypotheses
+
+1. separately for each picture pair
+
+```{r, regression-hypotheses}
+h1 = hypothesis(fit, "questionifp < questionwillq", class = "b")
+h2 = hypothesis(fit, "questionifp + picPairB:questionifp < questionwillq + picPairB:questionwillq", class = "b")
+h3 = hypothesis(fit, "questionifp + picPairC:questionifp < questionwillq + picPairC:questionwillq", class = "b")
+h4 = hypothesis(fit, "questionifp + picPairD:questionifp < questionwillq + picPairD:questionwillq", class = "b")
+
+h1$hypothesis
+h2$hypothesis
+h3$hypothesis
+h4$hypothesis
+```
+
+2. Across picture pairs
+
+```{r}
+# samples = tidy_draws(fit) %>% 
+#   mutate(
+#     ifp_A = b_Intercept + b_questionifp,
+#     ifp_B = b_Intercept + b_questionifp + b_picPairB + `b_picPairB:questionifp`,
+#     ifp_C = b_Intercept + b_questionifp + b_picPairC + `b_picPairC:questionifp`,
+#     ifp_D = b_Intercept + b_questionifp + b_picPairD + `b_picPairD:questionifp`,
+#     willq_A = b_Intercept + b_questionwillq,
+#     willq_B = b_Intercept + b_questionwillq + b_picPairB + `b_picPairB:questionwillq`,
+#     willq_C = b_Intercept + b_questionwillq + b_picPairC + `b_picPairC:questionwillq`,
+#     willq_D = b_Intercept + b_questionwillq + b_picPairD + `b_picPairD:questionwillq`)
+# 
+# coeffs = samples %>% 
+#   transmute(questionifp = (ifp_A + ifp_B + ifp_C + ifp_D)/4,
+#             questionwillq = (willq_A + willq_B + willq_C + willq_D)/4) %>% 
+#   mutate(ifpsmaller = questionifp < questionwillq)
+# 
+# mean(coeffs$ifpsmaller)
+# 
+# means = coeffs %>% summarize(mean_ifp = mean(questionifp),
+#                              mean_willq = mean(questionwillq))
+# 
+# 
+# # cohen.d(coeffs$questionifp, coeffs$questionwillq)
+# p.mainquestion = coeffs %>% rowid_to_column() %>% 
+#   pivot_longer(cols=c(questionifp, questionwillq)) %>%
+#   ggplot(aes(x=name, y=value)) + 
+#   geom_boxplot() +
+#   # geom_point(aes(group=rowid), alpha=0.1, width=0.2, height=0) +
+#   # geom_line(aes(group=rowid), alpha=0.1) + 
+#   labs(x = "estimated coefficient", y = "posterior samples") +
+#   scale_x_discrete(labels = c(questionifp = parse(text=TeX("$\\hat{\\beta}_{if-p}$")), 
+#                               questionwillq = parse(text=TeX("$\\hat{\\beta}_{will-q}$"))))
+# ggsave(file.path(plot_dir, "main-effect-question.pdf"), p.mainquestion, width=7, height=4)
+```
+
 # TODO model
 
 ```{r, results='hide'}
@@ -871,30 +975,3 @@ question=ifp or question=willq.
 # pp_check(fit_rt, type = "stat", stat = 'mean', nsamples = 100)
 
 ```
-
-
-## Training data
-
-Sanity check: does ratio of correct answers increase with increasing trial numbers?
-
-```{r}
-data.train = data %>% filter(type=="training") %>%
-  mutate(correct=case_when(expected == response ~ T, T ~ F))
-
-# ratio correct per trial number (different order per participant)
-train.correct.nb = data.train %>% group_by(trial_number) %>% 
-  summarize(ratio_correct = mean(correct))
-train.correct.nb %>% 
-  ggplot(aes(x=trial_number, y=ratio_correct)) + 
-  geom_bar(stat="identity") + 
-  scale_x_continuous(breaks=seq(1, 7))
-
-# ratio correct per trial id
-train.correct.id = data.train %>% group_by(id) %>% 
-  summarize(ratio_correct = mean(correct))
-train.correct.id %>% 
-  ggplot(aes(x=id, y=ratio_correct)) + 
-  geom_bar(stat="identity") +
-  theme(axis.text.x=element_text(angle=90))
-```
-
