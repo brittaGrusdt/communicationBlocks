@@ -244,7 +244,7 @@ picture {
   display:flex;
 }
 
-.hide { display: none }
+.hide { display: none !important; }
 
 .comment {
   display: flex;
@@ -322,4 +322,40 @@ picture {
 
 #questionAnn {
   margin-bottom: 0;
+}
+
+.person {
+	display: inline;
+	font-size: xxx-large;
+	right: 12px;
+	position: relative;
+  margin: 0px;
+}
+
+.person.man {
+  right: 6px;
+}
+
+.question {
+	position: relative;
+	max-width: 30em;
+	background-color: #ccc;
+	padding: 10px 20px;
+	font-size: 1.25em;
+	border-radius: 1rem;
+	display: inline-block;
+  margin: 0px;
+	/* min-height: 50px; */
+}
+
+.question::before {
+	content: '';
+	position: absolute;
+	width: 0;
+	height: 0;
+	top: 15px;
+	right: 100%;
+	border: .5rem solid transparent;
+	border-left: none;
+	border-right-color: #ccc;
 }

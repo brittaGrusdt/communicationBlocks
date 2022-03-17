@@ -8,8 +8,10 @@ TEST_DATA.forEach(function(dat) {
     image_selection_trials.push({
       id: dat.id,
       QUD: Object.keys(QUESTS)[idx_quest],
-      question_long: "<b>Ann</b>: " + dat.question,
-      answer: "<b>Bob</b>: " + dat.answer,
+      // question_long: "<b>Ann</b>: " + dat.question,
+      // answer: "<b>Bob</b>: " + dat.answer,
+      question_long: dat.question,
+      answer: dat.answer,
       pic1: dat.pic1 + ".png",
       pic2: dat.pic2 + ".png",
       pic3: dat.pic3 + ".png",

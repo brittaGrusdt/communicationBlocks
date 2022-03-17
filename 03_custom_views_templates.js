@@ -86,10 +86,16 @@ const forced_choice_generator = {
           <div id="label_obscured_pic" class="top-middle"></div>
           <img src=${PATH_PICTURES.replace("group", config.data[CT].group) + "/" + config.data[CT][pics[0]]} id="obscured_pic" style="max-width:30%;height:auto;">
           <img src=${PATH_BOBS_SCREEN} id="pic_bob" style="max-width:30%;height:auto;">
-          <p id='questionAnn' class='magpie-view-question magpie-view-qud'></p>
+          <p id='questionAnn'>
+            <p id='emojiAnn' class="hide person">👩</p>
+            <p id='textAnn' class="hide question"></p>
+          </p>
           <button id='bttnQuestionAnn' class='magpie-view-button'>See Ann's question</button>
           <button id='bttnAnswerBob' class='magpie-view-button grid-button'>See Bob's response</button>
-          <p id='answerBob' class='magpie-view-question'></p>
+          <p id='answerBob'>
+            <p id='emojiBob' class="hide person man">👨</p>
+            <p id='textBob' class="hide question"></p>
+          </p>
           <div class="stimuli">
             <p id='textBobsScreens' class='magpie-view-question'></p>
             <button id='bttnBobsScreens' class='magpie-view-button grid-button'>Show possible screens Bob might see</button>
@@ -121,7 +127,9 @@ const forced_choice_generator = {
         question = question.replace("CONS", cols_group.CONS);
         question = question.replace("ANT", cols_group.ANT);
 
-        $("#questionAnn").html(question);
+        $("#textAnn").html(question);
+        $("#emojiAnn").removeClass('hide');
+        $("#textAnn").removeClass('hide');
         toggleNextIfDone($("#bttnAnswerBob"), true)
        });
 
@@ -134,7 +142,9 @@ const forced_choice_generator = {
         if(DEBUG) {
           console.log('expected (if any): ' + config.data[CT].expected);
         }
-        $("#answerBob").html(answer);
+        $("#textBob").html(answer);
+        $("#emojiBob").removeClass('hide');
+        $("#textBob").removeClass('hide');
         toggleNextIfDone($("#bttnBobsScreens"), true)
       });
 
