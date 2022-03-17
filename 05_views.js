@@ -66,7 +66,7 @@ const instructions_general = magpieViews.view_generator("instructions", {
 
 // Image choices: anns-bobs-screen.jpeg, all-one-row, separate-ann-bob, separate-you
 
-const instructions_test_img = magpieViews.view_generator("instructions", {
+const instructions_test_img_3player = magpieViews.view_generator("instructions", {
   trials: 1,
   name: "instructions_test_img",
   title: "Instructions Testing Phase",
@@ -124,7 +124,58 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   2. you select all three scenes.<br/><br/>`,
   buttonText: "continue"
 });
-// each of you cannot see the other players' monitors and
+
+const instructions_test_img = magpieViews.view_generator("instructions", {
+  trials: 1,
+  name: "instructions_test_img",
+  title: "Instructions Testing Phase",
+  text: `Great -  we'll now proceed with the test phase of the experiment in
+  which you will play a simple game.<br/><br/>
+
+  There are two persons, Ann and Bob, sitting in front of two separate screens.
+  While Bob sees an entire scene of block arrangements, Ann only sees half of the
+  same scene on her screen, the other half is occluded, for example:
+  <br/><br/>
+    <img src="./stimuli/img/screens-instruction/anns-bobs-screen.jpeg" style="max-width:90%">
+  <br/><br/>
+  In order to get information about the entire scene that she is seeking
+  information for, <b>Ann can ask Bob a single question</b> concerning the scene.
+  Since Ann and Bob are close friends, Bob is very cooperative and tries to help
+  Ann the best possible. <b>However, he can only reply to Ann's question</b>.
+  <br/><br/>
+  Your will see three scenes of block arrangements and based on (i) Ann's
+  question and (ii) Bob's answer your task will be to decide which of the scenes
+  Ann and Bob see (Bob completely, Ann only partially). Depending on your level
+  of confidence, you may select one or more of the three scenes. The
+  number of scenes that you select influences how many points you will get.
+  For example, consider Ann's and Bob's screen from above and the following
+  conversation between them.<br/><br/>
+
+  <u>Ann's question to get more information</u>:
+  <b>${QUESTS.neutral}</b><br/>
+  <u>Bob aims to help Ann and replies</u>:
+  <b>${ANSWERS.blue_green}</b><br/>
+  <br/>
+
+  If you are confident, select a single scene, and your choice is right,
+  you <b>get 100 points</b>:
+  <br/>
+  <img src="./stimuli/img/screens-instruction/select1-true.png" style="max-width:90%">
+  <br/><br/>
+  However, if you select a single scene and your choice is wrong, you <b>lose 100 points</b>:<br/>
+  <img src="./stimuli/img/screens-instruction/select1-false.png" style="max-width:90%">
+  <br/><br/>
+  But if you select two scenes, including the correct one, you will <b>win 50 points</b>:<br/>
+  <img src="./stimuli/img/screens-instruction/select2.png" style="max-width:90%">
+  <br/><br/>
+
+  Therefore, in order to avoid loosing points, it will be better for you to select two scenes when you are undecided.<br/>
+
+  Even though this is unlikely to happen, note that you will also <b>lose 100 points</b> if:<br/>
+  1. you select two scenes, <i>not</i> including the correct one OR if<br/>
+  2. you select all three scenes.<br/><br/>`,
+  buttonText: "continue"
+});
 
 const instructions_practice = magpieViews.view_generator("instructions", {
   trials: 1,

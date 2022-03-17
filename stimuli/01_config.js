@@ -149,9 +149,9 @@ COLS_GROUPS = {group1: {ANT: "BLUE", CONS: "GREEN"},
                example: {}
               }
 QUESTS = {
-  neutral: 'Which blocks do you think will fall?',
-  willq: 'Will the CONS block fall?',
-  ifp: 'What happens if the ANT block falls?',
+  neutral: '<b>Which blocks do you think will fall?</b>',
+  willq: '<b>Will the CONS block fall?</b>',
+  ifp: '<b>What happens if the ANT block falls?</b>',
 }
 
 ANSWERS = {
@@ -167,11 +167,12 @@ ANSWERS = {
   yellow_and_q: 'The YELLOW and the CONS block will fall.',
   all3: 'The YELLOW, the ANT and the CONS block will fall.',
   neither_yellow_nor_q: 'NEITHER the YELLOW NOR the CONS block will fall.',
+  blue_green: 'The BLUE and the GREEN block will fall.'
 }
 
 TEXT_BOBS_SCREENS = {
-  attention_check: '<small>So, click on the SIDE picture.</small>',
-  normal_check: '<small>So, click on the picture(s) that you think Bob is likely to have described.</small>'
+  attention_check: '<small>Please click on the SIDE picture.</small>',
+  normal_check: '<small>Please select the picture(s) that you think Ann and Bob are talking about.</small>'
 }
 PATH_BOBS_SCREEN = "stimuli/img/bobs-screen.jpeg"
 PATH_PICTURES = "stimuli/img/group/"
