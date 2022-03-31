@@ -138,18 +138,16 @@ const instructions_test_img = magpieViews.view_generator("instructions", {
   <br/><br/>
     <img src="./stimuli/img/screens-instruction/anns-bobs-screen.jpeg" style="max-width:90%">
   <br/><br/>
-  In order to get information about the entire scene that she is seeking
-  information for, <b>Ann can ask Bob a single question</b> concerning the scene.
-  Since Ann and Bob are close friends, Bob is very cooperative and tries to help
-  Ann the best possible. <b>However, he can only reply to Ann's question</b>.
+  To get more information about the scene, Ann can ask Bob a single question.
+  Since Ann and Bob are close friends, he tries to help her as good as he can with his answer.
   <br/><br/>
-  Your will see three scenes of block arrangements and based on (i) Ann's
+  You will see three scenes of block arrangements and based on (i) Ann's
   question and (ii) Bob's answer your task will be to decide which of the scenes
   Ann and Bob see (Bob completely, Ann only partially). Depending on your level
-  of confidence, you may select one or more of the three scenes. The
-  number of scenes that you select influences how many points you will get.
-  For example, consider Ann's and Bob's screen from above and the following
-  conversation between them.<br/><br/>
+  of confidence, you can select one or more of the three scenes, if you think
+  that more than one could fit. The number of scenes that you select influences
+  how many points you will get. For example, consider Ann's and Bob's screen
+  from above and the following conversation between them.<br/><br/>
 
   <u>Ann's question to get more information</u>:
   <b>${QUESTS.neutral}</b><br/>
