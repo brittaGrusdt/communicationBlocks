@@ -5,6 +5,7 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+libarary(boot)
 library(brms)
 library(here)
 library(latex2exp)
@@ -22,7 +23,7 @@ if(!file.exists(plot_dir)) dir.create(plot_dir, recursive = TRUE)
 Load experimental data
 
 ```{r}
-fn <- file.path(target_dir, "results_82_CommunicationBlocks2_BG-10.csv")
+fn <- file.path(target_dir, "results_82_CommunicationBlocks2_BG_last_test.csv")
 data <- read.csv(fn, sep=",") %>% as_tibble() %>% group_by(submission_id)
 ```
 
@@ -176,6 +177,11 @@ print("age:")
 data.meta$age %>% summary()
 print("timeSpent:")
 data.meta$timeSpent %>% summary()
+
+data.meta %>% ggplot(aes(x="time", y=timeSpent)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter() +
+  labs(x="")
 ```
 
 ## Participants' scores
@@ -490,7 +496,7 @@ df <- data.critical.rate %>%
 w_dodge = 0.25
 p <- df %>% mutate(response = str_replace(response, "non-exhaustive", "nonExh"),
                    response = str_replace(response, "exhaustive", "exh")) %>% 
-  ggplot(aes(x=picPair.short, y=ratio, shape = QUD, color = response)) +
+  ggplot(aes(x=QUD, y=ratio, shape = picPair.short, color = response)) +
              #group=interaction(QUD, nonExh_situation))) +
   geom_point(position = position_dodge(width=w_dodge)) +
   geom_errorbar(aes(ymin=ci.low, ymax=ci.up), width=0.1, 
@@ -499,23 +505,26 @@ p <- df %>% mutate(response = str_replace(response, "non-exhaustive", "nonExh"),
   #labs(y = "selection rates", x = "exhaustive situation") +
   labs(x="stimulus", y="selection rate") +
   scale_color_brewer(name = "selection", palette = "Set2") +
-  guides(color = guide_legend(title.position="top"), shape = guide_legend(title.position="top"))
+  guides(color = guide_legend(title.position="top"),
+         shape = guide_legend(title = "stimulus", title.position="top"))
 
 p
-ggsave(file.path(plot_dir, "empirical-responses-rates-bypic.pdf"), p, width=7, height=4)
+ ggsave(file.path(plot_dir, "empirical-responses-rates-bypic.pdf"), p, 
+       width=7, height=4)
 
 p <- df %>% mutate(response = str_replace(response, "non-exhaustive", "nonExh"),
                    response = str_replace(response, "exhaustive", "exh")) %>% 
-  ggplot(aes(x=exh_situation, y=ratio, shape = QUD, color = nonExh_situation, 
-             group=interaction(QUD, nonExh_situation))) +
+  ggplot(aes(x=QUD, y=ratio, color = response, shape = picPair.short)) +  
+             # group=interaction(QUD, nonExh_situation))) +
   geom_point(position = position_dodge(width=w_dodge)) +
   geom_errorbar(aes(ymin=ci.low, ymax=ci.up), width=0.1, 
                 position = position_dodge(width=w_dodge)) +
-  geom_line(position = position_dodge(width=w_dodge)) +
-  labs(y = "selection rates", x = "exhaustive situation") +
+  # geom_line(position = position_dodge(width=w_dodge)) +
+  # labs(y = "selection rates", x = "exhaustive situation") +
   scale_color_brewer(name = "selection", palette = "Set2") +
-  guides(color = guide_legend(title.position="top"), shape = guide_legend(title.position="top")) +
-  facet_wrap(~response)
+  guides(color = guide_legend(title.position="top"), 
+         shape = guide_legend(title = "stimulus", title.position="top")) +
+  facet_grid(exh_situation ~ nonExh_situation, scales = "free_x")
 p
 ggsave(file.path(plot_dir, "empirical-responses-rates-233.pdf"), p, width=7, height=4)
 
@@ -524,113 +533,209 @@ ggsave(file.path(plot_dir, "empirical-responses-rates-233.pdf"), p, width=7, hei
 
 ## Bayesian regression model
 
+1. Predict selection only based on QUD 
+
 ```{r, results='hide'}
-model_path = here(target_dir, "brms-model.rds")
+model_path = here(target_dir, "brms-model1.rds")
 data.critical.model = data.critical %>% 
   rename(picPair.full = picPair, picPair = picPair.short) %>% 
-  mutate(selected_pic = str_replace_all(selected_pic, "_", ""))
+  mutate(selected_pic = str_replace_all(selected_pic, "_", ""),
+         response = str_replace(response, "non-exhaustive", "nonExh"),
+         response = str_replace(response, "exhaustive", "exh"), 
+         response = str_replace(response, "exh_nonExh", "both"), 
+         QUD = as.factor(QUD))
          
 if(file.exists(model_path)) {
-  fit <- readRDS(model_path)
+  fit1 <- readRDS(model_path)
 } else {
-  fit <-
-    brm(data = data.critical.model,
-        family = categorical(link="logit"),
-        selected_pic ~ 1 + picPair * QUD + (1 + picPair + QUD|submission_id),
-        seed = 1)
-  saveRDS(fit, file=model_path)
+  fit1 <- brm(data=data.critical.model, 
+              family = categorical(link = "logit"), 
+              response ~ 1 + QUD + (0 + QUD | submission_id), 
+              iter = 4000)
+  saveRDS(fit1, file=model_path)
 }
-fixef(fit)
-pp_check(fit)
-mcmc_plot(fit)
-
+betas1 <- fixef(fit1)[, 'Estimate']
+pp_check(fit1)
+mcmc_plot(fit1)
 pp_check(fit, type = "stat", stat = 'mean', nsamples = 100)
 ```
 
-Testing our hypotheses
-
-1. separately for each picture pair
+Testing our hypotheses for model with predictor only QUD
 
 ```{r, regression-hypotheses}
-h1 = hypothesis(fit, "questionifp < questionwillq", class = "b")
-h2 = hypothesis(fit, "questionifp + picPairB:questionifp < questionwillq + picPairB:questionwillq", class = "b")
-h3 = hypothesis(fit, "questionifp + picPairC:questionifp < questionwillq + picPairC:questionwillq", class = "b")
-h4 = hypothesis(fit, "questionifp + picPairD:questionifp < questionwillq + picPairD:questionwillq", class = "b")
+# predicted probabilities
+exh_willq = inv_logit_scaled(betas1['muexh_Intercept'] + betas1['muexh_QUDwillq'])
+exh_ifp = inv_logit_scaled(betas1['muexh_Intercept'])
+nonExh_willq = inv_logit_scaled(betas1['munonExh_Intercept'] + 
+                                  betas1['munonExh_QUDwillq'])
+nonExh_ifp = inv_logit_scaled(betas1['munonExh_Intercept'])
+both_ifp = 1 - (exh_ifp + nonExh_ifp) 
+both_willq =  1 - (exh_willq + nonExh_willq)
 
-h1$hypothesis
-h2$hypothesis
-h3$hypothesis
-h4$hypothesis
+# selecting only exhaustive situation more likely for QUD=willq than QUD=ifp
+h4 = hypothesis(fit1, "muexh_Intercept + muexh_QUDwillq > muexh_Intercept")
+
+# h1: when QUD=ifp, more likely to choose both than only exhaustive
+# h2: when QUD=willq, more likely to choose exhaustive than both
+# h3: more likely to choose both when QUD=ifp than when QUD=willq
+samples = tidy_draws(fit1) %>% 
+  transmute(p_exh_ifp = inv_logit_scaled(b_muexh_Intercept), 
+         p_nonExh_ifp = inv_logit_scaled(b_munonExh_Intercept), 
+         p_both_ifp = 1 - (p_exh_ifp + p_nonExh_ifp),
+         
+         p_exh_willq = inv_logit_scaled(b_muexh_Intercept + b_muexh_QUDwillq), 
+         p_nonExh_willq = inv_logit_scaled(b_munonExh_Intercept + b_munonExh_QUDwillq), 
+         p_both_willq = 1 - (p_exh_willq + p_nonExh_willq)
+         ) %>% 
+  mutate(h1 = p_both_ifp > p_exh_ifp,
+         h2 = p_exh_willq > p_both_willq,
+         h3 = p_both_ifp > p_both_willq, 
+         h4 = p_exh_willq > p_exh_ifp)
+samples %>% summarize(posterior_h1 = mean(h1), 
+                      posterior_h2 = mean(h2),
+                      posterior_h3 = mean(h3), 
+                      posterior_h4 = mean(h4))
 ```
 
-2. Across picture pairs
+
+2. Predict selection based on QUD + stimulus
 
 ```{r}
-# samples = tidy_draws(fit) %>% 
-#   mutate(
-#     ifp_A = b_Intercept + b_questionifp,
-#     ifp_B = b_Intercept + b_questionifp + b_picPairB + `b_picPairB:questionifp`,
-#     ifp_C = b_Intercept + b_questionifp + b_picPairC + `b_picPairC:questionifp`,
-#     ifp_D = b_Intercept + b_questionifp + b_picPairD + `b_picPairD:questionifp`,
-#     willq_A = b_Intercept + b_questionwillq,
-#     willq_B = b_Intercept + b_questionwillq + b_picPairB + `b_picPairB:questionwillq`,
-#     willq_C = b_Intercept + b_questionwillq + b_picPairC + `b_picPairC:questionwillq`,
-#     willq_D = b_Intercept + b_questionwillq + b_picPairD + `b_picPairD:questionwillq`)
-# 
-# coeffs = samples %>% 
-#   transmute(questionifp = (ifp_A + ifp_B + ifp_C + ifp_D)/4,
-#             questionwillq = (willq_A + willq_B + willq_C + willq_D)/4) %>% 
-#   mutate(ifpsmaller = questionifp < questionwillq)
-# 
-# mean(coeffs$ifpsmaller)
-# 
-# means = coeffs %>% summarize(mean_ifp = mean(questionifp),
-#                              mean_willq = mean(questionwillq))
-# 
-# 
-# # cohen.d(coeffs$questionifp, coeffs$questionwillq)
-# p.mainquestion = coeffs %>% rowid_to_column() %>% 
-#   pivot_longer(cols=c(questionifp, questionwillq)) %>%
-#   ggplot(aes(x=name, y=value)) + 
-#   geom_boxplot() +
-#   # geom_point(aes(group=rowid), alpha=0.1, width=0.2, height=0) +
-#   # geom_line(aes(group=rowid), alpha=0.1) + 
-#   labs(x = "estimated coefficient", y = "posterior samples") +
-#   scale_x_discrete(labels = c(questionifp = parse(text=TeX("$\\hat{\\beta}_{if-p}$")), 
-#                               questionwillq = parse(text=TeX("$\\hat{\\beta}_{will-q}$"))))
-# ggsave(file.path(plot_dir, "main-effect-question.pdf"), p.mainquestion, width=7, height=4)
+model_path <- here(target_dir, "brms-model2.rds")
+if(file.exists(model_path)) {
+  fit2 <- readRDS(model_path)
+} else {
+fit2 <-
+  brm(data = data.critical.model,
+      family = categorical(link="logit"),
+      response ~ 1 + picPair * QUD + (0 + picPair * QUD|submission_id),
+      seed = 1)
+saveRDS(fit2, file=model_path)
+}
+betas2 <- fixef(fit2)[, 'Estimate']
+pp_check(fit2)
 ```
 
-# TODO model
+Consider picPairs separately
+
+```{r, regression-hypotheses}
+b = betas2
+posterior_draws2 = tidy_draws(fit2) 
+samples <- posterior_draws2 %>% 
+  transmute(
+    exh.willq_B = inv_logit_scaled(b_muexh_Intercept + b_muexh_QUDwillq +
+      b_muexh_picPairB + `b_muexh_picPairB:QUDwillq`),
+    exh.willq_D = inv_logit_scaled(b_muexh_Intercept + b_muexh_QUDwillq + 
+      b_muexh_picPairD + `b_muexh_picPairD:QUDwillq`),
+    exh.ifp_A = inv_logit_scaled(b_muexh_Intercept),
+    exh.ifp_B = inv_logit_scaled(b_muexh_Intercept + b_muexh_picPairB),
+    exh.ifp_C = inv_logit_scaled(b_muexh_Intercept + b_muexh_picPairC),
+    exh.ifp_D = inv_logit_scaled(b_muexh_Intercept + b_muexh_picPairD),
+    
+    nonExh.willq_B = inv_logit_scaled(b_munonExh_Intercept + b_munonExh_QUDwillq +
+      b_munonExh_picPairB + `b_munonExh_picPairB:QUDwillq`),
+    nonExh.willq_D = inv_logit_scaled(b_munonExh_Intercept + b_munonExh_QUDwillq + 
+      b_munonExh_picPairD + `b_munonExh_picPairD:QUDwillq`),
+    nonExh.ifp_A = inv_logit_scaled(b_munonExh_Intercept),
+    nonExh.ifp_B = inv_logit_scaled(b_munonExh_Intercept + b_munonExh_picPairB),
+    nonExh.ifp_C = inv_logit_scaled(b_munonExh_Intercept + b_munonExh_picPairC),
+    nonExh.ifp_D = inv_logit_scaled(b_munonExh_Intercept + b_munonExh_picPairD), 
+    
+    both.willq_B = 1 - exh.willq_B - nonExh.willq_B,
+    both.willq_D = 1 - exh.willq_D - nonExh.willq_D,
+    both.ifp_A = 1 - exh.ifp_A - nonExh.ifp_A,
+    both.ifp_B = 1 - exh.ifp_B - nonExh.ifp_B,
+    both.ifp_C = 1 - exh.ifp_C - nonExh.ifp_C,
+    both.ifp_D = 1 - exh.ifp_D - nonExh.ifp_D
+    ) %>% 
+  # for each picPair:
+  # h3: more likely to choose both when QUD=ifp than when QUD=willq
+  # h4: more likely to choose exhaustive when QUD=willq than when QUD=ifp
+  mutate(h3.B = both.ifp_B > both.willq_B,
+         h3.D = both.ifp_D > both.willq_D,
+         h4.B = exh.willq_B > exh.ifp_B,  
+         h4.D = exh.willq_D > exh.ifp_D)
+
+samples.long <- samples %>% pivot_longer(cols = everything(), 
+                                         names_to = "condition", 
+                                         values_to = "prediction") %>% 
+  group_by(condition) %>% arrange(prediction)
+posteriors = samples %>% 
+  summarize(h3.B = mean(h3.B),
+            h3.D = mean(h3.D),
+            h4.B = mean(h4.B),
+            h4.D = mean(h4.D))
+posteriors
+```
+
+Predictions across picture pairs
+
+```{r}
+predictions.across_pic = tibble(
+  exh.willq = samples %>% dplyr::select(starts_with("exh.willq")) %>% rowMeans(),
+  exh.ifp =  samples %>% dplyr::select(starts_with("exh.ifp")) %>% rowMeans(),
+  nonExh.willq =  samples %>% dplyr::select(starts_with("nonExh.willq")) %>% rowMeans(),
+  nonExh.ifp =  samples %>% dplyr::select(starts_with("nonExh.ifp")) %>% rowMeans(),
+  both.willq = samples %>% dplyr::select(starts_with("both.willq")) %>% rowMeans(),
+  both.ifp = samples %>% dplyr::select(starts_with("both.ifp")) %>% rowMeans()
+) %>% 
+  mutate(h3 = both.ifp > both.willq,
+         h4 = exh.willq > exh.ifp)
+
+posteriors.across_pic = predictions.across_pic %>% 
+  summarize(h3 = mean(h3), h4 = mean(h4))
+
+df.empiric = data.critical.model %>% group_by(QUD, response) %>% 
+  dplyr::count() %>% group_by(QUD) %>% 
+  mutate(N=sum(n), prediction = n/N) %>% rename(selection = response) %>% 
+  mutate(selection = as.factor(selection))
+
+p.mainQUD = predictions.across_pic %>% dplyr::select(-h3, -h4) %>% 
+  rowid_to_column() %>% 
+  pivot_longer(cols=-rowid, names_to="condition", values_to="prediction") %>% 
+  separate("condition", into=c("selection", "QUD")) %>% 
+  mutate(QUD = as.factor(QUD), selection = as.factor(selection)) %>% 
+  ggplot(aes(x=QUD, y=prediction, color = selection,
+             group = interaction(QUD, selection))) + 
+  geom_boxplot(outlier.shape = NA, width=0.9) +
+  geom_point(data = df.empiric, shape = 23, size = 3, 
+             aes(fill=selection), position = position_dodge(width = 0.9)) +
+  labs(y = "posterior samples") +
+  scale_x_discrete(labels = c(ifp = parse(text=TeX("$\\hat{\\theta}_{if-p}$")),
+                              willq = parse(text=TeX("$\\hat{\\theta}_{will-q}$"))))
+p.mainQUD
+ggsave(file.path(plot_dir, "main-effect-question.pdf"), p.mainQUD, width=7, height=4)
+```
+
+3. Predict selection based on QUD, non-exhaustive and exhaustive situation
 
 ```{r, results='hide'}
-model_path = file.path(target_dir, "brms-model-3x2x2.rds")
-data.critical322 = data.critical.model
-
-data.critical322 = data.critical322 %>% 
-  dplyr::select(submission_id, picPair, question, response, RT, picPair.long, y) %>% 
+model_path <- here(target_dir, "brms-model3.rds")
+data.critical322 = data.critical.model %>% 
+  dplyr::select(submission_id, picPair, QUD, response, RT, picPair.long, response) %>% 
     mutate(exh = case_when(picPair %in% c("A", "B") ~ "NoDistr",
-                                     picPair %in% c("C", "D") ~ "Distr"),
-          nonExh = case_when(picPair %in% c("A", "C") ~ "Internal",
-                             picPair %in% c("B", "D") ~ "External"), 
+                           picPair %in% c("C", "D") ~ "Distr"),
+          nonExh = case_when(picPair %in% c("A", "C") ~ "internal",
+                             picPair %in% c("B", "D") ~ "external"), 
           exh = factor(exh, levels = c("Distr", "NoDistr")), 
-          nonExh = factor(nonExh, levels = c("External", "Internal")))
+          nonExh = factor(nonExh, levels = c("external", "internal")))
 if(file.exists(model_path)) {
-  fit <- readRDS(model_path)
+  fit3 <- readRDS(model_path)
 } else {
-  fit <-
-    brm(data = data.critical322,
-        family = bernoulli,
-        y ~ 1 +  exh * nonExh * question + (1 + exh + nonExh + question|submission_id),
-        seed = 1, iter = 6000)
-  saveRDS(fit, file=model_path)
+fit3 <-
+  brm(data = data.critical322,
+      family = categorical(link="logit"),
+      response ~ 1 + exh * nonExh * QUD + (0 + exh * nonExh * QUD|submission_id),
+      seed = 1)
+  saveRDS(fit3, file=model_path)
 }
-fixef(fit)
-pp_check(fit)
-mcmc_plot(fit)
+betas3 <- fixef(fit3)[, 'Estimate']
+pp_check(fit3)
 
-pp_check(fit, type = "stat", stat = 'mean', nsamples = 100)
 ```
+
+
+# TODO
 
 ```{r}
 h1 = hypothesis(fit, "questionifp < questionwillq", class = "b")
