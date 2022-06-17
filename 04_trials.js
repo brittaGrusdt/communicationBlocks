@@ -28,7 +28,8 @@ TEST_DATA.forEach(function(dat) {
 
 // add color group
 _.map(image_selection_trials, function (trial) {
-  let group = _.sample(["group1", "group2"]);
+  //let group = _.sample(["group1", "group2"]);
+  group = "group1"
   trial.group = group
 });
 
