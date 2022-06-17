@@ -84,10 +84,9 @@ const forced_choice_generator = {
 
        let partial_scene = PATH_PICTURES.replace("group", config.data[CT].group) + "/" + config.data[CT][pics[0]]
 
-
        return `<div class='magpie-view-answer-container'>
           <div id="label_obscured_pic" class="top-middle"></div>
-          <img src=${partial_scene} alt=${partial_scene} id="obscured_pic" style="max-width:30%;height:auto;">
+          <img src=${partial_scene} id="obscured_pic" style="max-width:30%;height:auto;">
           <img src=${PATH_BOBS_SCREEN} id="pic_bob" style="max-width:30%;height:auto;">
           <p id='questionAnn'>
             <p id='emojiAnn' class="hide person">👩</p>
