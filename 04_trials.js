@@ -32,10 +32,6 @@ _.map(image_selection_trials, function (trial) {
   trial.group = group
 });
 
-let image_selection_practice = _.filter(image_selection_trials, function(obj){
-  return obj.type.includes('practice')
-})
-
 // ----- TRAINING TRIALS (Buttons) for exp1 + exp2 ---- //
 // the data of the training stimuli is always the same, only animation ids differ
 let TRAIN_TRIALS = [];
