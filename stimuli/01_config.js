@@ -175,7 +175,7 @@ TEXT_BOBS_SCREENS = {
   normal_check: '<small>Please select the picture(s) that you think Ann and Bob are talking about.</small>'
 }
 PATH_BOBS_SCREEN = "stimuli/img/bobs-screen.jpeg"
-PATH_PICTURES = "stimuli/img/group"
+PATH_PICTURES = "stimuli/img-tiny/group"
 
 TEST_DATA = [
   //example to take screenshot for instructions
